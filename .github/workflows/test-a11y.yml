@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v2
         name: Fetch all history for all tags and branches
         with:
           fetch-depth: 0
@@ -22,7 +22,7 @@ jobs:
         run: python -m pip install -e .
       - name: list jupyter build tasks
         run: python -m jupyter_accessibility -i jupyterlab -- list
-          
+
       - name: establish the runtime systems for the builds
         run: python -m jupyter_accessibility -i jupyterlab -- env
       - name: setup the development content for building
@@ -40,4 +40,3 @@ jobs:
             jupyter-ally-build/jupyter-axe/test-results/**/*.html
             jupyter-ally-build/jupyter-axe/test-results/*.json
             jupyter-ally-build/jupyter-axe/test-results/**/*.json
-

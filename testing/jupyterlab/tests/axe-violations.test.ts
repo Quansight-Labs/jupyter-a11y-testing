@@ -46,10 +46,7 @@ test.describe("JupyterLab accessibility checks", () => {
     }
   });
 
-  test("Lorenz notebook after running all cells", async ({
-    page,
-    tmpPath,
-  }) => {
+  test("Lorenz notebook after running all cells", async ({ page, tmpPath }) => {
     await page.notebook.openByPath(`${tmpPath}/${LORENZ}`);
     await page.notebook.run();
     try {
