@@ -7,5 +7,6 @@
 # I100: Import statements are in the wrong order
 # I101: Imported names are in the wrong order. Should be
 # F841: local variable ... is assigned to but never used
-ignore = E, C, W, I100, I101, D400, F841
+# F401: Imported module but unused
+ignore = E, C, W, I100, I101, D400, F841, F401
 builtins = c
