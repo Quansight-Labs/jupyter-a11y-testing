@@ -8,7 +8,7 @@ jobs:
     steps:
       # ensuring we are fetching all the tags and branches
       - name: Checkout repository 🛎
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -44,7 +44,7 @@ jobs:
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
         with:
-          name: a11y-test-results
+          name: a11y-test-results-jupyterlab
           path: |
             jupyter-ally-build/jupyter-axe/test-results/*.html
             jupyter-ally-build/jupyter-axe/test-results/**/*.html

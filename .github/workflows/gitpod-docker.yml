@@ -3,16 +3,16 @@ name: Build Gitpod Docker image
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
     name: Build Gitpod Docker image
     runs-on: ubuntu-latest
     environment: a11y-dev
-    if: "github.repository_owner == 'jupyter' && !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[skip github]')"
+    if: "github.repository_owner == 'Quansight-Lab' && !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[skip github]')"
     steps:
-      - name: Clone repository ⚡
+      - name: Checkout repository 🛎
         uses: actions/checkout@v3
 
       - name: Lint Docker 🔍
@@ -20,7 +20,7 @@ jobs:
         with:
           dockerfile: ./testing/tools/Dockerfile
 
-      - name: Get refs
+      - name: Get refs - will be used as tags 🏷
         shell: bash
         run: |
           export raw_branch=${GITHUB_REF#refs/heads/}
@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push 🛠️
+      - name: Build and push Docker images 🛠️
         id: docker_build
         uses: docker/build-push-action@v3
         with:
@@ -51,6 +51,6 @@ jobs:
             quansight/jupyter-a11y:${{ steps.getrefs.outputs.date }}-${{ steps.getrefs.outputs.branch}}-${{ steps.getrefs.outputs.sha8 }}
             quansight/jupyter-a11y:latest
 
-      - name: Image digest 📖
+      - name: Print image digest 📖
         # Return details of the image build: sha and shell
         run: echo ${{ steps.docker_build.outputs.digest }}
