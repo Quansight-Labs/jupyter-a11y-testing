@@ -1,9 +1,9 @@
-name: a11y tests
+name: Run accessibility tests on JupyterLab
 
 on: [workflow_dispatch, push, pull_request]
 
 jobs:
-  build:
+  a11y-tests:
     runs-on: ubuntu-latest
     steps:
       # ensuring we are fetching all the tags and branches
@@ -43,6 +43,7 @@ jobs:
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
+        # using default retention policy = 90 days
         with:
           name: a11y-test-results-jupyterlab
           path: |
