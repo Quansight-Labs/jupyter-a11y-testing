@@ -1,4 +1,4 @@
-// Copyright (c) Jupyter Development Team.
+// Copyright (c) Jupyter Accessibility Development Team.
 // Distributed under the terms of the Modified BSD License.
 
 import { expect } from "@playwright/test";
@@ -46,10 +46,7 @@ test.describe("JupyterLab accessibility checks", () => {
     }
   });
 
-  test("Lorenz notebook after running all cells", async ({
-    page,
-    tmpPath,
-  }) => {
+  test("Lorenz notebook after running all cells", async ({ page, tmpPath }) => {
     await page.notebook.openByPath(`${tmpPath}/${LORENZ}`);
     await page.notebook.run();
     try {
