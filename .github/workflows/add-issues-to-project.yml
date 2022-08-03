@@ -1,4 +1,4 @@
-name: Add issues to projects
+name: Add new issue to project board
 
 # https://github.com/actions/add-to-project
 on:
