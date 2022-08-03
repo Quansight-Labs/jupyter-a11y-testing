@@ -1,8 +1,11 @@
 # Jupyter accessibility testing tools
 
-| Information | Links                                                                                                                                                                |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
-| Project     | [![License](https://img.shields.io/badge/License-BSD%203--Clause-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)](https://opensource.org/licenses/BSD-3-Clause) |     |
+<!-- prettier-ignore-start -->
+<!-- ignoring because prettier by default adds loads of spaces -->
+Information | Links
+---------|----------
+ Project | [![OSI License badge - BSD-3](https://img.shields.io/badge/License-BSD%203--Clause-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)](https://opensource.org/licenses/BSD-3-Clause)
+<!-- prettier-ignore-end -->
 
 Welcome to the Jupyter accessibility testing tools repository 👋🏽 .
 To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
@@ -34,6 +37,8 @@ This repository uses the `prettier` [pre-commit hook](https://pre-commit.com/) t
    # run the pre-commit hooks
    pre-commit run --all-files
    ```
+
+Once installed, the pre-commit hooks will run automatically when you make a commit in version control.
 
 ## 📖 License
 
