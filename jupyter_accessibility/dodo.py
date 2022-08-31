@@ -53,22 +53,12 @@ def task_create_env():
         name="conda",
         actions=[
             do(
-                f'conda create -yc conda-forge --prefix {prefix} python=3.9 "nodejs>=14,<15" yarn git'
+                f'conda create -yc conda-forge --prefix {prefix} python=3.9 "nodejs>=14.18,<15" yarn git'
             ),
             do(f"{conda} python -m pip install pip --upgrade"),
         ],
         uptodate=[prefix.exists()],
         clean=[(remove_directory, [prefix])],
-    )
-
-def task_echo_node_version():
-    yield dict(
-        name="jupyterlab",
-        actions=[
-            do(
-                f"{conda} node -v",
-            )
-        ]
     )
 
 name = "jupyterlab"
