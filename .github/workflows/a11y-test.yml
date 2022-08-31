@@ -27,19 +27,24 @@ jobs:
         run: python -m pip install -e .
 
       - name: List jupyter build tasks 🗃
-        run: cd jupyter_accessibility && doit list
+        run: doit list
+        working-directory: jupyter_accessibility
 
       - name: Create test environment 🏗
         run: doit create_env
+        working-directory: jupyter_accessibility
 
       - name: Install app into test environment 🏗
         run: doit install_app
+        working-directory: jupyter_accessibility
 
       - name: Install test dependencies 📦
         run: doit install_test_deps
+        working-directory: jupyter_accessibility
 
       - name: Run tests against the installed app 🔍
         run: doit test
+        working-directory: jupyter_accessibility
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
