@@ -44,7 +44,7 @@ def move_directory(src, target):
 
 build_dir = ROOT / "build"
 conda_env_dir = build_dir / ".env"
-prefix = build_dir / conda_env_dir.resolve()
+prefix = conda_env_dir.resolve()
 conda = f"conda run --no-capture-output --prefix {prefix}"
 
 def task_create_env():
