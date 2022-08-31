@@ -61,6 +61,16 @@ def task_create_env():
         clean=[(remove_directory, [prefix])],
     )
 
+def task_echo_node_version():
+    yield dict(
+        name="jupyterlab",
+        actions=[
+            do(
+                f"{conda} node -v",
+            )
+        ]
+    )
+
 name = "jupyterlab"
 
 def task_install_app():

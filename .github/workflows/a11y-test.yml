@@ -34,6 +34,10 @@ jobs:
         run: doit create_env
         working-directory: jupyter_accessibility
 
+      - name: Echo node version
+        run: doit --verbosity=2 echo_node_version
+        working-directory: jupyter_accessibility
+
       - name: Install app into test environment 🏗
         run: doit install_app
         working-directory: jupyter_accessibility
