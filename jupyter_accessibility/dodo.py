@@ -1,30 +1,18 @@
-# Copyright (c) Jupyter Accessibility Development Team.
-# Distributed under the terms of the Modified BSD License.
-
 from pathlib import Path
 from shutil import copytree
+from doit.tools import create_folder
 
-from pydantic import BaseModel, Field
-
-A11Y = Path().parent
-DOIT_CONFIG = dict(
-    verbosity=2, list=dict(status=True, subtasks=True), backend="json", dep_file=".jp-tasks.json"
-)
+HERE = Path()
+ROOT = HERE.parent
+AXE_TEMPLATE = ROOT / "jupyter-axe"
 
 
-# a pydantic basemodel that allows for dataclass-like post init conventions.
-class BaseClass(BaseModel):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # add post init behavior because its a nice pattern and helps post initialize.
-        # we were using dataclasses, but pydantic's better.
-        getattr(self, "__post_init__", lambda: None)()
+##############################################################################################
+## Helpers
+##############################################################################################
 
 
-Base = BaseClass  # remove once transition is complere
-
-
-def do(*args, cwd=A11Y, **kwargs):
+def do(*args, cwd=ROOT, **kwargs):
     """wrap a Action for consistency"""
     from os import environ
     from shlex import split
@@ -37,7 +25,6 @@ def do(*args, cwd=A11Y, **kwargs):
     kwargs["env"] = {**environ, **kwargs["env"]}
     return CmdAction(list(map(str, args)), shell=False, cwd=str(Path(cwd).resolve()), **kwargs)
 
-
 def remove_directory(*dir):
     """remove a directory during the clean stage"""
     from shutil import rmtree
@@ -46,87 +33,75 @@ def remove_directory(*dir):
         rmtree(dir, True)
         print(f"removed directory: {dir}")
 
-
 def move_directory(src, target):
-
     copytree(src, target, dirs_exist_ok=True)
 
 
-class Main(BaseClass):
-    """Main orchestrates the building and testing of jupyter products.
-
-    It initializes the project and invokes the primary doit application."""
-
-    ids: list[str]
-    dir: Path = Path("jupyter-a11y-build")
-    project: type = None
-    app: object = None
-
-    def __post_init__(self):
-        self.setup_project()
-
-    def setup_project(self):
-        from .project import Project
-
-        self.project = Project(**self.dict(exclude={"project", "app"}))
-
-    def main(self, args=None, standalone=False):
-        """invoke the doit application through an interactive api."""
-        try:
-            self.project.doit().run(prep_args(args))
-        except standalone and SystemExit or () as e:
-            if e.args[0] != 0:
-                raise e
-
-    @classmethod
-    def run(cls, args=None, standalone=False):
-        """invoke the doit application as a standalone command line tool."""
-        # parse the argument we know and pass the rest to the doit application.
-        ns, args = cls.parse_args(args)
-        main = cls(**ns.__dict__)
-
-        main.main(args, standalone=standalone)
-
-    @classmethod
-    def get_parser(cls):
-        """the argument parser for the Main cli"""
-        from argparse import ArgumentParser
-
-        parser = ArgumentParser("builder")
-        parser.add_argument("-i", "--ids", default=["jupyterlab"], help="repository ids", nargs="*")
-        parser.add_argument(
-            "-d", "--dir", default=Path("jupyter-ally-build"), help="the build directory", type=Path
-        )
-        return parser
-
-    @classmethod
-    def parse_args(cls, args=None):
-        parser = cls.get_parser()
-        return parser.parse_known_args(args=prep_args(args))
+##############################################################################################
+## Tasks
+##############################################################################################
 
 
-class Tasks(Base):
-    def doit(self):
-        """build the doit application by pulling tasks from the"""
-        from doit.cmd_base import ModuleTaskLoader
-        from doit.doit_cmd import DoitMain
+build_dir = ROOT / "build"
+conda_env_dir = build_dir / ".env"
+prefix = build_dir / conda_env_dir.resolve()
+conda = f"conda run --no-capture-output --prefix {prefix}"
 
-        tasks = dict((x, getattr(self, x)) for x in dir(self) if x.startswith("task_"))
-        tasks.update({"DOIT_CONFIG": DOIT_CONFIG})
-        return DoitMain(ModuleTaskLoader(tasks))
+def task_create_env():
+    """Create a test environment into which dependencies needed by the test code will be installed"""
+    yield dict(
+        name="conda",
+        actions=[
+            do(
+                f'conda create -yc conda-forge --prefix {prefix} python=3.9 "nodejs>=14,<15" yarn git'
+            ),
+            do(f"{conda} python -m pip install pip --upgrade"),
+        ],
+        uptodate=[prefix.exists()],
+        clean=[(remove_directory, [prefix])],
+    )
 
-    def commands(self):
-        """explore what doit knows"""
-        return self.doit().get_commands()
+name = "jupyterlab"
 
-    def do(self, x, **kwargs):
-        """create a cmd action that can be run from the api"""
-        return do(f"{self.conda} {x}", **kwargs)
+def task_install_app():
+    """Install the app under test into the test environment"""
+    yield dict(
+        name=f"pip:{name}",
+        actions=[do(f"{conda} python -m pip install {name}")],
+        clean=[do(f"{conda} python -m pip uninstall -y {name}")],
+    )
 
+def task_install_test_deps():
+    """Install the Python and Node.js dependencies needed by the test code"""
+    target = build_dir / AXE_TEMPLATE.name
+    yield dict(
+        name="copy-templates",
+        actions=[(move_directory, [AXE_TEMPLATE, target])],
+        clean=[(remove_directory, [target])],
+        uptodate=[target.exists()],
+    )
+    yield dict(
+        name="pip",
+        actions=[do(f"{conda} pip install -r requirements.txt", cwd=target)],
+    )
+    yield dict(
+        name="yarn",
+        actions=[do(f"{conda} yarn install", cwd=target)],
+    )
+    yield dict(
+        name="playwright",
+        actions=[
+            do(f"{conda} npx playwright install --with-deps chromium", cwd=target)
+        ],
+    )
 
-def prep_args(x):
-    if isinstance(x, str):
-        from shlex import split
-
-        return split(x)
-    return x
+def task_test():
+    """Run the tests"""
+    target = build_dir / AXE_TEMPLATE.name
+    yield dict(
+        name="playwright",
+        actions=[
+            do(f"echo 'the target is {target.absolute()}'"),
+            do(f"{conda} npx playwright test", cwd=target),
+        ],
+    )
