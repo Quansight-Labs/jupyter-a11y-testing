@@ -27,19 +27,19 @@ jobs:
         run: python -m pip install -e .
 
       - name: List jupyter build tasks 🗃
-        run: python -m jupyter_accessibility -i jupyterlab -- list
+        run: cd jupyter_accessibility && doit list
 
-      - name: Set runtime system for the builds 🏗
-        run: python -m jupyter_accessibility -i jupyterlab -- env
+      - name: Create test environment 🏗
+        run: doit create_env
 
-      - name: Setup development environment for builds 🏗
-        run: python -m jupyter_accessibility -i jupyterlab -- setup
+      - name: Install app into test environment 🏗
+        run: doit install_app
 
-      - name: Setup the testing environments 📦
-        run: python -m jupyter_accessibility -i jupyterlab -- test_setup
+      - name: Install test dependencies 📦
+        run: doit install_test_deps
 
-      - name: Run tests against the build 🔍
-        run: python -m jupyter_accessibility -i jupyterlab -- test
+      - name: Run tests against the installed app 🔍
+        run: doit test
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
