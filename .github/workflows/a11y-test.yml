@@ -36,7 +36,7 @@ jobs:
       - name: Install miniconda 🐍
         uses: conda-incubator/setup-miniconda@v2
         with:
-          environment-file: ./environment.yml
+          environment-file: ./testing/jupyterlab/environment.yml
           miniforge-version: latest
           activate-environment: a11y-tests
 
