@@ -7,7 +7,7 @@ defaults:
     working-directory: ./testing/jupyterlab
 
 jobs:
-  a11y-tests:
+  jlab-a11y-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository 🛎
@@ -36,9 +36,12 @@ jobs:
       - name: Install miniconda 🐍
         uses: conda-incubator/setup-miniconda@v2
         with:
-          environment-file: ./testing/jupyterlab/environment.yml
+          miniforge-variant: Mambaforge
           miniforge-version: latest
+          use-mamba: true
+          environment-file: ./testing/jupyterlab/environment.yml
           activate-environment: a11y-tests
+          use-only-tar-bz2: true
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
