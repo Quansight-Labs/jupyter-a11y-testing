@@ -1,7 +1,5 @@
-<div align="center">
- <img alt="Jupyter Accessibility logo" src="https://github.com/jupyter/accessibility/blob/main/docs/_static/logo.png?raw=true" width="250" />
-</div>
-<br>
+![Jupyter accessibility - Colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg#gh-light-mode-only)
+![Jupyter accessibility - Light colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessLight.svg#gh-dark-mode-only)
 
 # Jupyter accessibility testing tools
 
@@ -12,10 +10,29 @@ Information | Links
  Project | [![OSI License badge - BSD-3](https://img.shields.io/badge/License-BSD%203--Clause%20📃-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Project backlog badge](https://img.shields.io/badge/Backlog-GitHub%20Board%20🗃️-gray.svg?colorA=2D2A56&colorB=A7B2F2&style=flat.svg)](https://github.com/orgs/Quansight-Labs/projects/8/views/1)
 <!-- prettier-ignore-end -->
 
-Welcome to the Jupyter Accessibility testing tools repository 👋🏽 .
+Welcome to the Jupyter Accessibility testing tools' repository. 👋🏽
+This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
+
 To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
 
-## 🧹 Pre-commit hooks
+> **Note**
+> 🗃 The JupyterLab tests and the corresponding instructions to run these can be found in [testing/jupyterlab](testing/jupyterlab).
+
+## Plans for the future
+
+Automated accessibility tests cannot address accessibility issues on their own, but used correctly they can be a useful tool.
+
+Work in this repository is modeled after the [JupyterLab Benchmarks](https://github.com/jupyterlab/benchmarks/) repo.
+
+As described in the [Jupyter Accessibility Roadmap](https://github.com/jupyter/accessibility/blob/main/docs/funding/czi-grant-roadmap.md),
+the plan is to start by adding tests for JupyterLab.
+We are starting with the web app UI, then we will add tests for the docs.
+(The rationale to that sequence is to start with the harder problem first.)
+
+After JupyterLab, though it is not within scope of the grant driving the roadmap,
+we hope to extend this testing to other parts of the Jupyter ecosystem beyond JupyterLab.
+
+## Pre-commit hooks 🧹
 
 This repository uses the `prettier` [pre-commit hook](https://pre-commit.com/) to standardize our YAML and markdown structure.
 
@@ -45,9 +62,9 @@ This repository uses the `prettier` [pre-commit hook](https://pre-commit.com/) t
 
 Once installed, the pre-commit hooks will run automatically when you make a commit in version control.
 
-## 📖 License
+## License 📖
 
-[This project is licensed under the BSD-3-Clause license](https://opensource.org/licenses/BSD-3-Clause).
+Jupyter uses a shared copyright model that enables all contributors to maintain the copyright on their contributions. All code is licensed under the terms of the revised [BSD license](https://opensource.org/licenses/BSD-3-Clause).
 
 <!-- links -->
 

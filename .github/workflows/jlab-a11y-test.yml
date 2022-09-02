@@ -26,7 +26,7 @@ jobs:
       - name: Cache conda 🧠
         uses: actions/cache@v2
         env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          # Increase this value to reset cache if environment.yml has not changed
           CACHE_NUMBER: 0
         with:
           path: ~/conda_pkgs_dir
@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v3
         # using default retention policy = 90 days
         with:
-          name: jupyterlab-a11-tests
+          name: jupyterlab-a11y-tests
           path: |
             jupyter-ally-build/jupyter-axe/test-results/*.html
             jupyter-ally-build/jupyter-axe/test-results/**/*.html
