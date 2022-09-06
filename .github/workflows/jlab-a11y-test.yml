@@ -13,16 +13,6 @@ jobs:
       - name: Checkout repository 🛎
         uses: actions/checkout@v3
 
-      - name: Set up Python 🐍
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - name: Set up Node 🧶
-        uses: actions/setup-node@v3
-        with:
-          node-version: "14.x"
-
       - name: Cache conda 🧠
         uses: actions/cache@v2
         env:
@@ -43,26 +33,22 @@ jobs:
           activate-environment: a11y-tests
           use-only-tar-bz2: true
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Cache yarn 🧠
+      - name: Cache npm 🧠
         uses: actions/cache@v2
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        id: npm-cache
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-npm-
 
       - name: Install node dependencies 🧶
         run: |
-          yarn install
+          npm install
           npx playwright install
 
       - name: Run tests  ✅
-        run: yarn test
+        run: npm test
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
@@ -70,7 +56,7 @@ jobs:
         with:
           name: jupyterlab-a11y-tests
           path: |
-            jupyter-ally-build/jupyter-axe/test-results/*.html
-            jupyter-ally-build/jupyter-axe/test-results/**/*.html
-            jupyter-ally-build/jupyter-axe/test-results/*.json
-            jupyter-ally-build/jupyter-axe/test-results/**/*.json
+            testing/jupyterlab/test-results/*.html
+            testing/jupyterlab/test-results/**/*.html
+            testing/jupyterlab/test-results/*.json
+            testing/jupyterlab/test-results/**/*.json

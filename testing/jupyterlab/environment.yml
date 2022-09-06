@@ -7,7 +7,6 @@ channels:
 dependencies:
   # for base a11y testing
   - nodejs=16.*
-  - yarn
   - jupyterlab=3.*
   # for the notebook example
   - ipython

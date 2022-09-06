@@ -44,14 +44,14 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 3. Install the Node.js dependencies:
 
    ```bash
-   yarn install
+   npm install
    npx playwright install
    ```
 
 4. Run the tests:
 
    ```bash
-   yarn test
+   npm test
    ```
 
 Your console should output a local URL that you can open in your browser to see
@@ -67,7 +67,7 @@ them in a cloud environment on Gitpod.
 Once you are in the Gitpod workspace, you can run the tests from the command line:
 
 ```bash
-yarn test
+npm test
 ```
 
 The Gitpod console should output a local URL that you can open in your browser
