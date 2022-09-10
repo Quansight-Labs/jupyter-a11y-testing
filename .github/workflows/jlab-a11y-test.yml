@@ -1,7 +1,6 @@
 name: Run accessibility tests on JupyterLab
 
-on:
-  - workflow_dispatch
+on: [workflow_dispatch, push, pull_request]
 
 defaults:
   run:
