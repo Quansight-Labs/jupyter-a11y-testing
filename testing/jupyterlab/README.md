@@ -41,14 +41,20 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
    mamba env create -f environment.yml
    ```
 
-3. Install the Node.js dependencies:
+3. Activate the new conda environment:
+
+   ```bash
+   conda activate a11y-tests
+   ```
+
+4. Install the Node.js dependencies:
 
    ```bash
    npm install
    npx playwright install
    ```
 
-4. Run the tests:
+5. Run the tests:
 
    ```bash
    npm test
