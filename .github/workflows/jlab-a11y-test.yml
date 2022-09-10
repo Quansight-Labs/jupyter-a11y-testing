@@ -1,6 +1,7 @@
 name: Run accessibility tests on JupyterLab
 
-on: [workflow_dispatch, push, pull_request]
+on:
+  - workflow_dispatch
 
 defaults:
   run:
@@ -40,7 +41,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-
 
       - name: Install node dependencies 🧶
         run: |
@@ -48,13 +49,22 @@ jobs:
           npx playwright install
 
       - name: Run tests  ✅
+        continue-on-error: true
         run: npm test
+
+      - name: Get run refs 🏷
+        shell: bash
+        id: getrefs
+        run: |
+          export raw_branch=${GITHUB_REF#refs/heads/}
+          echo "::set-output name=branch::${raw_branch//\//-}"
+          echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
         # using default retention policy = 90 days
         with:
-          name: jupyterlab-a11y-tests
+          name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch}}-${{ steps.getrefs.outputs.sha8 }}
           path: |
             testing/jupyterlab/test-results/*.html
             testing/jupyterlab/test-results/**/*.html

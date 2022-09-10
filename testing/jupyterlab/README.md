@@ -25,13 +25,13 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 
 ### Running the tests locally 💻
 
-1. Make sure you are in the correct directory - the one containing the `playwright.config.ts` file.:
+1. Make sure you are in the correct directory - the one containing the `playwright.config.ts` file:
 
    ```bash
    cd testing/jupyterlab
    ```
 
-2. Install the Python dependencies:
+2. Install Node.js and the needed Python dependencies:
 
    ```bash
    # if using conda
