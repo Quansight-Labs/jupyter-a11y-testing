@@ -65,12 +65,14 @@ jobs:
       - name: Get run refs 🏷
         id: getrefs
         run: |
+          export raw_branch=${GITHUB_REF#refs/heads/}
+          echo "::set-output name=branch::${raw_branch//\//-}"
           echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
         # using default retention policy = 90 days
         with:
-          name: jupyterlab-a11y-${{ github.ref_name }}-${{ steps.getrefs.outputs.sha8 }}
+          name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
           path: |
             testing/jupyterlab/test-results/
