@@ -2,13 +2,13 @@ name: Run accessibility tests on JupyterLab
 
 on: [workflow_dispatch, push, pull_request]
 
-defaults:
-  run:
-    working-directory: ./testing/jupyterlab
-
 jobs:
-  jlab-a11y-tests:
+  jlab-a11y:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./testing/jupyterlab
+        shell: bash -l {0}
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v3
@@ -33,26 +33,23 @@ jobs:
           activate-environment: a11y-tests
           use-only-tar-bz2: true
 
-      - name: Cache npm 🧠
-        uses: actions/cache@v2
-        id: npm-cache
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Sanity checks on environment 🔍
+        run: |
+          conda info
+          conda env list
+          echo $CONDA_PREFIX
 
       - name: Install node dependencies 🧶
         run: |
-          npm install
-          npx playwright install
+          conda run --prefix $CONDA_PREFIX npm install
+          conda run --prefix $CONDA_PREFIX npx playwright install chromium
 
       - name: Run tests  ✅
         continue-on-error: true
-        run: npm test
+        run: |
+          conda run --prefix $CONDA_PREFIX npm test
 
       - name: Get run refs 🏷
-        shell: bash
         id: getrefs
         run: |
           export raw_branch=${GITHUB_REF#refs/heads/}
@@ -65,7 +62,4 @@ jobs:
         with:
           name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch}}-${{ steps.getrefs.outputs.sha8 }}
           path: |
-            testing/jupyterlab/test-results/*.html
-            testing/jupyterlab/test-results/**/*.html
-            testing/jupyterlab/test-results/*.json
-            testing/jupyterlab/test-results/**/*.json
+            testing/jupyterlab/test-results/
