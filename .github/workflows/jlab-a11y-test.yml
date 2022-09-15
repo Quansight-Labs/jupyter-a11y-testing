@@ -1,6 +1,13 @@
 name: Run accessibility tests on JupyterLab
 
-on: [workflow_dispatch, push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
