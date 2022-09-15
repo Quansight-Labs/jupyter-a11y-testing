@@ -2,6 +2,12 @@ name: Run accessibility tests on JupyterLab
 
 on: [workflow_dispatch, push, pull_request]
 
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   jlab-a11y:
     runs-on: ubuntu-latest
@@ -52,14 +58,12 @@ jobs:
       - name: Get run refs 🏷
         id: getrefs
         run: |
-          export raw_branch=${GITHUB_REF#refs/heads/}
-          echo "::set-output name=branch::${raw_branch//\//-}"
           echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
         # using default retention policy = 90 days
         with:
-          name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch}}-${{ steps.getrefs.outputs.sha8 }}
+          name: jupyterlab-a11y-${{ github.ref_name }}-${{ steps.getrefs.outputs.sha8 }}
           path: |
             testing/jupyterlab/test-results/
