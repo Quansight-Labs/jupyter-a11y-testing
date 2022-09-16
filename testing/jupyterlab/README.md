@@ -70,11 +70,17 @@ them in a cloud environment on Gitpod.
 
 [![Open in Gitpod button](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jupyter/accessibility)
 
-Once you are in the Gitpod workspace, you can run the tests from the command line:
+1. Once you are in the Gitpod workspace you'll need to make sure you are in the correct directory - the one containing the `playwright.config.ts` file:
 
-```bash
-npm test
-```
+   ```bash
+   cd testing/jupyterlab
+   ```
+
+1. Now you can run the tests from the command line:
+
+   ```bash
+   npm test
+   ```
 
 The Gitpod console should output a local URL that you can open in your browser
 to see the test results: typically <http://127.0.0.1:9323>

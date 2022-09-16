@@ -7,21 +7,21 @@
 # -------
 #
 # From the root of the project:
-# docker build --rm -f "./testing/tools/gitpod/Dockerfile" -t <build-tag> "."
+# docker build --rm -f "./tools/gitpod/Dockerfile" -t <build-tag> "."
 #
 # By default it will build for /testing/jupyterlab - to build for a different app
-# docker build --build-arg JUPYTER_APP=retrolab --rm -f "./testing/tools/gitpod/Dockerfile" -t <build-tag> "."
+# docker build --build-arg JUPYTER_APP=retrolab --rm -f "./tools/gitpod/Dockerfile" -t <build-tag> "."
 # To run the image:
 # docker run --rm -it <build-tag>
 # This image is based on: Ubuntu 20.04 (focal)
 # https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
 # OS/ARCH: linux/amd64
 
-# pinning the version
-FROM gitpod/workspace-base:2022-05-20-05-44-40
+# Use Gitpod base image
+FROM gitpod/workspace-base:2022-09-11-15-11-40
 
 # https://github.com/conda-forge/miniforge/releases
-ARG MAMBAFORGE_VERSION="4.10.0-0"
+ARG MAMBAFORGE_VERSION="4.14.0-0"
 ARG CONDA_ENV=a11y-tests
 # making this an argument for flexibility
 ARG JUPYTER_APP=jupyterlab
@@ -35,8 +35,12 @@ ENV GITPOD_HOME=/home/gitpod \
 
 ENV CONDA_DIR="${GITPOD_HOME}/mambaforge3" \
     SHELL=/bin/bash
-ENV PATH=${CONDA_DIR}/bin:$PATH
-ENV JUPYTER_APP_DIR="./testing/${JUPYTER_APP}"
+ENV PATH=${CONDA_DIR}/bin:$PATH \
+    JUPYTER_APP_DIR="./testing/${JUPYTER_APP}" \
+    PLAYWRIGHT_BROWSERS_PATH="{GITPOD_HOME}/ms-playwright"
+
+# Allows this Dockerfile to activate conda environments
+SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
 
 # -----------------------------------------------------------------------------
 # ---- Creating as root - note: make sure to change to gitpod in the end ----
@@ -54,7 +58,7 @@ RUN apt-get update && \
     dirmngr \
     make && \
     # this needs to be done after installing dirmngr
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-key 23F3D4EA75716059 && \
     apt-add-repository https://cli.github.com/packages && \
     apt-get install -yq --no-install-recommends \
     gh && \
@@ -65,18 +69,16 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* &&\
     rm -rf /tmp/*
 
-# Allows this Dockerfile to activate conda environments
-SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
-
 # -----------------------------------------------------------------------------
 # ---- Copy conda and config files ----
 # Copy conda environment file into the container - this needs to exists inside
 # the container to create a conda environment from it
 COPY "${JUPYTER_APP_DIR}/environment.yml" /tmp/environment.yml
 # basic workspace configurations
-COPY ./testing/tools/workspace_config /usr/local/bin/workspace_config
+COPY ./tools/workspace_config /usr/local/bin/workspace_config
 # Copy a script that we will use to correct permissions after running certain commands
-COPY ./testing/tools/fix_permissions /usr/local/bin/fix_permissions
+COPY ./tools/fix_permissions /usr/local/bin/fix_permissions
+COPY ./testing/package*.json ./package*.json
 
 RUN chmod a+rx /usr/local/bin/workspace_config && \
     chmod a+rx /usr/local/bin/fix_permissions && \
@@ -86,7 +88,7 @@ RUN chmod a+rx /usr/local/bin/workspace_config && \
 # ---- Installing mamba  ----
 RUN wget -q -O mambaforge3.sh \
     "https://github.com/conda-forge/miniforge/releases/download/$MAMBAFORGE_VERSION/Mambaforge-$MAMBAFORGE_VERSION-Linux-x86_64.sh" && \
-    bash mambaforge3.sh -p ${CONDA_DIR} -b && \
+    bash mambaforge3.sh -p "${CONDA_DIR}" -b && \
     rm mambaforge3.sh && \
     fix_permissions "${CONDA_DIR}"
 
@@ -95,16 +97,15 @@ RUN wget -q -O mambaforge3.sh \
 # Install dependencies
 RUN mamba env create -f /tmp/environment.yml && \
     conda clean --all -f -y && \
-    rm -rf /tmp/*
-
-RUN fix_permissions "${CONDA_DIR}" && \
+    rm -rf /tmp/* && \
+    fix_permissions "${CONDA_DIR}" && \
     chown "${USER}:${GITPOD_GIUD}" "${CONDA_DIR}"
 
-RUN conda activate ${CONDA_ENV} && \
+RUN conda activate "${CONDA_ENV}" && \
     # Install node dependencies
-    npx playwright install-deps && \
-    npm cache clean --force
-
+    conda run --prefix $CONDA_PREFIX npm install \
+    conda run --prefix $CONDA_PREFIX npx playwright install-deps && \
+    conda run --prefix $CONDA_PREFIX npm cache clean --force
 # -----------------------------------------------------------------------------
 # Always make sure we are not root
 USER ${USER}
