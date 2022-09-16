@@ -19,7 +19,7 @@ const config: PlaywrightTestConfig = {
   testDir: "./tests",
 
   /* Maximum time one test can run for. */
-  timeout: 20 * 1000,
+  timeout: 60 * 1000,
 
   expect: {
     /**
@@ -71,7 +71,7 @@ const config: PlaywrightTestConfig = {
 
   /* Run a server. The tests will open urls to this server in the browser. */
   webServer: {
-    command: "yarn start",
+    command: "npm start",
     port: 8888,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,

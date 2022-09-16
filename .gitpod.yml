@@ -8,7 +8,7 @@ tasks:
     init: |
       cd testing/jupyterlab
       echo " 📦 Installing node dependencies "
-      yarn install
+      npm install
       npx playwright install
       echo "🚀 Dependencies installed "
       cd /workspace/accessibility/

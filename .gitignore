@@ -109,8 +109,7 @@ venv.bak/
 # doit
 .doit*
 
-# yarn
-.yarn-links/
+# npm
 node_modules/
 
 # repos
