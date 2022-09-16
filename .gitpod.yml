@@ -3,16 +3,6 @@
 
 image: quansight/jupyter-a11y:latest
 
-tasks:
-  - name: Install JupyterLab Node.js testing dependencies
-    init: |
-      cd testing/jupyterlab
-      echo " 📦 Installing node dependencies "
-      npm install
-      npx playwright install
-      echo "🚀 Dependencies installed "
-      cd /workspace/accessibility/
-
 # --------------------------------------------------------
 # exposing ports
 ports:

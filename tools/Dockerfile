@@ -106,7 +106,6 @@ RUN conda activate "${CONDA_ENV}" && \
     conda run --prefix $CONDA_PREFIX npm install \
     conda run --prefix $CONDA_PREFIX npx playwright install-deps && \
     conda run --prefix $CONDA_PREFIX npm cache clean --force
-
 # -----------------------------------------------------------------------------
 # Always make sure we are not root
 USER ${USER}
