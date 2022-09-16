@@ -63,7 +63,7 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 Your console should output a local URL that you can open in your browser to see
 the test results: typically <http://127.0.0.1:9323>
 
-### Running the tests in Gitpod
+### Running the tests in Gitpod ☁️
 
 As an alternative to running the tests locally on your own machine, you can run
 them in a cloud environment on Gitpod.
