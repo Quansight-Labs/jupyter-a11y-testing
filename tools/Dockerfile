@@ -22,7 +22,7 @@ FROM gitpod/workspace-base:2022-09-11-15-11-40
 
 # https://github.com/conda-forge/miniforge/releases
 ARG MAMBAFORGE_VERSION="4.14.0-0"
-ARG CONDA_ENV=a11y-tests
+ARG CONDA_ENV="a11y-tests"
 # making this an argument for flexibility
 ARG JUPYTER_APP=jupyterlab
 
