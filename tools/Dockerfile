@@ -78,7 +78,7 @@ COPY "${JUPYTER_APP_DIR}/environment.yml" /tmp/environment.yml
 COPY ./tools/workspace_config /usr/local/bin/workspace_config
 # Copy a script that we will use to correct permissions after running certain commands
 COPY ./tools/fix_permissions /usr/local/bin/fix_permissions
-COPY ./testing/package*.json ./package*.json
+COPY ./testing/package*.json /package*.json
 
 RUN chmod a+rx /usr/local/bin/workspace_config && \
     chmod a+rx /usr/local/bin/fix_permissions && \
