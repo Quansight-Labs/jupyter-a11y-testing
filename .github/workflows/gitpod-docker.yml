@@ -6,7 +6,10 @@ on:
       - main
     paths:
       - "testing/jupyterlab/environment.yml"
+      - "testing/jupyterlab/package-lock.json"
       - "tools/Dockerfile"
+      - ".github/gitpod-docker.yml"
+  workflow_dispatch:
 
 jobs:
   build:
