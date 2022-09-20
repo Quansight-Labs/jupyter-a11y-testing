@@ -19,6 +19,7 @@ jobs:
         uses: brpaz/hadolint-action@v1.2.1
         with:
           dockerfile: ./tools/Dockerfile
+          config: ./.hadolint.yaml
 
       - name: Get refs - will be used as tags 🏷
         shell: bash
