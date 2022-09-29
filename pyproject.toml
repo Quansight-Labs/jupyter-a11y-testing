@@ -11,9 +11,7 @@ description = "Automated accessibility testing for Jupyter tools"
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["jupyter", "accessibility", "JupyterLab"]
-license = { text = "BSD 3-Clause License" }
-author = "Jupyter Accessibility Development Team"
-
+license = { file = "LICENSE" }
 
 [tool.isort]
 profile = "black"
