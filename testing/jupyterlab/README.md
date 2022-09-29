@@ -18,9 +18,8 @@ To run the tests in this directory you need the following prerequisites:
 
 You can run tests locally on your machine, or remotely in the cloud.
 
-At the time of this writing, we have configured the tests to only run with
-Chromium, but you can
-[extend these tests to cover other browsers](https://github.com/MarcusFelling/demo.playwright/blob/main/accessibility/playwright.config.ts)
+At the time of this writing, we have configured the tests to only run with Chromium,
+but you can [extend these tests to cover other browsers](https://github.com/MarcusFelling/demo.playwright/blob/main/accessibility/playwright.config.ts)
 by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.ts) file.
 
 ### Running the tests locally 💻
@@ -28,7 +27,7 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 1. Make sure you are in the correct directory - the one containing the `playwright.config.ts` file:
 
    ```bash
-   cd testing/jupyterlab
+   cd testing/
    ```
 
 2. Install Node.js and the needed Python dependencies:
@@ -57,7 +56,8 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 5. Run the tests:
 
    ```bash
-   npm test
+   # For JupyterLab tests
+   npm test --project jupyterlab
    ```
 
 Your console should output a local URL that you can open in your browser to see
