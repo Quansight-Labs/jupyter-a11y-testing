@@ -16,8 +16,6 @@ expect.extend(matchers);
 const config: PlaywrightTestConfig = {
   ...galataConfig,
 
-  testDir: "./tests",
-
   /* Maximum time one test can run for. */
   timeout: 60 * 1000,
 
@@ -39,7 +37,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [["html"], ["json"], [process.env.CI ? "dot" : "list"]],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -55,23 +53,24 @@ const config: PlaywrightTestConfig = {
     acceptDownloads: true,
 
     video: "retain-on-failure",
+
+    // Browser options
+    browserName: process.env.BROWSER_NAME ?? "chromium",
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for various UIs */
   projects: [
+    // JupyterLab >= 3
     {
-      name: "chromium",
-
-      /* Project-specific settings. */
-      use: {
-        ...devices["Desktop Chrome"],
-      },
+      name: "jupyterlab",
+      testMatch: "jupyterlab/tests/**",
+      outputDir: "jupyterlab/a11y-results",
     },
   ],
 
   /* Run a server. The tests will open urls to this server in the browser. */
   webServer: {
-    command: "npm start",
+    command: "npm run start-jlab",
     port: 8888,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,

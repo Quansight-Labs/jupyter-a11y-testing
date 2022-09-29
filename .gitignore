@@ -127,6 +127,7 @@ reports/
 # playwright stuff
 **/playwright-*/
 **/test-results/
+**/a11y-results/
 
 # mac
 .DS_Store
