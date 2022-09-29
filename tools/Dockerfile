@@ -37,7 +37,7 @@ ENV CONDA_DIR="${GITPOD_HOME}/mambaforge3" \
     SHELL=/bin/bash
 ENV PATH=${CONDA_DIR}/bin:$PATH \
     JUPYTER_APP_DIR="./testing/${JUPYTER_APP}" \
-    PLAYWRIGHT_BROWSERS_PATH="{GITPOD_HOME}/ms-playwright"
+    PLAYWRIGHT_BROWSERS_PATH="${GITPOD_HOME}/ms-playwright"
 
 # Allows this Dockerfile to activate conda environments
 SHELL ["/bin/bash", "--login", "-o", "pipefail", "-c"]
@@ -104,7 +104,7 @@ RUN mamba env create -f /tmp/environment.yml && \
 RUN conda activate $CONDA_ENV && \
     # Install node dependencies
     conda run --prefix $CONDA_PREFIX npm install \
-    conda run --prefix $CONDA_PREFIX npx playwright install-deps && \
+    conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium && \
     conda run --prefix $CONDA_PREFIX npm cache clean --force
 # -----------------------------------------------------------------------------
 # Always make sure we are not root
