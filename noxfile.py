@@ -1,7 +1,11 @@
+import os
 from pathlib import Path
 from typing import List
 
 import nox
+
+if os.environ.get("CI", None):
+    nox.options.error_on_missing_interpreters = True
 
 LOCATIONS = {
     "testing-dir": "testing",
@@ -10,7 +14,6 @@ LOCATIONS = {
 
 
 def setup_environment(session: nox.Session, project: str) -> None:
-    env = {"VIRTUAL_ENV": session.virtualenv.location}
 
     session.conda_install(
         "nodejs=16.*",
