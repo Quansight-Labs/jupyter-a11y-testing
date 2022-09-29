@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./testing/jupyterlab
         shell: bash -l {0}
     steps:
       - name: Checkout repository 🛎
@@ -39,11 +38,11 @@ jobs:
       - name: Install miniconda 🐍
         uses: conda-incubator/setup-miniconda@v2
         with:
+          auto-update-conda: true
           miniforge-variant: Mambaforge
           miniforge-version: latest
           use-mamba: true
-          environment-file: ./testing/jupyterlab/environment.yml
-          activate-environment: a11y-tests
+          python-version: 3.9
           use-only-tar-bz2: true
 
       - name: Sanity checks on environment 🔍
@@ -52,15 +51,12 @@ jobs:
           conda env list
           echo $CONDA_PREFIX
 
-      - name: Install node dependencies 🧶
-        run: |
-          conda run --prefix $CONDA_PREFIX npm install
-          conda run --prefix $CONDA_PREFIX npx playwright install chromium
+      - name: Install nox
+        run: pip install nox
 
-      - name: Run tests  ✅
-        continue-on-error: true
+      - name: Setup and run tests
         run: |
-          conda run --prefix $CONDA_PREFIX npm test
+          nox --forcecolor -s run_a11y_tests
 
       - name: Get run refs 🏷
         id: getrefs
@@ -75,4 +71,4 @@ jobs:
         with:
           name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
           path: |
-            testing/jupyterlab/test-results/
+            testing/jupyterlab/a11y-results/
