@@ -1,0 +1,36 @@
+# Borrows heavily from
+# https://github.com/jupyterlab/benchmarks/blob/master/.github/workflows/run-benchmark.yml
+
+name: Build JupyterLab fork from source
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Repository name with owner. For example, jupyterlab/jupyterlab.
+        required: true
+      ref:
+        description: The branch, tag or SHA to checkout.
+        required: false
+
+jobs:
+  Install JupyterLab and print version number:
+    steps:
+      - name: Checkout JupyterLab fork
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Install and build JupyterLab from source
+        run: |
+          bash ./scripts/ci_install.sh
+          # Build dev mode
+          jlpm run build
+
+      - name: Print JupyterLab version
+        run: |
+          jupyter lab --version
