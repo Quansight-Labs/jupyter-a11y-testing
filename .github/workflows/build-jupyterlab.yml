@@ -15,6 +15,7 @@ on:
 
 jobs:
   Install JupyterLab and print version number:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout JupyterLab fork
         uses: actions/checkout@v3
