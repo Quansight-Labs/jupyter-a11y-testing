@@ -14,7 +14,7 @@ on:
         required: false
 
 jobs:
-  Install JupyterLab and print version number:
+  Install-JupyterLab-and-print-version:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout JupyterLab fork
