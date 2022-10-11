@@ -62,18 +62,14 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          path: ./jupyterlab
-
-      - name: Base Setup
-        working-directory: ./jupyterlab
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@master
+          path: jupyterlab
 
       - name: Install and build JupyterLab from source
-        working-directory: ./jupyterlab
+        working-directory: jupyterlab
         run: |
-          bash ./scripts/ci_install.sh
+          conda run --prefix $CONDA_PREFIX bash ./scripts/ci_install.sh
           # Build dev mode
-          jlpm run build
+          conda run --prefix $CONDA_PREFIX jlpm run build
 
       - name: Install node dependencies 🧶
         run: |
