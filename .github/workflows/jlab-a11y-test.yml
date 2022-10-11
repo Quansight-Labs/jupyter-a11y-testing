@@ -8,6 +8,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      repository:
+        default: jupyterlab/jupyterlab
+      ref:
+        default: master
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -51,6 +56,12 @@ jobs:
           conda info
           conda env list
           echo $CONDA_PREFIX
+
+      - name: Install JupyterLab
+        uses: ./.github/workflows/build-jupyterlab.yml
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
 
       - name: Install node dependencies 🧶
         run: |

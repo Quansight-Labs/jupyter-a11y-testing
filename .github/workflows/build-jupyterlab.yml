@@ -4,17 +4,21 @@
 name: Build JupyterLab fork from source
 
 on:
+  workflow_call:
   workflow_dispatch:
     inputs:
       repository:
         description: Repository name with owner. For example, jupyterlab/jupyterlab.
-        required: true
+        required: false
+        default: jupyterlab/jupyterlab
       ref:
         description: The branch, tag or SHA to checkout.
         required: false
+        default: master
 
 jobs:
   Install-JupyterLab-and-print-version:
+    name: Install JupyterLab (from any fork) then print which version was installed
     runs-on: ubuntu-latest
     steps:
       - name: Checkout JupyterLab fork

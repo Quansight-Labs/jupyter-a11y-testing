@@ -9,7 +9,6 @@ dependencies:
   - python=3.9.*
   # for base a11y testing
   - nodejs=16.*
-  - jupyterlab=3.*
   # for the notebook example
   - ipython
   - ipywidgets
