@@ -57,11 +57,22 @@ jobs:
           conda env list
           echo $CONDA_PREFIX
 
-      - name: Install JupyterLab
-        uses: ./.github/workflows/build-jupyterlab.yml
+      - name: Checkout JupyterLab fork
+        uses: actions/checkout@v3
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
+          path: ./jupyterlab
+
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Install and build JupyterLab from source
+        working-directory: ./jupyterlab
+        run: |
+          bash ./scripts/ci_install.sh
+          # Build dev mode
+          jlpm run build
 
       - name: Install node dependencies 🧶
         run: |
