@@ -65,7 +65,8 @@ jobs:
           path: ./jupyterlab
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        working-directory: ./jupyterlab
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@master
 
       - name: Install and build JupyterLab from source
         working-directory: ./jupyterlab
