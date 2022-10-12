@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       repository:
-        default: jupyterlab/jupyterlab
+        required: false
       ref:
-        default: master
+        required: false
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -21,11 +21,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  print-info:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "github.event.pull_request.head.sha = ${{ github.event.pull_request.head.sha }}"
+      - run: echo "The workspace is $GITHUB_WORKSPACE"
+
   jlab-a11y:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./testing/jupyterlab
+        # Shell needs to use login mode
+        # https://github.com/marketplace/actions/setup-miniconda#important
         shell: bash -l {0}
     steps:
       - name: Checkout repository 🛎
@@ -60,16 +71,16 @@ jobs:
       - name: Checkout JupyterLab fork
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
+          ref: ${{ inputs.ref || 'master' }}
           path: jupyterlab
 
       - name: Install and build JupyterLab from source
         working-directory: jupyterlab
         run: |
-          bash ./scripts/ci_install.sh
+          conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
           # Build dev mode
-          jlpm run build
+          conda run --prefix $CONDA_PREFIX jlpm run build
 
       - name: Install node dependencies 🧶
         run: |
@@ -85,8 +96,8 @@ jobs:
         id: getrefs
         run: |
           export raw_branch=${GITHUB_REF#refs/heads/}
-          echo "::set-output name=branch::${raw_branch//\//-}"
-          echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+          echo "branch=${raw_branch//\//-}" >> $GITHUB_OUTPUT
+          echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
       - name: Upload testing results 📤
         uses: actions/upload-artifact@v3
