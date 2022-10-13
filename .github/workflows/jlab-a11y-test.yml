@@ -7,11 +7,23 @@ on:
   pull_request:
     branches:
       - main
+  workflow_call:
+    inputs:
+      repository:
+        description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
+        type: string
+        required: true
+      ref:
+        description: The branch, tag, or SHA to checkout.
+        type: string
+        required: true
   workflow_dispatch:
     inputs:
       repository:
+        description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
         required: false
       ref:
+        description: The branch, tag, or SHA to checkout.
         required: false
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
@@ -35,7 +47,7 @@ jobs:
     defaults:
       run:
         working-directory: ./testing/jupyterlab
-        # Shell needs to use login mode
+        # Shell needs to use login mode in order to work with Conda.
         # https://github.com/marketplace/actions/setup-miniconda#important
         shell: bash -l {0}
     steps:
@@ -81,6 +93,11 @@ jobs:
           conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
           # Build dev mode
           conda run --prefix $CONDA_PREFIX jlpm run build
+
+      - name: Check where JupyterLab was installed, and version
+        run: |
+          which jupyter
+          jupyter lab --version
 
       - name: Install node dependencies 🧶
         run: |
