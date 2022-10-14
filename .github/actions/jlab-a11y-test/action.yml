@@ -1,6 +1,10 @@
 name: Run accessibility tests on JupyterLab
 description: You got fixes, I got tests
-# https://docs.github.com/en/actions/using-jobs/using-concurrency
+inputs:
+  repository:
+    description: JupyterLab repository, for example gabalafou/jupyterlab
+  ref:
+    description: ref, branch, or SHA
 runs:
   using: composite
   steps:

@@ -39,20 +39,25 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - run: echo "github.event.pull_request.head.sha = ${{ github.event.pull_request.head.sha }}"
+      - run: echo "🗂 Workspace is ${{ github.workspace }}"
+      - run: echo "inputs.repository = ${{ inputs.repository }}"
+      - run: echo "inputs.ref = ${{ inputs.ref }}"
       - run: echo "The workspace is $GITHUB_WORKSPACE"
 
   jlab-a11y:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./testing/jupyterlab
+        working-directory: ./jupyter-a11y-testing/testing/jupyterlab
         # Shell needs to use login mode in order to work with Conda.
         # https://github.com/marketplace/actions/setup-miniconda#important
         shell: bash -l {0}
     steps:
       - name: Checkout repository 🛎
         uses: actions/checkout@v3
+        with:
+          repository: gabalafou/jupyter-a11y-testing
+          path: jupyter-a11y-testing
 
       - name: Cache conda 🧠
         uses: actions/cache@v2
