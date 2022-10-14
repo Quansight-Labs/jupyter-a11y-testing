@@ -10,13 +10,14 @@ runs:
       shell: bash
     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       shell: bash
-    - run: echo "github.event.pull_request.head.sha = ${{ github.event.pull_request.head.sha }}"
-      shell: bash
-    - run: echo "The workspace is $GITHUB_WORKSPACE ${{ github.workspace }}"
+    - run: echo "🧺 github = ${{ toJSON(github) }}"
       shell: bash
 
     - name: Checkout repository 🛎
       uses: actions/checkout@v3
+      with:
+        repository: gabalafou/jupyter-a11y-testing
+        ref: main
 
     - name: What did we just checkout?
       run: ls
@@ -30,7 +31,7 @@ runs:
       with:
         path: ~/conda_pkgs_dir
         key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-          hashFiles('environment.yml') }}
+          hashFiles('./testing/jupyterlab/environment.yml') }}
 
     - name: Install miniconda 🐍
       uses: conda-incubator/setup-miniconda@v2
@@ -71,12 +72,14 @@ runs:
       shell: bash -l {0}
 
     - name: Install node dependencies 🧶
+      working-directory: ./testing/jupyterlab
       run: |
         conda run --prefix $CONDA_PREFIX npm install
         conda run --prefix $CONDA_PREFIX npx playwright install chromium
       shell: bash -l {0}
 
     - name: Run tests  ✅
+      working-directory: ./testing/jupyterlab
       continue-on-error: true
       run: |
         conda run --prefix $CONDA_PREFIX npm test
