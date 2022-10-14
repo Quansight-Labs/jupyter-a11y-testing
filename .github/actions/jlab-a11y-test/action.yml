@@ -1,0 +1,99 @@
+name: Run accessibility tests on JupyterLab
+description: You got fixes, I got tests
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+runs:
+  using: composite
+  steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      shell: bash
+    - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      shell: bash
+    - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      shell: bash
+    - run: echo "github.event.pull_request.head.sha = ${{ github.event.pull_request.head.sha }}"
+      shell: bash
+    - run: echo "The workspace is $GITHUB_WORKSPACE ${{ github.workspace }}"
+      shell: bash
+
+    - name: Checkout repository 🛎
+      uses: actions/checkout@v3
+
+    - name: What did we just checkout?
+      run: ls
+      shell: bash
+
+    - name: Cache conda 🧠
+      uses: actions/cache@v2
+      env:
+        # Increase this value to reset cache if environment.yml has not changed
+        CACHE_NUMBER: 0
+      with:
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+          hashFiles('environment.yml') }}
+
+    - name: Install miniconda 🐍
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-variant: Mambaforge
+        miniforge-version: latest
+        use-mamba: true
+        environment-file: ./testing/jupyterlab/environment.yml
+        activate-environment: a11y-tests
+        use-only-tar-bz2: true
+
+    - name: Sanity checks on environment 🔍
+      run: |
+        conda info
+        conda env list
+        echo $CONDA_PREFIX
+      shell: bash -l {0}
+
+    - name: Checkout JupyterLab fork
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
+        ref: ${{ inputs.ref || 'master' }}
+        path: jupyterlab
+
+    - name: Install and build JupyterLab from source
+      working-directory: jupyterlab
+      run: |
+        conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
+        # Build dev mode
+        conda run --prefix $CONDA_PREFIX jlpm run build
+      shell: bash -l {0}
+
+    - name: Check where JupyterLab was installed, and version
+      run: |
+        which jupyter
+        jupyter lab --version
+      shell: bash -l {0}
+
+    - name: Install node dependencies 🧶
+      run: |
+        conda run --prefix $CONDA_PREFIX npm install
+        conda run --prefix $CONDA_PREFIX npx playwright install chromium
+      shell: bash -l {0}
+
+    - name: Run tests  ✅
+      continue-on-error: true
+      run: |
+        conda run --prefix $CONDA_PREFIX npm test
+      shell: bash -l {0}
+
+    - name: Get run refs 🏷
+      id: getrefs
+      run: |
+        export raw_branch=${GITHUB_REF#refs/heads/}
+        echo "branch=${raw_branch//\//-}" >> $GITHUB_OUTPUT
+        echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+      shell: bash -l {0}
+
+    - name: Upload testing results 📤
+      uses: actions/upload-artifact@v3
+      # using default retention policy = 90 days
+      with:
+        name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: |
+          testing/jupyterlab/test-results/
