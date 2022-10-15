@@ -101,6 +101,11 @@ runs:
       uses: actions/upload-artifact@v3
       # using default retention policy = 90 days
       with:
-        name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: |
-          testing/jupyterlab/test-results/
+        name: jupyterlab-a11y-json-results-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: testing/jupyterlab/a11y-test-results.json
+
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: testing/jupyterlab/playwright-report/

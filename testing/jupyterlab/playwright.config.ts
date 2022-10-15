@@ -39,7 +39,11 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
+  reporter: [
+    [process.env.CI ? "github" : "list"],
+    ["html", { open: process.env.CI ? "never" : "on-failure" }],
+    ["json", { outputFile: "a11y-test-results.json"}]
+  ],
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
