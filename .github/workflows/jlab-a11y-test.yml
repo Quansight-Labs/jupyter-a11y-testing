@@ -127,4 +127,4 @@ jobs:
         with:
           name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
           path: |
-            testing/jupyterlab/test-results/
+            ./jupyter-a11y-testing/testing/jupyterlab/test-results/
