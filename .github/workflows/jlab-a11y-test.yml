@@ -121,10 +121,15 @@ jobs:
           echo "branch=${raw_branch//\//-}" >> $GITHUB_OUTPUT
           echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
-      - name: Upload testing results 📤
+      - name: Upload Playwright report 📤
         uses: actions/upload-artifact@v3
         # using default retention policy = 90 days
         with:
-          name: jupyterlab-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-          path: |
-            ./jupyter-a11y-testing/testing/jupyterlab/test-results/
+          name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+          path: ./jupyter-a11y-testing/testing/jupyterlab/playwright-report/
+
+      - name: Upload JSON test results 📑
+        uses: actions/upload-artifact@v3
+        with:
+          name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+          path: ./jupyter-a11y-testing/testing/jupyterlab/a11y-test-results.json
