@@ -8,6 +8,7 @@ from tempfile import mkdtemp
 c.ServerApp.port = 8888
 c.ServerApp.port_retries = 0
 c.ServerApp.open_browser = False
+c.LabApp.dev_mode = True
 
 c.ServerApp.root_dir = mkdtemp(prefix="galata-test-")
 c.ServerApp.token = ""

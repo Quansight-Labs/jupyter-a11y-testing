@@ -101,7 +101,7 @@ jobs:
       - name: Check JupyterLab installation
         run: |
           which jupyter
-          jupyter lab --version
+          jlpm run build
 
       - name: Install node dependencies 🧶
         run: |
