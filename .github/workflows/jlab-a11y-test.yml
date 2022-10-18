@@ -96,12 +96,12 @@ jobs:
         working-directory: jupyterlab
         run: |
           conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
-          conda run --prefix $CONDA_PREFIX jupyter lab build
+          conda run --prefix $CONDA_PREFIX jlpm run build
 
       - name: Check JupyterLab installation
         run: |
           which jupyter
-          jlpm run build
+          jupyter lab --version
 
       - name: Install node dependencies 🧶
         run: |
