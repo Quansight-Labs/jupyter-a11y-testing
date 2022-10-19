@@ -114,7 +114,7 @@ jobs:
           conda run --prefix $CONDA_PREFIX npm test
 
       - name: Write GitHub Summary
-        run: cat a11y-test-results.ts >> $GITHUB_STEP_SUMMARY
+        run: cat a11y-test-results.md >> $GITHUB_STEP_SUMMARY
 
       - name: Get run refs 🏷
         id: getrefs
