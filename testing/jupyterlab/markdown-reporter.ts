@@ -34,7 +34,7 @@ class MyReporter implements Reporter {
   }
 
   onEnd() {
-    outputReport(this._serializeReport(), this.config, this._outputFile);
+    outputReport(this._serializeReport(), this._outputFile);
   }
 
   private _serializeReport(): string {
@@ -69,18 +69,8 @@ class MyReporter implements Reporter {
   }
 }
 
-function outputReport(
-  reportString: string,
-  config: FullConfig,
-  outputFile: string | undefined
-) {
+function outputReport(reportString: string, outputFile: string | undefined) {
   if (outputFile) {
-    if (!config.configFile && !path.isAbsolute(outputFile)) {
-      throw new Error("Expected fully resolved path if not using config file.");
-    }
-    outputFile = config.configFile
-      ? path.resolve(path.dirname(config.configFile), outputFile)
-      : outputFile;
     fs.mkdirSync(path.dirname(outputFile), { recursive: true });
     fs.writeFileSync(outputFile, reportString);
   } else {
