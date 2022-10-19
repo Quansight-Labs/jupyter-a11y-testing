@@ -38,14 +38,16 @@ class MyReporter implements Reporter {
   }
 
   private _serializeReport(): string {
-    let markdownString = "";
-    markdownString += "# Test Results\n\n"
+    const lines: string[] = [];
+    lines.push("# Test Results");
+    lines.push("");
     const projectSuites = this.rootSuite.suites;
 
     for (const projectSuite of projectSuites) {
       const fileSuites = projectSuite.suites;
       for (const fileSuite of fileSuites) {
-        markdownString += `## ${fileSuite.title}\n\n`;
+        lines.push(`## ${fileSuite.title}`);
+        lines.push("");
         for (const test of fileSuite.allTests()) {
           const outcome = {
             expected: '✅',
@@ -55,18 +57,29 @@ class MyReporter implements Reporter {
           }[test.outcome()];
           const [_root, _project, _file, ...titlePaths] = test.titlePath();
           const title = titlePaths.join(' > ');
-          markdownString += `- ${outcome} ${title}\n`;
+          lines.push(`- ${outcome} ${title}`);
           const firstError = test.results.map(({error}) => error).find(error => error);
-          if (firstError) {
-            markdownString += `   Error: ${firstError.message}\n`;
+          if (firstError && firstError.message) {
+            const errorLines = firstError.message.split("\n");
+            const firstLine = errorLines[0];
+            const indent = "   ";
+            lines.push(`${indent}Error: ${stripAnsiEscapes(firstLine)}`);
+            for (let i = 1; i < errorLines.length; i++) {
+              lines.push(`${indent}${stripAnsiEscapes(errorLines[i])}`);
+            }
           }
         }
-        markdownString += '\n';
+        lines.push("");
       }
     }
 
-    return markdownString;
+    return lines.join("\n");
   }
+}
+
+const ansiRegex = new RegExp('([\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~])))', 'g');
+export function stripAnsiEscapes(str: string): string {
+  return str.replace(ansiRegex, '');
 }
 
 function outputReport(reportString: string, outputFile: string | undefined) {
