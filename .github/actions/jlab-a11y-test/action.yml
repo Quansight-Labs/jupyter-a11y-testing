@@ -56,11 +56,11 @@ runs:
         path: jupyterlab
 
     - name: Build JupyterLab
-      working-directory: jupyterlab
       run: |
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
+      working-directory: jupyterlab
 
     - name: Check JupyterLab installation
       run: |
@@ -73,16 +73,19 @@ runs:
         conda run --prefix $CONDA_PREFIX npm install
         conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
       shell: bash -l {0}
+      working-directory: jupyter-a11y-testing/testing/jupyterlab
 
     - name: Run tests  ✅
       continue-on-error: true
       run: |
         conda run --prefix $CONDA_PREFIX npm test
       shell: bash -l {0}
+      working-directory: jupyter-a11y-testing/testing/jupyterlab
 
     - name: Write GitHub Summary
       run: cat a11y-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
+      working-directory: jupyter-a11y-testing/testing/jupyterlab
 
     - name: Get run refs 🏷
       id: getrefs
