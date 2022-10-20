@@ -14,18 +14,12 @@ runs:
       shell: bash
     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       shell: bash
-    - run: echo "🧺 github = ${{ toJSON(github) }}"
-      shell: bash
 
     - name: Checkout repository 🛎
       uses: actions/checkout@v3
       with:
         repository: gabalafou/jupyter-a11y-testing
-        ref: main
-
-    - name: What did we just checkout?
-      run: ls
-      shell: bash
+        path: jupyter-a11y-testing
 
     - name: Cache conda 🧠
       uses: actions/cache@v2
@@ -35,7 +29,7 @@ runs:
       with:
         path: ~/conda_pkgs_dir
         key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-          hashFiles('./testing/jupyterlab/environment.yml') }}
+          hashFiles('environment.yml') }}
 
     - name: Install miniconda 🐍
       uses: conda-incubator/setup-miniconda@v2
@@ -43,7 +37,7 @@ runs:
         miniforge-variant: Mambaforge
         miniforge-version: latest
         use-mamba: true
-        environment-file: ./testing/jupyterlab/environment.yml
+        environment-file: ./jupyter-a11y-testing/testing/jupyterlab/environment.yml
         activate-environment: a11y-tests
         use-only-tar-bz2: true
 
@@ -54,39 +48,40 @@ runs:
         echo $CONDA_PREFIX
       shell: bash -l {0}
 
-    - name: Checkout JupyterLab fork
+    - name: Checkout JupyterLab
       uses: actions/checkout@v3
       with:
         repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
         ref: ${{ inputs.ref || 'master' }}
         path: jupyterlab
 
-    - name: Install and build JupyterLab from source
+    - name: Build JupyterLab
       working-directory: jupyterlab
       run: |
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
-        # Build dev mode
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
 
-    - name: Check where JupyterLab was installed, and version
+    - name: Check JupyterLab installation
       run: |
         which jupyter
         jupyter lab --version
       shell: bash -l {0}
 
     - name: Install node dependencies 🧶
-      working-directory: ./testing/jupyterlab
       run: |
         conda run --prefix $CONDA_PREFIX npm install
-        conda run --prefix $CONDA_PREFIX npx playwright install chromium
+        conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
       shell: bash -l {0}
 
     - name: Run tests  ✅
-      working-directory: ./testing/jupyterlab
       continue-on-error: true
       run: |
         conda run --prefix $CONDA_PREFIX npm test
+      shell: bash -l {0}
+
+    - name: Write GitHub Summary
+      run: cat a11y-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
 
     - name: Get run refs 🏷
@@ -97,15 +92,15 @@ runs:
         echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
 
-    - name: Upload testing results 📤
+    - name: Upload Playwright report 📤
       uses: actions/upload-artifact@v3
       # using default retention policy = 90 days
       with:
-        name: jupyterlab-a11y-json-results-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: testing/jupyterlab/a11y-test-results.json
-
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
         name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: testing/jupyterlab/playwright-report/
+        path: ./jupyter-a11y-testing/testing/jupyterlab/playwright-report/
+
+    - name: Upload JSON test results 📑
+      uses: actions/upload-artifact@v3
+      with:
+        name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: ./jupyter-a11y-testing/testing/jupyterlab/a11y-test-results.json
