@@ -70,7 +70,7 @@ class MyReporter implements Reporter {
     const [_root, _project, file, ...titlePaths] = test.titlePath();
     const title = titlePaths.join(" > ");
     const infoURL = this.getTestInfoURL(test);
-    lines.push(`- ${outcome} [${title}](infoURL)`);
+    lines.push(`- ${outcome} [${title}](${infoURL})`);
     const firstError = test.results
       .map(({ error }) => error)
       .find((error) => error);
