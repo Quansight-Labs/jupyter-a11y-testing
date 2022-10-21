@@ -42,10 +42,10 @@ jobs:
       - run: echo "🗂 Workspace is ${{ github.workspace }}"
       - run: echo "inputs.repository = ${{ inputs.repository }}"
       - run: echo "inputs.ref = ${{ inputs.ref }}"
-      - run: echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}"
-      - run: echo "GITHUB_SHA = ${GITHUB_SHA}"
-      - run: echo "GITHUB_REPOSITORY = ${GITHUB_REPOSITORY}"
-      - run: echo "GITHUB_SERVER_URL = ${GITHUB_SERVER_URL}"
+      - run: echo "github.workspace = ${{ github.workspace }}"
+      - run: echo "github.sha = ${{ github.sha }}"
+      - run: echo "github.repository = ${{ github.repository }}"
+      - run: echo "github.server_url = ${{ github.server_url }}"
 
 
   jlab-a11y:

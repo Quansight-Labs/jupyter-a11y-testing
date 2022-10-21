@@ -15,10 +15,10 @@ runs:
     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       shell: bash
     - run: |
-        echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}"
-        echo "GITHUB_SHA = ${GITHUB_SHA}"
-        echo "GITHUB_REPOSITORY = ${GITHUB_REPOSITORY}"
-        echo "GITHUB_SERVER_URL = ${GITHUB_SERVER_URL}"
+        echo "github.workspace = ${{ github.workspace }}"
+        echo "github.sha = ${{ github.sha }}"
+        echo "github.repository = ${{ github.repository }}"
+        echo "github.server_url = ${{ github.server_url }}"
       shell: bash
 
     - name: Checkout repository 🛎
