@@ -11,7 +11,8 @@
     "test:debug": "PWDEBUG=1 playwright test"
   },
   "dependencies": {
-    "@jupyterlab/galata": "4.0.2",
+    "@jupyterlab/galata": "4.3.8",
+    "@playwright/test": "^1.27.1",
     "expect-axe-playwright": "gabalafou/expect-axe-playwright"
   }
 }

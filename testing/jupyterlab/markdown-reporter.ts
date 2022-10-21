@@ -10,13 +10,17 @@ import type {
 } from "@playwright/test/types/testReporter";
 
 class MyReporter implements Reporter {
-  config!: FullConfig & { testInfoPagesBaseURL: string };
+  config!: FullConfig;
   rootSuite!: Suite;
   private _errors: TestError[] = [];
   private _outputFile: string | undefined;
+  private _testInfoPagesBaseURL: string;
 
-  constructor(options: { outputFile?: string } = {}) {
+  constructor(
+    options: { outputFile?: string; testInfoPagesBaseURL: string }
+  ) {
     this._outputFile = options.outputFile;
+    this._testInfoPagesBaseURL = options.testInfoPagesBaseURL;
   }
 
   printsToStdio() {
@@ -92,7 +96,7 @@ class MyReporter implements Reporter {
         lines.push(`${indent}${stripAnsiEscapes(errorLines[i])}<br/>`);
       }
       if (errorLines.length > 0) {
-        lines.push(`${indent}</details>`)
+        lines.push(`${indent}</details>`);
       }
     }
     return lines.join("\n");
@@ -100,9 +104,9 @@ class MyReporter implements Reporter {
 
   getTestInfoURL(test: TestCase): string {
     const linkAnnotation = test.annotations.find(({ type }) => type === "link");
-    return linkAnnotation ?
-      this.config.testInfoPagesBaseURL + linkAnnotation.description :
-      "";
+    return linkAnnotation
+      ? this._testInfoPagesBaseURL + linkAnnotation.description
+      : "";
   }
 }
 

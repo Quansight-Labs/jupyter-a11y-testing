@@ -11,6 +11,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: List environment variables
+      run: env
+      shell: bash -l {0}
+
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       shell: bash
     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

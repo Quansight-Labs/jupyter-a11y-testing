@@ -41,15 +41,19 @@ const config: PlaywrightTestConfig & { testInfoPagesBaseURL: string } = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [process.env.CI ? "github" : "list"],
-    ["./markdown-reporter.ts", { outputFile: "jupyterlab-a11y-regression-test-results.md" }],
-    ["json", { outputFile: "jupyterlab-a11y-regression-test-results.json" }],
+    [
+      "./markdown-reporter.ts",
+      {
+        outputFile: "test-results/jupyterlab-a11y-regression-test-results.md",
+        /* The URL to the test info pages directory */
+        testInfoPagesBaseURL: process.env.CI
+          ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/blob/${process.env.GITHUB_SHA}/testing/jupyterlab/test-info-pages`
+          : "https://github.com/Quansight-Labs/jupyter-a11y-testing/blob/main/testing/jupyterlab/test-info-pages",
+      },
+    ],
+    ["json", { outputFile: "test-results/jupyterlab-a11y-regression-test-results.json" }],
     ["html", { open: process.env.CI ? "never" : "on-failure" }],
   ],
-
-  testInfoPagesBaseURL: process.env.CI ?
-    `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/blob/${process.env.GITHUB_SHA}/testing/jupyterlab/test-info-pages` :
-    "https://github.com/Quansight-Labs/jupyter-a11y-testing/blob/main/testing/jupyterlab/test-info-pages",
-
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
