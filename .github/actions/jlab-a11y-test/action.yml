@@ -21,12 +21,6 @@ runs:
         echo "github.server_url = ${{ github.server_url }}"
       shell: bash
 
-    - name: Checkout repository 🛎
-      uses: actions/checkout@v3
-      with:
-        repository: gabalafou/jupyter-a11y-testing
-        path: jupyter-a11y-testing
-
     - name: Cache conda 🧠
       uses: actions/cache@v2
       env:
