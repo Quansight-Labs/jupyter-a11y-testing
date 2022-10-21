@@ -10,7 +10,7 @@ import type {
 } from "@playwright/test/types/testReporter";
 
 class MyReporter implements Reporter {
-  config!: FullConfig;
+  config!: FullConfig & { testInfoPagesBaseURL: string };
   rootSuite!: Suite;
   private _errors: TestError[] = [];
   private _outputFile: string | undefined;
@@ -67,9 +67,10 @@ class MyReporter implements Reporter {
       skipped: "[skipped]",
       flaky: "[flaky]",
     }[test.outcome()];
-    const [_root, _project, _file, ...titlePaths] = test.titlePath();
+    const [_root, _project, file, ...titlePaths] = test.titlePath();
     const title = titlePaths.join(" > ");
-    lines.push(`- ${outcome} ${title}`);
+    const infoURL = this.getTestInfoURL(test);
+    lines.push(`- ${outcome} [${title}](infoURL)`);
     const firstError = test.results
       .map(({ error }) => error)
       .find((error) => error);
@@ -95,6 +96,13 @@ class MyReporter implements Reporter {
       }
     }
     return lines.join("\n");
+  }
+
+  getTestInfoURL(test: TestCase): string {
+    const linkAnnotation = test.annotations.find(({ type }) => type === "link");
+    return linkAnnotation ?
+      this.config.testInfoPagesBaseURL + linkAnnotation.description :
+      "";
   }
 }
 

@@ -13,10 +13,10 @@ expect.extend(matchers);
  * Modified from https://github.com/MarcusFelling/demo.playwright/blob/main/accessibility/playwright.config.ts
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig & { testInfoPagesBaseURL: string } = {
   ...galataConfig,
 
-  testDir: "./tests",
+  testDir: "./regression-tests",
 
   /* Maximum time one test can run for. */
   timeout: 60 * 1000,
@@ -41,10 +41,15 @@ const config: PlaywrightTestConfig = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     [process.env.CI ? "github" : "list"],
-    ["./markdown-reporter.ts", { outputFile: "a11y-test-results.md" }],
-    ["json", { outputFile: "a11y-test-results.json" }],
+    ["./markdown-reporter.ts", { outputFile: "jupyterlab-a11y-regression-test-results.md" }],
+    ["json", { outputFile: "jupyterlab-a11y-regression-test-results.json" }],
     ["html", { open: process.env.CI ? "never" : "on-failure" }],
   ],
+
+  testInfoPagesBaseURL: process.env.CI ?
+    `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/blob/${process.env.GITHUB_SHA}/testing/jupyterlab/test-info-pages` :
+    "https://github.com/Quansight-Labs/jupyter-a11y-testing/blob/main/testing/jupyterlab/test-info-pages",
+
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
