@@ -53,8 +53,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-        with:
-          path: jupyter-a11y-testing
 
       - name: Run testing action
         uses: ./.github/actions/jlab-a11y-test

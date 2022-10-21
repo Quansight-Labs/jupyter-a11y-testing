@@ -37,7 +37,7 @@ runs:
         miniforge-variant: Mambaforge
         miniforge-version: latest
         use-mamba: true
-        environment-file: ./jupyter-a11y-testing/testing/jupyterlab/environment.yml
+        environment-file: ./testing/jupyterlab/environment.yml
         activate-environment: a11y-tests
         use-only-tar-bz2: true
 
@@ -73,19 +73,19 @@ runs:
         conda run --prefix $CONDA_PREFIX npm install
         conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
       shell: bash -l {0}
-      working-directory: jupyter-a11y-testing/testing/jupyterlab
+      working-directory: testing/jupyterlab
 
     - name: Run tests  ✅
       continue-on-error: true
       run: |
         conda run --prefix $CONDA_PREFIX npm test
       shell: bash -l {0}
-      working-directory: jupyter-a11y-testing/testing/jupyterlab
+      working-directory: testing/jupyterlab
 
     - name: Write GitHub Summary
       run: cat a11y-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
-      working-directory: jupyter-a11y-testing/testing/jupyterlab
+      working-directory: testing/jupyterlab
 
     - name: Get run refs 🏷
       id: getrefs
@@ -100,10 +100,10 @@ runs:
       # using default retention policy = 90 days
       with:
         name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./jupyter-a11y-testing/testing/jupyterlab/playwright-report/
+        path: ./testing/jupyterlab/playwright-report/
 
     - name: Upload JSON test results 📑
       uses: actions/upload-artifact@v3
       with:
         name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./jupyter-a11y-testing/testing/jupyterlab/a11y-test-results.json
+        path: ./testing/jupyterlab/a11y-test-results.json
