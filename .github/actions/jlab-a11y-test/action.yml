@@ -1,5 +1,8 @@
-name: Run accessibility tests on JupyterLab
-description: You got fixes, I got tests
+name: Run accessibility regression tests on JupyterLab
+description: |
+  Builds JupyterLab from source, then runs accessibility regression tests
+  against it using Playwright. Outputs the results to a markdown file which is
+  then copied to the GitHub workflow run summary.
 inputs:
   repository:
     description: JupyterLab repository, for example gabalafou/jupyterlab
@@ -83,7 +86,7 @@ runs:
       working-directory: testing/jupyterlab
 
     - name: Write GitHub Summary
-      run: cat a11y-test-results.md >> $GITHUB_STEP_SUMMARY
+      run: cat jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
@@ -106,4 +109,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/a11y-test-results.json
+        path: ./testing/jupyterlab/jupyterlab-a11y-regression-test-results.json
