@@ -90,7 +90,7 @@ runs:
       working-directory: testing/jupyterlab
 
     - name: Write GitHub Summary
-      run: cat jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
+      run: cat test-results/jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
@@ -113,4 +113,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/jupyterlab-a11y-regression-test-results.json
+        path: ./testing/jupyterlab/test-results/jupyterlab-a11y-regression-test-results.json
