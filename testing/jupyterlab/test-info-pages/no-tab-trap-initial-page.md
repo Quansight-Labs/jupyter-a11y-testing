@@ -5,7 +5,7 @@
 ## Description
 
 When a user loads the app for the first time, they should be able to use the tab
-key to navigate without getting trapped.
+key to navigate the page they land on without getting trapped.
 
 ## Applicability
 
@@ -24,10 +24,10 @@ If this test fails, it means the app fails to conform to 2.1.2.
 
 If this test passes, however, it does not mean that the app conforms to 2.1.2.
 It only means that the app does not violate 2.1.2 for this specific test. This
-test can be combined with others to increase confidence that the app as a whole
+test can be combined with tab trap tests for other pages or page states to increase confidence that the app as a whole
 conforms to 2.1.2.
 
-## How to Verify the Test Manually
+## How to Perform the Test Manually
 
 1. Open JupyterLab in a fresh environment. Another way to say this is that you
   should have the following parts visible: top menu bar, left side panel with

@@ -3,6 +3,7 @@ description: |
   Builds JupyterLab from source, then runs accessibility regression tests
   against it using Playwright. Outputs the results to a markdown file which is
   then copied to the GitHub workflow run summary.
+# see https://github.com/actions/checkout more details on the inputs accepted
 inputs:
   repository:
     description: JupyterLab repository, for example gabalafou/jupyterlab
@@ -13,7 +14,6 @@ runs:
   steps:
     - name: List environment variables
       run: env
-      shell: bash -l {0}
 
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       shell: bash
@@ -29,7 +29,7 @@ runs:
       shell: bash
 
     - name: Cache conda 🧠
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       env:
         # Increase this value to reset cache if environment.yml has not changed
         CACHE_NUMBER: 0

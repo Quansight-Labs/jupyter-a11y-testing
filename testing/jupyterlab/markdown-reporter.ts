@@ -1,4 +1,9 @@
-// my-awesome-reporter.ts
+// markdown-reporter.ts
+// 
+// Output Playwright test results in Markdown format.
+// This code is basically a copy-paste job with modifications
+// from Playwright's built-in JSON reporter, available on GitHub at
+// https://github.com/microsoft/playwright/blob/main/packages/playwright-test/src/reporters/json.ts
 import fs from "fs";
 import path from "path";
 import type {
