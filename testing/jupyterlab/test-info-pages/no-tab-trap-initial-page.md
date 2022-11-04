@@ -20,12 +20,15 @@ This test is related to:
 - [WCAG Success Criterion 2.1.2 No Keyboard
   Trap](https://www.w3.org/TR/WCAG22/#no-keyboard-trap)
 
-If this test fails, it means the app fails to conform to 2.1.2.
+If this test passes, it means there are no tab traps on the default initial page
+that loads when you start JupyterLab, assuming there are no bugs in the test. If
+you're not sure what a tab key trap is, see WCAG 2.1.2.
 
-If this test passes, however, it does not mean that the app conforms to 2.1.2.
-It only means that the app does not violate 2.1.2 for this specific test. This
-test can be combined with tab trap tests for other pages or page states to increase confidence that the app as a whole
-conforms to 2.1.2.
+If this test passes, however, it does **not** mean that the app as a whole conforms
+to WCAG 2.1.2, only that the initial app page does. This test can be combined
+with keyboard trap tests for other pages or page states to increase confidence
+that the app as a whole conforms to 2.1.2. However, if this test fails, then the
+app as a whole fails to conform to 2.1.2.
 
 ## How to Perform the Test Manually
 
