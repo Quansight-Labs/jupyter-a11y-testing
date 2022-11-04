@@ -108,9 +108,9 @@ class MyReporter implements Reporter {
   }
 
   getTestInfoURL(test: TestCase): string {
-    const linkAnnotation = test.annotations.find(({ type }) => type === "link");
+    const linkAnnotation = test.annotations.find(({ type }) => type === "Info page file name");
     return linkAnnotation
-      ? this._testInfoPagesBaseURL + linkAnnotation.description
+      ? this._testInfoPagesBaseURL + '/' + linkAnnotation.description
       : "";
   }
 }
