@@ -91,7 +91,7 @@ runs:
     - name: Run tests  ✅
       continue-on-error: true
       run: |
-        if [[ "${{ inputs.test_project" ]]
+        if [[ "${{ inputs.test_project }}" ]]
         then
           conda run --prefix $CONDA_PREFIX npm test -- --project="${{ inputs.test_project }}"
         else
