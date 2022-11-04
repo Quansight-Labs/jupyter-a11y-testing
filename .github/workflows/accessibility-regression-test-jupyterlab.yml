@@ -1,4 +1,4 @@
-name: Run accessibility tests on JupyterLab
+name: Run accessibility regression tests on JupyterLab
 
 on:
   push:
@@ -48,14 +48,15 @@ jobs:
       - run: echo "github.server_url = ${{ github.server_url }}"
 
 
-  jlab-a11y:
+  accessibility-regression-test-jupyterlab:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
 
       - name: Run testing action
-        uses: ./.github/actions/jlab-a11y-test
+        uses: ./.github/actions/accessibility-test-jupyterlab
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
+          test_project: "regression"

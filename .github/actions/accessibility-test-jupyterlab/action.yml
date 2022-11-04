@@ -9,6 +9,11 @@ inputs:
     description: JupyterLab repository, for example gabalafou/jupyterlab
   ref:
     description: ref, branch, or SHA
+  test_project:
+    # https://playwright.dev/docs/test-advanced#projects
+    description: |
+      The Playwright test project to run (for example, "regression" to run only
+      the accessibility regression tests)
 runs:
   using: composite
   steps:
@@ -86,7 +91,12 @@ runs:
     - name: Run tests  ✅
       continue-on-error: true
       run: |
-        conda run --prefix $CONDA_PREFIX npm test
+        if [[ "${{ inputs.test_project" ]]
+        then
+          conda run --prefix $CONDA_PREFIX npm test -- --project="${{ inputs.test_project }}"
+        else
+          conda run --prefix $CONDA_PREFIX npm test
+        fi
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
