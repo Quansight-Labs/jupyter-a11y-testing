@@ -1,8 +1,8 @@
-name: Run accessibility regression tests on JupyterLab
+name: Run accessibility tests on JupyterLab
 description: |
-  Builds JupyterLab from source, then runs accessibility regression tests
-  against it using Playwright. Outputs the results to a markdown file which is
-  then copied to the GitHub workflow run summary.
+  Builds JupyterLab from source, then runs accessibility tests against it using
+  Playwright. Outputs the results to a markdown file which is then copied to the
+  GitHub workflow run summary.
 # see https://github.com/actions/checkout more details on the inputs accepted
 inputs:
   repository:
