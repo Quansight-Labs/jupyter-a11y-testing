@@ -1,5 +1,5 @@
 // markdown-reporter.ts
-// 
+//
 // Output Playwright test results in Markdown format.
 // This code is basically a copy-paste job with modifications
 // from Playwright's built-in JSON reporter, available on GitHub at
@@ -14,7 +14,7 @@ import type {
   Reporter,
 } from "@playwright/test/types/testReporter";
 
-class MyReporter implements Reporter {
+class MarkdownReporter implements Reporter {
   config!: FullConfig;
   rootSuite!: Suite;
   private _errors: TestError[] = [];

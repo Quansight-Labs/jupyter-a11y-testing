@@ -51,6 +51,8 @@ jobs:
   accessibility-regression-test-jupyterlab:
     runs-on: ubuntu-latest
     steps:
+      # We have to check out the repo in order to locally reference the action,
+      # i.e., .github/actions/...
       - name: Check out repository
         uses: actions/checkout@v3
 
