@@ -27,7 +27,7 @@ runs:
         # Would be nice if ${{ github.action_repository }} worked, because then
         # this repo could be forked without needing to change this line. See:
         # https://github.com/Quansight-Labs/jupyter-a11y-testing/issues/28
-        repo: Quansight-Labs/jupyter-a11y-testing
+        repository: Quansight-Labs/jupyter-a11y-testing
 
     - name: Cache conda 🧠
       uses: actions/cache@v3
