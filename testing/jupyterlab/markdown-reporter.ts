@@ -19,13 +19,13 @@ export default class MarkdownReporter implements Reporter {
   rootSuite!: Suite;
   private _errors: TestError[] = [];
   private _outputFile: string | undefined;
-  private _testInfoPagesBaseURL: string;
+  private _manualTestingScriptsBaseURL: string;
 
   constructor(
-    options: { outputFile?: string; testInfoPagesBaseURL: string }
+    options: { outputFile?: string; manualTestingScriptsBaseURL: string }
   ) {
     this._outputFile = options.outputFile;
-    this._testInfoPagesBaseURL = options.testInfoPagesBaseURL;
+    this._manualTestingScriptsBaseURL = options.manualTestingScriptsBaseURL;
   }
 
   printsToStdio() {
@@ -108,19 +108,11 @@ export default class MarkdownReporter implements Reporter {
   }
 
   getTestInfoURL(test: TestCase): string {
-    const linkAnnotation = test.annotations.find(({ type }) => type === "Info page file name");
+    const linkAnnotation = test.annotations.find(({ type }) => type === "Manual testing script");
     return linkAnnotation
-      ? this._testInfoPagesBaseURL + '/' + linkAnnotation.description
+      ? this._manualTestingScriptsBaseURL + '/' + linkAnnotation.description
       : "";
   }
-}
-
-const ansiRegex = new RegExp(
-  "([\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~])))",
-  "g"
-);
-export function stripAnsiEscapes(str: string): string {
-  return str.replace(ansiRegex, "");
 }
 
 function outputReport(reportString: string, outputFile: string | undefined) {
@@ -130,4 +122,20 @@ function outputReport(reportString: string, outputFile: string | undefined) {
   } else {
     console.log(reportString);
   }
+}
+
+/**
+ * stripAnsiEscapes -
+ *
+ * Playwright puts special character sequences in error messages in order to
+ * give them color in the terminal output. The following regex and function
+ * strip those characters. The code was copy-pasted from:
+ * https://github.com/microsoft/playwright/blob/62e4e80599efc00a799a389ee4be76c74c9f172b/packages/playwright-test/src/reporters/base.ts#L433-L436
+ */
+const ansiRegex = new RegExp(
+  "([\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~])))",
+  "g"
+);
+export function stripAnsiEscapes(str: string): string {
+  return str.replace(ansiRegex, "");
 }

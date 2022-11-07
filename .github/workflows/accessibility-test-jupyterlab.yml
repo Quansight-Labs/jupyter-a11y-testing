@@ -25,6 +25,11 @@ on:
       ref:
         description: The branch, tag, or SHA to checkout.
         required: false
+      test_project:
+        description: |
+          Leave blank to run the full test suite, or enter a Playwright project
+          name (such as `regression`) to run a part of the test suite.
+        required: false
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -61,4 +66,4 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          test_project: "regression"
+          test_project: ${{ inputs.test_project }}

@@ -13,7 +13,7 @@ expect.extend(matchers);
  * Modified from https://github.com/MarcusFelling/demo.playwright/blob/main/accessibility/playwright.config.ts
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig & { testInfoPagesBaseURL: string } = {
+const config: PlaywrightTestConfig & { manualTestingScriptsBaseURL: string } = {
   ...galataConfig,
 
   testDir: "./tests",
@@ -45,17 +45,17 @@ const config: PlaywrightTestConfig & { testInfoPagesBaseURL: string } = {
       "./markdown-reporter.ts",
       {
         outputFile: "test-results/jupyterlab-a11y-regression-test-results.md",
-        // The URL to the director of test info pages
-        testInfoPagesBaseURL: process.env.CI
+        // The URL to the directory of manual testing scripts
+        manualTestingScriptsBaseURL: process.env.CI
           ?
-          // If we always use the main branch URL as the base URL for the test
-          // info pages, then when we use the markdown reporter during a
-          // workflow run against a PR, all the links to any test info pages
-          // added or edited by the PR would be dead links (404). But if we
-          // construct the URL using the GitHub environment variables, we can
+          // If we always use the main branch URL as the base URL for the manual
+          // testing scripts, then when we use the markdown reporter during a
+          // workflow run against a PR, all the links to any manual testing
+          // scripts added or edited by the PR would be dead links (404). But if
+          // we construct the URL using the GitHub environment variables, we can
           // output links that work.
-          `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/blob/${process.env.GITHUB_SHA}/testing/jupyterlab/test-info-pages`
-          : "https://github.com/Quansight-Labs/jupyter-a11y-testing/blob/main/testing/jupyterlab/test-info-pages",
+          `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/blob/${process.env.GITHUB_SHA}/testing/jupyterlab/manual-testing-scripts`
+          : "https://github.com/Quansight-Labs/jupyter-a11y-testing/blob/main/testing/jupyterlab/manual-testing-scripts",
       },
     ],
     ["json", { outputFile: "test-results/jupyterlab-a11y-regression-test-results.json" }],

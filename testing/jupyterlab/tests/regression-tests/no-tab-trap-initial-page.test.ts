@@ -15,7 +15,7 @@ import { test } from "@jupyterlab/galata";
 test.describe("when pressing tab key repeatedly", () => {
   test("should cycle through elements back to the start", async ({ page }) => {
     test.info().annotations.push({
-      type: "Info page file name",
+      type: "Manual testing script",
       description: "no-tab-trap-initial-page.md"
     });
     await page.keyboard.press("Tab");
