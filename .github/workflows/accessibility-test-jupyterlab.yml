@@ -1,4 +1,4 @@
-name: Run accessibility regression tests on JupyterLab
+name: Run accessibility tests on JupyterLab
 
 on:
   push:
@@ -17,6 +17,12 @@ on:
         description: The branch, tag, or SHA to checkout.
         type: string
         required: true
+      test_project:
+        description: |
+          Leave blank to run the full test suite, or enter a Playwright project
+          name (such as `regression`) to run a part of the test suite.
+        type: string
+        required: false
   workflow_dispatch:
     inputs:
       repository:
