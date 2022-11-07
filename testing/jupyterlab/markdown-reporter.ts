@@ -14,7 +14,7 @@ import type {
   Reporter,
 } from "@playwright/test/types/testReporter";
 
-class MarkdownReporter implements Reporter {
+export default class MarkdownReporter implements Reporter {
   config!: FullConfig;
   rootSuite!: Suite;
   private _errors: TestError[] = [];
@@ -131,5 +131,3 @@ function outputReport(reportString: string, outputFile: string | undefined) {
     console.log(reportString);
   }
 }
-
-export default MyReporter;
