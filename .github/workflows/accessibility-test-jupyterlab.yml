@@ -1,0 +1,75 @@
+name: Run accessibility tests on JupyterLab
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      repository:
+        description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
+        type: string
+        required: true
+      ref:
+        description: The branch, tag, or SHA to checkout.
+        type: string
+        required: true
+      test_project:
+        description: |
+          Leave blank to run the full test suite, or enter a Playwright project
+          name (such as `regression`) to run a part of the test suite.
+        type: string
+        required: false
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
+        required: false
+      ref:
+        description: The branch, tag, or SHA to checkout.
+        required: false
+      test_project:
+        description: |
+          Leave blank to run the full test suite, or enter a Playwright project
+          name (such as `regression`) to run a part of the test suite.
+        required: false
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  print-info:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "🗂 Workspace is ${{ github.workspace }}"
+      - run: echo "inputs.repository = ${{ inputs.repository }}"
+      - run: echo "inputs.ref = ${{ inputs.ref }}"
+      - run: echo "github.workspace = ${{ github.workspace }}"
+      - run: echo "github.sha = ${{ github.sha }}"
+      - run: echo "github.repository = ${{ github.repository }}"
+      - run: echo "github.server_url = ${{ github.server_url }}"
+
+
+  accessibility-test-jupyterlab:
+    runs-on: ubuntu-latest
+    steps:
+      # We have to check out the repo in order to locally reference the action,
+      # i.e., .github/actions/...
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Run testing action
+        uses: ./.github/actions/accessibility-test-jupyterlab
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+          test_project: ${{ inputs.test_project }}
