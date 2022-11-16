@@ -11,6 +11,7 @@
 
 To run the tests in this directory you need the following prerequisites:
 
+1. Python >= 3.7
 1. [mamba](https://github.com/mamba-org/mamba) (or [conda](https://docs.conda.io/projects/conda/en/latest/commands/install.html))
 1. Your system must also meet the [Playwright system requirements](https://playwright.dev/docs/library#system-requirements)
 
@@ -18,8 +19,7 @@ To run the tests in this directory you need the following prerequisites:
 
 You can run tests locally on your machine, or remotely in the cloud.
 
-At the time of this writing, we have configured the tests to only run with
-Chromium, but you can
+At the time of this writing, we have configured the tests to only run with Chromium, but you can
 [extend these tests to cover other browsers](https://github.com/MarcusFelling/demo.playwright/blob/main/accessibility/playwright.config.ts)
 by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.ts) file.
 
@@ -32,10 +32,9 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 
 3. In the dropdown form, enter:
 
-   1.  the JupyterLab repo or fork that you want to test
-   2.  the SHA of the commit in the JupyterLab repo that you want to test
-   3.  (optional) the subset of tests that you want to run (e.g., enter
-       `regression` to run only the accessibility regression tests).
+   1. the JupyterLab repo or fork that you want to test
+   2. the SHA of the commit in the JupyterLab repo that you want to test
+   3. (optional) the subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests).
 
 ### Running the tests locally 💻
 
@@ -69,7 +68,7 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
    When you've finished, you should be able to run `jupyter lab --version` from
    the command line.
 
-5. Install the Node.js dependencies (package.json):
+5. Install the Node.js dependencies (`package.json`):
 
    ```bash
    npm install
@@ -83,11 +82,11 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
 
    > **Note**
    > If your system doesn't already have some dependencies that the browsers
-   expect, you may need to install the system dependencies first. This step
-   probably isn't necessary if you're working on a machine that already has
-   Chrome or other browsers on it: `npx playwright install-deps`. Visit
-   [Playwright docs - Command line tools](https://playwright.dev/docs/cli) for
-   more info.
+   > expect, you may need to install the system dependencies first. This step
+   > probably isn't necessary if you're working on a machine that already has
+   > Chrome or other browsers on it: `npx playwright install-deps`. Visit
+   > [Playwright docs - Command line tools](https://playwright.dev/docs/cli) for
+   > more info.
 
 7. Run the tests:
 
@@ -95,8 +94,7 @@ by modifying the [`playwright.config.ts`](testing/jupyterlab/playwright.config.t
    npm test
    ```
 
-   > **Note** If you only want to run the regression tests: `npm test --
-   > --project=regression`
+   > **Note** If you only want to run the regression tests: `npm test -- --project=regression`
 
 Your console should output a local URL that you can open in your browser to see
 the test results: typically <http://127.0.0.1:9323>

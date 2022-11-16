@@ -10,7 +10,12 @@ Information | Links
  Project | [![OSI License badge - BSD-3](https://img.shields.io/badge/License-BSD%203--Clause%20📃-gray.svg?colorA=2D2A56&colorB=5936D9&style=flat.svg)](https://opensource.org/licenses/BSD-3-Clause) [![Project backlog badge](https://img.shields.io/badge/Backlog-GitHub%20Board%20🗃️-gray.svg?colorA=2D2A56&colorB=A7B2F2&style=flat.svg)](https://github.com/orgs/Quansight-Labs/projects/8/views/1)
 <!-- prettier-ignore-end -->
 
-Welcome to the Jupyter Accessibility testing tools' repository. 👋🏽
+- [Jupyter accessibility testing tools](#jupyter-accessibility-testing-tools)
+  - [Plans for the future](#plans-for-the-future)
+  - [Pre-commit hooks 🧹](#pre-commit-hooks-)
+  - [License 📖](#license-)
+
+Welcome to the Jupyter Accessibility testing tools repository. 👋🏽
 This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
 
 To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
@@ -27,9 +32,9 @@ Work in this repository is modeled after the [JupyterLab Benchmarks](https://git
 As described in the [Jupyter Accessibility Roadmap](https://github.com/jupyter/accessibility/blob/main/docs/funding/czi-grant-roadmap.md),
 the plan is to start by adding tests for JupyterLab.
 We are starting with the web app UI, then we will add tests for the docs.
-(The rationale to that sequence is to start with the harder problem first.)
+(The rationale for that sequence is to start with the harder problem first.)
 
-After JupyterLab, though it is not within scope of the grant driving the roadmap,
+After JupyterLab, though it is not within the scope of the grant driving the roadmap,
 we hope to extend this testing to other parts of the Jupyter ecosystem beyond JupyterLab.
 
 ## Pre-commit hooks 🧹
