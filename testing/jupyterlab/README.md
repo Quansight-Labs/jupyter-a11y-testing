@@ -50,16 +50,16 @@ Once the accessibility tests have been completed you can use the following to in
 
 Follow these steps to download and read the reports locally:
 
-1.  Scroll to the bottom of the GitHub actions UI and right-click on the test results' artifact.
-2.  Unzip the downloaded file. Ideally in a folder where you have `npm` and `playwright` installed. For example, in the `testing/jupyterlab` directory.
-3.  Using the command line, change to the directory where you unzipped the test results.
-4.  Use the following command to open the `HTML` report in your browser:
+1. Scroll to the bottom of the GitHub actions UI and right-click on the test results' artifact.
+2. Unzip the downloaded file. Ideally in a folder where you have `npm` and `playwright` installed. For example, in the `testing/jupyterlab` directory.
+3. Using the command line, change to the directory where you unzipped the test results.
+4. Use the following command to open the `HTML` report in your browser:
 
-    ```bash
-    npx playwright show-report <name-of-my-extracted-playwright-report>
-    ```
+   ```bash
+   npx playwright show-report <name-of-my-extracted-playwright-report>
+   ```
 
-    This will serve up the report in your web browser.
+   This will serve up the report in your web browser.
 
 ### Running the tests locally 💻
 
