@@ -4,6 +4,7 @@
   - [Requirements 📦](#requirements-)
   - [Running the accessibility tests ✅](#running-the-accessibility-tests-)
     - [Running the tests on GitHub ☁️](#running-the-tests-on-github-️)
+      - [Inspecting the test results](#inspecting-the-test-results)
     - [Running the tests locally 💻](#running-the-tests-locally-)
   - [Troubleshooting 🔍](#troubleshooting-)
 
@@ -11,7 +12,7 @@
 
 To run the tests in this directory you need the following prerequisites:
 
-1. Python >= 3.7
+1. Python >= 3.9
 1. [mamba](https://github.com/mamba-org/mamba) (or [conda](https://docs.conda.io/projects/conda/en/latest/commands/install.html))
 1. Your system must also meet the [Playwright system requirements](https://playwright.dev/docs/library#system-requirements)
 
@@ -29,6 +30,8 @@ You can run tests locally on your machine, or remotely in the cloud.
 1. Go to the [JupyterLab accessibility testing
    workflow](https://github.com/Quansight-Labs/jupyter-a11y-testing/actions/workflows/accessibility-test-jupyterlab.yml).
 
+   > **Note:** this link will redirect you to the GitHub Actions UI.
+
 2. Click the "Run Workflow" button. This should open a dropdown form.
 
 3. In the dropdown form, enter:
@@ -36,6 +39,27 @@ You can run tests locally on your machine, or remotely in the cloud.
    1. The JupyterLab repo or fork that you want to test
    2. The SHA of the commit in the JupyterLab repo that you want to test
    3. (optional) The subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests).
+
+#### Inspecting the test results
+
+Once the accessibility tests have been completed you can use the following to inspect the test results:
+
+- [Annotations](https://playwright.dev/docs/test-reporters#github-actions-annotations): this will appear directly in the GitHub actions UI.
+- Markdown summary: scroll to the bottom of the GitHub actions UI, where you can find this summary. From here you can use the links to read the manual test scripts for the corresponding tests.
+- Zipped `json` and `HTML` reports: these can be downloaded from the GitHub actions UI. The `json` report can be used to generate a custom report using the [Playwright Reporter](https://playwright.dev/docs/test-reporters#custom-reporter). The `HTML` report can be opened in a browser to view the test results.
+
+Follow these steps to download and read the reports locally:
+
+1.  Scroll to the bottom of the GitHub actions UI and right-click on the test results' artifact.
+2.  Unzip the downloaded file. Ideally in a folder where you have `npm` and `playwright` installed. For example, in the `testing/jupyterlab` directory.
+3.  Using the command line, change to the directory where you unzipped the test results.
+4.  Use the following command to open the `HTML` report in your browser:
+
+    ```bash
+    npx playwright show-report <name-of-my-extracted-playwright-report>
+    ```
+
+    This will serve up the report in your web browser.
 
 ### Running the tests locally 💻
 

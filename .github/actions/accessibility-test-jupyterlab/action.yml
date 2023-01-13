@@ -115,15 +115,12 @@ runs:
         echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
 
-    - name: Upload Playwright report 📤
+    - name: Upload Playwright report and test results 📤
       uses: actions/upload-artifact@v3
       # using default retention policy = 90 days
       with:
-        name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/playwright-report/
-
-    - name: Upload JSON test results 📑
-      uses: actions/upload-artifact@v3
-      with:
-        name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/test-results/jupyterlab-a11y-regression-test-results.json
+        name: jupyterlab-a11y-tests-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: |
+          ./testing/jupyterlab/playwright-report/
+          ./testing/jupyterlab/test-results/jupyterlab-a11y-regression-test-results.json
+          ./testing/jupyterlab/README.md
