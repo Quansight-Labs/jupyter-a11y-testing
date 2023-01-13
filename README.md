@@ -15,7 +15,7 @@ Information | Links
   - [Pre-commit hooks 🧹](#pre-commit-hooks-)
   - [License 📖](#license-)
 
-Welcome to the Jupyter Accessibility testing tools repository. 👋🏽
+Welcome to the Jupyter Accessibility testing tool's repository. 👋🏽
 This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
 
 To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
@@ -69,7 +69,8 @@ Once installed, the pre-commit hooks will run automatically when you make a comm
 
 ## License 📖
 
-Jupyter uses a shared copyright model that enables all contributors to maintain the copyright on their contributions. All code is licensed under the terms of the revised [BSD license](https://opensource.org/licenses/BSD-3-Clause).
+Jupyter uses a shared copyright model that enables all contributors to maintain the copyright on their contributions.
+All code is licensed under the terms of the revised [BSD license](https://opensource.org/licenses/BSD-3-Clause).
 
 <!-- links -->
 
