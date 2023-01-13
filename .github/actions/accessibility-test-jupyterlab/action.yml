@@ -37,7 +37,7 @@ runs:
       with:
         path: ~/conda_pkgs_dir
         key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-          hashFiles('environment.yml') }}
+          hashFiles('./testing/jupyterlab/environment.yml') }}
 
     - name: Install miniconda 🐍
       uses: conda-incubator/setup-miniconda@v2
@@ -47,6 +47,7 @@ runs:
         use-mamba: true
         environment-file: ./testing/jupyterlab/environment.yml
         activate-environment: a11y-tests
+        auto-activate-base: false
         use-only-tar-bz2: true
 
     - name: Checks on environment 🔍
@@ -76,10 +77,17 @@ runs:
         jupyter lab --version
       shell: bash -l {0}
 
+    - name: Setup node 🔺
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: "npm"
+
     - name: Install node dependencies 🧶
       run: |
-        conda run --prefix $CONDA_PREFIX npm install
-        conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
+        which npm
+        npm install
+        npx playwright install --with-deps chromium
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
@@ -88,14 +96,14 @@ runs:
       run: |
         if [[ "${{ inputs.test_project }}" ]]
         then
-          conda run --prefix $CONDA_PREFIX npm test -- --project="${{ inputs.test_project }}"
+          npm test -- --project="${{ inputs.test_project }}"
         else
-          conda run --prefix $CONDA_PREFIX npm test
+          npm test
         fi
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
-    - name: Write GitHub Summary
+    - name: Write GitHub Summary 📝
       run: cat test-results/jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
       working-directory: testing/jupyterlab
