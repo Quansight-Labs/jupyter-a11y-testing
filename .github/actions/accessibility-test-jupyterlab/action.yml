@@ -21,7 +21,7 @@ runs:
       run: env
       shell: bash
 
-    - name: Checkout testing repo
+    - name: Checkout testing repo 🛎
       uses: actions/checkout@v3
       with:
         # Would be nice if ${{ github.action_repository }} worked, because then
@@ -64,7 +64,7 @@ runs:
         ref: ${{ inputs.ref || 'master' }}
         path: jupyterlab
 
-    - name: Build JupyterLab
+    - name: Build JupyterLab 🏗
       run: |
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
         conda run --prefix $CONDA_PREFIX jlpm run build
@@ -81,16 +81,18 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: 16
+      run: which npm
 
     - name: Install node dependencies 🧶
       run: |
-        which npm
         npm install
         npx playwright install --with-deps chromium
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
     - name: Run tests  ✅
+      # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
+      # get the output summary
       continue-on-error: true
       run: |
         if [[ "${{ inputs.test_project }}" ]]
