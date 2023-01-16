@@ -29,6 +29,19 @@ runs:
         # https://github.com/Quansight-Labs/jupyter-a11y-testing/issues/28
         repository: Quansight-Labs/jupyter-a11y-testing
 
+    - name: Setup node 🔺
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: Install node dependencies 🧶
+      run: |
+        which npm
+        npm install
+        npx playwright install --with-deps chromium
+      shell: bash -l {0}
+      working-directory: testing/jupyterlab
+
     - name: Cache conda 🧠
       uses: actions/cache@v3
       env:
@@ -76,19 +89,6 @@ runs:
         which jupyter
         jupyter lab --version
       shell: bash -l {0}
-
-    - name: Setup node 🔺
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-      run: which npm
-
-    - name: Install node dependencies 🧶
-      run: |
-        npm install
-        npx playwright install --with-deps chromium
-      shell: bash -l {0}
-      working-directory: testing/jupyterlab
 
     - name: Run tests  ✅
       # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
