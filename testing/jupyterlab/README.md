@@ -44,14 +44,15 @@ You can run tests locally on your machine, or remotely in the cloud.
 
 Once the accessibility tests have been completed you can use the following to inspect the test results:
 
-- [Annotations](https://playwright.dev/docs/test-reporters#github-actions-annotations): this will appear directly in the GitHub actions UI.
-- Markdown summary: scroll to the bottom of the GitHub actions UI, where you can find this summary. From here you can use the links to read the manual test scripts for the corresponding tests.
-- Zipped `json` and `HTML` reports: these can be downloaded from the GitHub actions UI. The `json` report can be used to generate a custom report using the [Playwright Reporter](https://playwright.dev/docs/test-reporters#custom-reporter). The `HTML` report can be opened in a browser to view the test results.
+- [**Annotations**](https://playwright.dev/docs/test-reporters#github-actions-annotations): this will appear directly in the GitHub actions UI.
+- **Markdown summary**: scroll to the bottom of the GitHub actions UI, where you can find this summary. From here you can use the links to read the manual test scripts for the corresponding tests.
+- **Zipped `json` and `HTML` reports**: these can be downloaded from the GitHub actions UI. The `json` report can be used to generate a custom report using the [Playwright Reporter](https://playwright.dev/docs/test-reporters#custom-reporter). The `HTML` report can be opened in a browser to view the test results.
 
 Follow these steps to download and read the reports locally:
 
 1. Scroll to the bottom of the GitHub actions UI and right-click on the test results' artifact.
 2. Unzip the downloaded file. Ideally in a folder where you have `npm` and `playwright` installed. For example, in the `testing/jupyterlab` directory.
+   (Tip: see the instructions in [Running the tests locally](#running-the-tests-locally-) to install the corresponding dependencies)
 3. Using the command line, change to the directory where you unzipped the test results.
 4. Use the following command to open the `HTML` report in your browser:
 
