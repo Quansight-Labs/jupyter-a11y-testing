@@ -36,9 +36,10 @@ runs:
 
     - name: Install node dependencies 🧶
       run: |
-        which npm
+        echo "::group::Installing node dependencies 🧶"
         npm install
         npx playwright install --with-deps chromium
+        echo "::endgroup::"
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: testing/jupyterlab
@@ -66,9 +67,11 @@ runs:
 
     - name: Checks on environment 🔍
       run: |
+        echo "::group::Check conda info 🔍"
         conda info
         conda env list
         echo $CONDA_PREFIX
+        echo "::endgroup::"
       shell: bash -l {0}
 
     - name: Checkout JupyterLab
@@ -80,8 +83,10 @@ runs:
 
     - name: Build JupyterLab 🏗
       run: |
+        echo "::group::Install and build JupyterLab 🏗"
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
         conda run --prefix $CONDA_PREFIX jlpm run build
+        echo "::endgroup::"
       shell: bash -l {0}
       working-directory: jupyterlab
 
