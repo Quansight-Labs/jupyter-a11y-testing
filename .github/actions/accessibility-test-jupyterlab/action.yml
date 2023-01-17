@@ -39,6 +39,7 @@ runs:
         which npm
         npm install
         npx playwright install --with-deps chromium
+        echo "{npm_path}=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
@@ -97,9 +98,9 @@ runs:
       run: |
         if [[ "${{ inputs.test_project }}" ]]
         then
-          npm test -- --project="${{ inputs.test_project }}"
+          ${{ env.npm_path }} test -- --project="${{ inputs.test_project }}"
         else
-          npm test
+          ${{ env.npm_path }} test
         fi
       shell: bash -l {0}
       working-directory: testing/jupyterlab
