@@ -5,10 +5,6 @@ description: |
   GitHub workflow run summary.
 # see https://github.com/actions/checkout more details on the inputs accepted
 inputs:
-  repository:
-    description: JupyterLab repository, for example gabalafou/jupyterlab
-  ref:
-    description: ref, branch, or SHA
   test_project:
     # https://playwright.dev/docs/test-advanced#projects
     description: |
@@ -21,7 +17,7 @@ runs:
       run: env
       shell: bash
 
-    - name: Checkout testing repo
+    - name: Checkout testing repo 🛎
       uses: actions/checkout@v3
       with:
         # Would be nice if ${{ github.action_repository }} worked, because then
@@ -56,32 +52,18 @@ runs:
         echo $CONDA_PREFIX
       shell: bash -l {0}
 
-    - name: Checkout JupyterLab
-      uses: actions/checkout@v3
-      with:
-        repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
-        ref: ${{ inputs.ref || 'master' }}
-        path: jupyterlab
-
-    - name: Build JupyterLab
-      run: |
-        conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
-        conda run --prefix $CONDA_PREFIX jlpm run build
-      shell: bash -l {0}
-      working-directory: jupyterlab
-
-    - name: Check JupyterLab installation
-      run: |
-        which jupyter
-        jupyter lab --version
-      shell: bash -l {0}
-
     - name: Install node dependencies 🧶
       run: |
         conda run --prefix $CONDA_PREFIX npm install
         conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
       shell: bash -l {0}
       working-directory: testing/jupyterlab
+
+    - name: Build JupyterLab from source 🏗
+      uses: ./.github/actions/build-lab
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.ref }}
 
     - name: Run tests  ✅
       continue-on-error: true
@@ -95,7 +77,7 @@ runs:
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
-    - name: Write GitHub Summary
+    - name: Write GitHub Summary 📝
       run: cat test-results/jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
       working-directory: testing/jupyterlab

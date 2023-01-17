@@ -1,0 +1,27 @@
+name: Setup and build JupyterLab
+description: |
+  Install and build concrete versions of JupyterLab from source
+  for a11y testing purposes
+inputs:
+  repository:
+    description: JupyterLab repository, for example gabalafou/jupyterlab
+  ref:
+    description: ref, branch, or SHA
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout JupyterLab 🛎
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
+        ref: ${{ inputs.ref || 'master' }}
+        path: jupyterlab
+    - name: Build JupyterLab 🏗
+      run: |
+        conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
+        conda run --prefix $CONDA_PREFIX jlpm run build
+        which jupyter
+        jupyter lab --version
+      shell: bash -l {0}
+      working-directory: jupyterlab
