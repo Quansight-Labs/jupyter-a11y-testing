@@ -17,6 +17,7 @@ runs:
         repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
         ref: ${{ inputs.ref || 'master' }}
         path: jupyterlab
+
     - name: Build JupyterLab 🏗
       run: |
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh

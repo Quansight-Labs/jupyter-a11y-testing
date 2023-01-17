@@ -17,13 +17,20 @@ runs:
       run: env
       shell: bash
 
-    - name: Checkout testing repo 🛎
-      uses: actions/checkout@v3
+    - name: Setup node 🔺
+      uses: actions/setup-node@v3
       with:
-        # Would be nice if ${{ github.action_repository }} worked, because then
-        # this repo could be forked without needing to change this line. See:
-        # https://github.com/Quansight-Labs/jupyter-a11y-testing/issues/28
-        repository: Quansight-Labs/jupyter-a11y-testing
+        node-version: 16
+
+    - name: Install node dependencies 🧶
+      run: |
+        echo "::group::Installing node dependencies 🧶"
+        npm install
+        npx playwright install --with-deps chromium
+        echo "::endgroup::"
+        echo "npm_path=$(which npm)" >> $GITHUB_ENV
+      shell: bash -l {0}
+      working-directory: testing/jupyterlab
 
     - name: Cache conda 🧠
       uses: actions/cache@v3
@@ -33,7 +40,7 @@ runs:
       with:
         path: ~/conda_pkgs_dir
         key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-          hashFiles('environment.yml') }}
+          hashFiles('./testing/jupyterlab/environment.yml') }}
 
     - name: Install miniconda 🐍
       uses: conda-incubator/setup-miniconda@v2
@@ -43,19 +50,24 @@ runs:
         use-mamba: true
         environment-file: ./testing/jupyterlab/environment.yml
         activate-environment: a11y-tests
+        auto-activate-base: false
         use-only-tar-bz2: true
 
     - name: Checks on environment 🔍
       run: |
+        echo "::group::Check conda info 🔍"
         conda info
         conda env list
         echo $CONDA_PREFIX
+        echo "::endgroup::"
       shell: bash -l {0}
 
     - name: Install node dependencies 🧶
       run: |
+        echo "::group::Install node dependencies 🧶"
         conda run --prefix $CONDA_PREFIX npm install
         conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
+        echo "::endgroup::"
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
@@ -66,13 +78,15 @@ runs:
         ref: ${{ inputs.ref }}
 
     - name: Run tests  ✅
+      # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
+      # get the output summary
       continue-on-error: true
       run: |
         if [[ "${{ inputs.test_project }}" ]]
         then
-          conda run --prefix $CONDA_PREFIX npm test -- --project="${{ inputs.test_project }}"
+          ${{ env.npm_path }} test -- --project="${{ inputs.test_project }}"
         else
-          conda run --prefix $CONDA_PREFIX npm test
+          ${{ env.npm_path }} test
         fi
       shell: bash -l {0}
       working-directory: testing/jupyterlab
@@ -90,15 +104,12 @@ runs:
         echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
 
-    - name: Upload Playwright report 📤
+    - name: Upload Playwright report and test results 📤
       uses: actions/upload-artifact@v3
       # using default retention policy = 90 days
       with:
-        name: playwright-report-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/playwright-report/
-
-    - name: Upload JSON test results 📑
-      uses: actions/upload-artifact@v3
-      with:
-        name: json-results-test-a11y-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
-        path: ./testing/jupyterlab/test-results/jupyterlab-a11y-regression-test-results.json
+        name: jupyterlab-a11y-tests-${{ steps.getrefs.outputs.branch }}-${{ steps.getrefs.outputs.sha8 }}
+        path: |
+          ./testing/jupyterlab/playwright-report/
+          ./testing/jupyterlab/test-results/jupyterlab-a11y-regression-test-results.json
+          ./testing/jupyterlab/README.md
