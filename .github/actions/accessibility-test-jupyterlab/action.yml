@@ -39,7 +39,7 @@ runs:
         which npm
         npm install
         npx playwright install --with-deps chromium
-        echo "{npm_path}=$(which npm)" >> $GITHUB_ENV
+        echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: testing/jupyterlab
 
