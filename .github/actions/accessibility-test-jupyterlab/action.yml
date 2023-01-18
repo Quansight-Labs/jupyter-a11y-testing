@@ -10,6 +10,14 @@ inputs:
     description: |
       The Playwright test project to run (for example, "regression" to run only
       the accessibility regression tests)
+  repository:
+    description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
+  ref:
+    description: The Jupyterlab repository's branch, tag, or SHA to checkout.
+  lumino_ref:
+    description: |
+      Lumino's ref (branch, tag or SHA) to checkout,
+      only to be used if you want to test Lumino changes against a JupyterLab build.
 runs:
   using: composite
   steps:

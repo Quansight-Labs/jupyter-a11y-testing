@@ -14,8 +14,8 @@ runs:
     - name: Checkout JupyterLab 🛎
       uses: actions/checkout@v3
       with:
-        repository: ${{ inputs.repository }}
-        ref: ${{ inputs.ref }}
+        repository: ${{ inputs.repository || 'jupyterlab/jupyterlab' }}
+        ref: ${{ inputs.ref || 'main' }}
         path: jupyterlab
 
     - name: Build JupyterLab 🏗
