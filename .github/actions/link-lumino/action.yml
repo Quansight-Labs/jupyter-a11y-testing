@@ -1,0 +1,38 @@
+name: Build Lumino from source and link to JupyterLab
+description: |
+  Build Lumino from source then link to JupyterLab.
+  Useful to test changes in Lumino against a given build of JupyterLab.
+
+inputs:
+  lumino_ref:
+    description: |
+      Only to be used if you need to link a specific Lumino's ref (branch, SHA),
+      otherwise leave blank (use whichever Lumino version is packaged with JupyterLab).
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout Lumino repo 🛎
+      uses: actions/checkout@v3
+      with:
+        repository: "jupyterlab/lumino"
+        ref: ${{ inputs.ref || 'main' }}
+        path: lumino
+
+    # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
+    - name: Build Lumino from source 🏗
+      run: |
+        yarn
+        yarn build:src
+        conda run --prefix $CONDA_PREFIX jlpm link
+      shell: bash -l {0}
+      working-directory: lumino
+
+    - name: Link JupyterLab and lumino 🔗
+      run: |
+        conda run --prefix $CONDA_PREFIX jlpm link "lumino"
+        conda run --prefix $CONDA_PREFIX jlpm run build
+      shell: bash -l {0}
+      working-directory: jupyterlab

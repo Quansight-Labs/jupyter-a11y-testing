@@ -6,7 +6,7 @@ inputs:
   repository:
     description: JupyterLab repository, for example gabalafou/jupyterlab
   ref:
-    description: ref, branch, or SHA
+    description: ref, branch, or SHA for the JupyterLab repository
 
 runs:
   using: composite

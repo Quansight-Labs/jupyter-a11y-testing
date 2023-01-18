@@ -77,6 +77,12 @@ runs:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
 
+    - name: Build and link Lumino 🔗
+      uses: ./.github/actions/link-lumino
+      if: ${{ inputs.lumino_ref }}
+      with:
+        ref: ${{ inputs.lumino_ref }}
+
     - name: Run tests  ✅
       # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
       # get the output summary
