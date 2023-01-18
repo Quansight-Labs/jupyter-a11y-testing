@@ -58,16 +58,15 @@ jobs:
       - run: echo "github.repository = ${{ github.repository }}"
       - run: echo "github.server_url = ${{ github.server_url }}"
 
-
   accessibility-test-jupyterlab:
     runs-on: ubuntu-latest
     steps:
       # We have to check out the repo in order to locally reference the action,
       # i.e., .github/actions/...
-      - name: Check out repository
+      - name: Check out repository 🛎
         uses: actions/checkout@v3
 
-      - name: Run testing action
+      - name: Run testing action 🚀
         uses: ./.github/actions/accessibility-test-jupyterlab
         with:
           repository: ${{ inputs.repository }}
