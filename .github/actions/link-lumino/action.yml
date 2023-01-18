@@ -32,7 +32,7 @@ runs:
 
     - name: Link JupyterLab and lumino 🔗
       run: |
-        conda run --prefix $CONDA_PREFIX jlpm link "lumino"
+        conda run --prefix $CONDA_PREFIX jlpm link "lumino-top-level"
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       working-directory: jupyterlab
