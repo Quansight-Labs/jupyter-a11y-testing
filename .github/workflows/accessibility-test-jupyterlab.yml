@@ -94,11 +94,11 @@ jobs:
         run: |
           echo "# JupyterLab accessibility tests ♿️" >> $GITHUB_STEP_SUMMARY
           echo "## Input summary details" >> $GITHUB_STEP_SUMMARY
-          echo "- workflow trigger: ${{ github.ref_name}} " >> $GITHUB_STEP_SUMMARY
-          echo "- JupyterLab repository: ${{ inputs.repository }} " >> $GITHUB_STEP_SUMMARY
-          echo "- JupyterLab repository ref: ${{ inputs.ref }} " >> $GITHUB_STEP_SUMMARY
-          if [[ "${{ inputs.lumino_ref }} "]]
-            echo "- Lumino ref: ${{ inputs.lumino_ref }} " >> $GITHUB_STEP_SUMMARY
+          echo "- workflow trigger: ${{ github.ref_name}}" >> $GITHUB_STEP_SUMMARY
+          echo "- JupyterLab repository: ${{ github.event.inputs.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- JupyterLab repository ref: ${{ github.event.inputs.ref }}" >> $GITHUB_STEP_SUMMARY
+          if [[ -n "${{ github.event.inputs.lumino_ref }}" ]; then
+            echo "- Linked Lumino ref: ${{ github.event.inputs.lumino_ref }} " >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Run testing action ✅
