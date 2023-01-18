@@ -7,17 +7,19 @@ on:
   pull_request:
     branches:
       - main
-  # calling from another workflow
+  # calling from another workflow - for example from a workflow in the JLab repo
   workflow_call:
     inputs:
       repository:
         description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
         type: string
         required: true
+        default: "jupyterlab/jupyterlab"
       ref:
         description: The branch, tag, or SHA to checkout.
         type: string
         required: true
+        default: "master"
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
@@ -31,15 +33,18 @@ on:
         type: string
         required: false
         default: ""
+
   # enable manual runs for the workflow
   workflow_dispatch:
     inputs:
       repository:
         description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
         required: false
+        default: "jupyterlab/jupyterlab"
       ref:
         description: The branch, tag, or SHA to checkout.
         required: false
+        default: "master"
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
@@ -88,7 +93,4 @@ jobs:
       - name: Run testing action ✅
         uses: ./.github/actions/accessibility-test-jupyterlab
         with:
-          repository: ${{ inputs.repository }}
-          ref: ${{ inputs.ref }}
           test_project: ${{ inputs.test_project }}
-          lumino_ref: ${{ inputs.lumino_ref }}

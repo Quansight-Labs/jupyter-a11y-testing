@@ -18,7 +18,7 @@ runs:
       uses: actions/checkout@v3
       with:
         repository: "jupyterlab/lumino"
-        ref: ${{ inputs.ref || 'main' }}
+        ref: ${{ inputs.lumino_ref }}
         path: lumino
 
     # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
