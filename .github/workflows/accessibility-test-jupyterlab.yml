@@ -70,15 +70,15 @@ jobs:
     steps:
       - run: |
           echo "::group::Printing variables 🖨"
-          echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event.\n"
-          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!\n"
-          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}.\n"
-          echo "🗂 Workspace is ${{ github.workspace }} \n"
-          echo "inputs.repository = ${{ inputs.repository }} \n"
-          echo "inputs.ref = ${{ inputs.ref }} \n"
-          echo "github.workspace = ${{ github.workspace }} \n"
-          echo "github.sha = ${{ github.sha }} \n"
-          echo "github.repository = ${{ github.repository }} \n"
+          echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event"
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub"
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
+          echo "🗂 Workspace is ${{ github.workspace }}"
+          echo "inputs.repository = ${{ inputs.repository }}"
+          echo "inputs.ref = ${{ inputs.ref }}"
+          echo "github.workspace = ${{ github.workspace }}"
+          echo "github.sha = ${{ github.sha }}"
+          echo "github.repository = ${{ github.repository }}"
           echo "github.server_url = ${{ github.server_url }}"
           echo "::endgroup::"
 
@@ -90,15 +90,19 @@ jobs:
       - name: Check out repository 🛎
         uses: actions/checkout@v3
 
-      - name: Log details in the summary
+      - name: Log action details in the summary
         run: |
-          echo "# JupyterLab accessibility tests ♿️" >> $GITHUB_STEP_SUMMARY
-          echo "## Input summary details" >> $GITHUB_STEP_SUMMARY
-          echo "- workflow trigger: ${{ github.event_name}} with `ref` `${{ github.ref_name}}`" >> $GITHUB_STEP_SUMMARY
-          echo "- JupyterLab repository: [${{ github.event.inputs.repository }}](https://github.com/${{ github.event.inputs.repository }})" >> $GITHUB_STEP_SUMMARY
-          echo "- JupyterLab repository ref: `${{ github.event.inputs.ref }}`" >> $GITHUB_STEP_SUMMARY
+          step_summary=$(cat <<EOF
+          # JupyterLab accessibility tests ♿️
+          ## Input summary details
+          - workflow trigger: ${{ github.event_name }} with \`ref\` \`${{ github.ref_name }}\`
+          - JupyterLab repository: [${{ github.event.inputs.repository }}](https://github.com/${{ github.event.inputs.repository }})
+          - JupyterLab repository ref: \`${{ github.event.inputs.ref }}\`
+          EOF
+          )
+          echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
           if [[ -n "${{ github.event.inputs.lumino_ref }}" ]]; then
-            echo "- Linked Lumino ref: `${{ github.event.inputs.lumino_ref }}` " >> $GITHUB_STEP_SUMMARY
+            echo "- Linked Lumino ref:\`${{ github.event.inputs.lumino_ref }}\` " >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Run testing action ✅
