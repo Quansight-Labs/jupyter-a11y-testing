@@ -40,6 +40,7 @@ runs:
         npm install
         npx playwright install --with-deps chromium
         echo "::endgroup::"
+        # saving the "system npm" path to call later (ensure we do not use conda npm)
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: testing/jupyterlab
