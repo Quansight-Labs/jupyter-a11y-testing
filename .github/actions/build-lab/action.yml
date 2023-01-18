@@ -4,9 +4,9 @@ description: |
   for a11y testing purposes
 inputs:
   repository:
-    description: JupyterLab repository, for example gabalafou/jupyterlab
+    description: JupyterLab repository, for example jupyterlab/jupyterlab
   ref:
-    description: ref, branch, or SHA for the JupyterLab repository
+    description: The Jupyterlab repository's branch, tag, or SHA to checkout.
 
 runs:
   using: composite

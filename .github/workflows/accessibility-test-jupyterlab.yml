@@ -16,20 +16,20 @@ on:
         required: true
         default: "jupyterlab/jupyterlab"
       ref:
-        description: The branch, tag, or SHA to checkout.
+        description: The Jupyterlab repository's branch, tag, or SHA to checkout.
         type: string
         required: true
         default: "master"
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
-          name (such as `regression`) to run a part of the test suite.
+          name (such as "regression") to run a part of the test suite.
         type: string
         required: false
       lumino_ref:
         description: |
-          Only to be used if you need to link a specific Lumino's ref (branch, SHA, or tag to checkout),
-          to test changes from, otherwise, leave blank.
+          Lumino's ref (branch, tag or SHA) to checkout,
+          only to be used if you want to test Lumino changes against a JupyterLab build.
         type: string
         required: false
         default: ""
@@ -48,7 +48,7 @@ on:
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
-          name (such as `regression`) to run a part of the test suite.
+          name (such as "regression") to run a part of the test suite.
         required: false
       lumino_ref:
         description: |
@@ -89,6 +89,17 @@ jobs:
       # i.e., .github/actions/...
       - name: Check out repository 🛎
         uses: actions/checkout@v3
+
+      - name: Log details in the summary
+        run: |
+          echo "# JupyterLab accessibility tests ♿️" >> $GITHUB_STEP_SUMMARY
+          echo "## Input summary details" >> $GITHUB_STEP_SUMMARY
+          echo "- workflow trigger: ${{ github.ref_name}} " >> $GITHUB_STEP_SUMMARY
+          echo "- JupyterLab repository: ${{ inputs.repository }} " >> $GITHUB_STEP_SUMMARY
+          echo "- JupyterLab repository ref: ${{ inputs.ref }} " >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ inputs.lumino_ref }} "]]
+            echo "- Lumino ref: ${{ inputs.lumino_ref }} " >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Run testing action ✅
         uses: ./.github/actions/accessibility-test-jupyterlab

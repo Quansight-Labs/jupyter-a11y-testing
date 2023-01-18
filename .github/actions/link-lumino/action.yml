@@ -6,8 +6,8 @@ description: |
 inputs:
   lumino_ref:
     description: |
-      Only to be used if you need to link a specific Lumino's ref (branch, SHA),
-      otherwise leave blank (use whichever Lumino version is packaged with JupyterLab).
+      Lumino's ref (branch, tag or SHA) to checkout,
+      only to be used if you want to test Lumino changes against a JupyterLab build.
     required: false
     default: ""
 

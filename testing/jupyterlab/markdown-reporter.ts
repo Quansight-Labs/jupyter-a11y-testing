@@ -21,9 +21,10 @@ export default class MarkdownReporter implements Reporter {
   private _outputFile: string | undefined;
   private _manualTestingScriptsBaseURL: string;
 
-  constructor(
-    options: { outputFile?: string; manualTestingScriptsBaseURL: string }
-  ) {
+  constructor(options: {
+    outputFile?: string;
+    manualTestingScriptsBaseURL: string;
+  }) {
     this._outputFile = options.outputFile;
     this._manualTestingScriptsBaseURL = options.manualTestingScriptsBaseURL;
   }
@@ -48,14 +49,14 @@ export default class MarkdownReporter implements Reporter {
 
   private _serializeReport(): string {
     const lines: string[] = [];
-    lines.push("# Test Results");
+    lines.push("## Test Results");
     lines.push("");
     const projectSuites = this.rootSuite.suites;
 
     for (const projectSuite of projectSuites) {
       const fileSuites = projectSuite.suites;
       for (const fileSuite of fileSuites) {
-        lines.push(`## ${fileSuite.title}`);
+        lines.push(`### ${fileSuite.title}`);
         lines.push("");
         for (const test of fileSuite.allTests()) {
           const testResultString = this._serializeTest(test);
@@ -108,9 +109,11 @@ export default class MarkdownReporter implements Reporter {
   }
 
   getTestInfoURL(test: TestCase): string {
-    const linkAnnotation = test.annotations.find(({ type }) => type === "Manual testing script");
+    const linkAnnotation = test.annotations.find(
+      ({ type }) => type === "Manual testing script",
+    );
     return linkAnnotation
-      ? this._manualTestingScriptsBaseURL + '/' + linkAnnotation.description
+      ? this._manualTestingScriptsBaseURL + "/" + linkAnnotation.description
       : "";
   }
 }
@@ -134,7 +137,7 @@ function outputReport(reportString: string, outputFile: string | undefined) {
  */
 const ansiRegex = new RegExp(
   "([\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~])))",
-  "g"
+  "g",
 );
 export function stripAnsiEscapes(str: string): string {
   return str.replace(ansiRegex, "");
