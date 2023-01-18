@@ -28,8 +28,8 @@ on:
         required: false
       lumino_ref:
         description: |
-          Only to be used if you need to link a specific Lumino's ref (branch, SHA),
-          otherwise leave blank
+          Only to be used if you need to link a specific Lumino's ref (branch, SHA, or tag to checkout),
+          to test changes from, otherwise, leave blank.
         type: string
         required: false
         default: ""
@@ -93,4 +93,7 @@ jobs:
       - name: Run testing action ✅
         uses: ./.github/actions/accessibility-test-jupyterlab
         with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
           test_project: ${{ inputs.test_project }}
+          lumino_ref: ${{ inputs.lumino_ref }}

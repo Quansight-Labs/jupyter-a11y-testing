@@ -1,5 +1,8 @@
-![Jupyter accessibility - Colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg#gh-light-mode-only)
-![Jupyter accessibility - Light colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessLight.svg#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessLight.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg">
+  <img alt="Jupyter accessibility logo in grey and orange colours for light mode, all white logo in dark mode" src="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg">
+</picture>
 
 # Jupyter accessibility testing tools
 
