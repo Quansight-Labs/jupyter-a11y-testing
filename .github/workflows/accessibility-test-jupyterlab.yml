@@ -26,10 +26,19 @@ on:
           name (such as "regression") to run a part of the test suite.
         type: string
         required: false
-      lumino_ref:
+      external_pkg_repo:
         description: |
-          Lumino's ref (branch, tag or SHA) to checkout,
-          only to be used if you want to test Lumino changes against a JupyterLab build.
+          External package repository to link, for example jupyter/lumino
+          only to be used if you want to link and test a package against JupyterLab.
+          Otherwise leave blank.
+        type: string
+        required: false
+        default: ""
+      external_pkg_ref:
+        description: |
+          External package repository's ref (branch, tag or SHA) to checkout,
+          only to be used if you want to link and test a package against JupyterLab.
+          Otherwise leave blank.
         type: string
         required: false
         default: ""
@@ -50,7 +59,15 @@ on:
           Leave blank to run the full test suite, or enter a Playwright project
           name (such as "regression") to run a part of the test suite.
         required: false
-      lumino_ref:
+      external_pkg_repo:
+        description: |
+          External package repository to link, for example jupyter/lumino
+          only to be used if you want to link and test a package against JupyterLab.
+          Otherwise leave blank.
+        type: string
+        required: false
+        default: ""
+      external_pkg_ref:
         description: |
           Only to be used if you need to link a specific Lumino's ref (branch, SHA),
           otherwise leave blank
@@ -103,9 +120,9 @@ jobs:
           EOF
           )
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
-          if [[ -n "${{ github.event.inputs.lumino_ref }}" ]]; then
+          if [[ -n "${{ github.event.inputs.external_pkg_ref }}" ]]; then
             echo "Linked external packages:" >> $GITHUB_STEP_SUMMARY
-            echo "\t- jupyter/lumino with \`ref\`:\`${{ github.event.inputs.lumino_ref }}\` " >> $GITHUB_STEP_SUMMARY
+            echo "\t- jupyter/lumino with \`ref\`:\`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Run testing action ✅
@@ -114,4 +131,5 @@ jobs:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
           test_project: ${{ inputs.test_project }}
-          lumino_ref: ${{ inputs.lumino_ref }}
+          external_pkg_repo: ${{ inputs.external_pkg_repo }}
+          external_pkg_ref: ${{ inputs.external_pkg_ref }}

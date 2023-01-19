@@ -14,10 +14,20 @@ inputs:
     description: The JupyterLab repository or fork with owner, for example jupyterlab/jupyterlab.
   ref:
     description: The Jupyterlab repository's branch, tag, or SHA to checkout.
-  lumino_ref:
+  external_pkg_repo:
     description: |
-      Lumino's ref (branch, tag or SHA) to checkout,
-      only to be used if you want to test Lumino changes against a JupyterLab build.
+      External package repository to link, for example jupyter/lumino
+      only to be used if you want to link and test a package against JupyterLab.
+      Otherwise leave blank.
+    required: false
+    default: ""
+  external_pkg_ref:
+    description: |
+      External package repository's ref (branch, tag or SHA) to checkout,
+      only to be used if you want to link and test a package against JupyterLab.
+      Otherwise leave blank.
+    required: false
+    default: ""
 runs:
   using: composite
   steps:
@@ -86,11 +96,12 @@ runs:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
 
-    - name: Build and link Lumino 🔗
-      uses: ./.github/actions/link-lumino
-      if: ${{ inputs.lumino_ref }}
+    - name: Build and link external packages 🔗
+      uses: ./.github/actions/link-package
+      if: ${{ inputs.external_pkg_repo }}
       with:
-        lumino_ref: ${{ inputs.lumino_ref }}
+        external_pkg_repo: ${{ inputs.external_pkg_repo }}
+        external_pkg_ref: ${{ inputs.external_pkg_ref }}
 
     - name: Run tests  ✅
       # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
