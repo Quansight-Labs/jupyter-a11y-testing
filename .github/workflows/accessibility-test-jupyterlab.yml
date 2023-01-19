@@ -114,15 +114,17 @@ jobs:
           ## Test details
           - workflow trigger: \`${{ github.event_name }}\`
           - \`ref\`: \`${{ github.ref }}\`
-          JupyterLab repository tested:
-            - JupyterLab repository: [${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }}](https://github.com/${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }})
-            - JupyterLab repository ref: \`${{ github.event.inputs.ref || 'master' }}\`
+
+          - JupyterLab repository: [${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }}](https://github.com/${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }})
+          - JupyterLab repository \`ref\`: \`${{ github.event.inputs.ref || 'master' }}\`
+
           EOF
           )
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
           if [[ -n "${{ github.event.inputs.external_pkg_ref }}" ]]; then
-            echo "Linked external packages:" >> $GITHUB_STEP_SUMMARY
-            echo "\t- jupyter/lumino with \`ref\`:\`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
+            echo "**Linked external package**" >> $GITHUB_STEP_SUMMARY
+            echo "- package repository: [${{ github.event.inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})" >> $GITHUB_STEP_SUMMARY
+            echo "- \`ref\`: \`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
           fi
 
       - name: Run testing action ✅
