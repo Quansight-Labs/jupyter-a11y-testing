@@ -28,28 +28,39 @@ inputs:
       Otherwise leave blank.
     required: false
     default: ""
+
 runs:
   using: composite
   steps:
-    - name: List environment variables
-      run: env
+    - name: List environment variables 🖨
+      run: |
+        echo "::group::Printing env variables 🖨"
+        env
+        echo "::endgroup::"
       shell: bash
 
     - name: Setup node 🔺
       uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 18
+
+    - name: Install Playwright
+      run: |
+        pwd
+        npx playwright install --with-deps
+      shell: bash -l {0}
+      working-directory: ./testing/jupyterlab
 
     - name: Install node dependencies 🧶
       run: |
-        echo "::group::Installing node dependencies 🧶"
+        echo "::group::Installing node dependencies
         npm install
-        npx playwright install --with-deps chromium
+        npm list -g --depth=0
         echo "::endgroup::"
         # saving the "system npm" path to call later (ensure we do not use conda npm)
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
-      working-directory: testing/jupyterlab
+      working-directory: ./testing/jupyterlab
 
     - name: Cache conda 🧠
       uses: actions/cache@v3
@@ -81,15 +92,6 @@ runs:
         echo "::endgroup::"
       shell: bash -l {0}
 
-    - name: Install node dependencies 🧶
-      run: |
-        echo "::group::Install node dependencies 🧶"
-        conda run --prefix $CONDA_PREFIX npm install
-        conda run --prefix $CONDA_PREFIX npx playwright install --with-deps chromium
-        echo "::endgroup::"
-      shell: bash -l {0}
-      working-directory: testing/jupyterlab
-
     - name: Build JupyterLab from source 🏗
       uses: ./.github/actions/build-lab
       with:
@@ -108,6 +110,7 @@ runs:
       # get the output summary
       continue-on-error: true
       run: |
+        echo "Using ${{ env.npm_path }}"
         if [[ "${{ inputs.test_project }}" ]]
         then
           ${{ env.npm_path }} test -- --project="${{ inputs.test_project }}"
@@ -115,12 +118,12 @@ runs:
           ${{ env.npm_path }} test
         fi
       shell: bash -l {0}
-      working-directory: testing/jupyterlab
+      working-directory: ./testing/jupyterlab
 
     - name: Write GitHub Summary 📝
       run: cat test-results/jupyterlab-a11y-regression-test-results.md >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
-      working-directory: testing/jupyterlab
+      working-directory: ./testing/jupyterlab
 
     - name: Get run refs 🏷
       id: getrefs

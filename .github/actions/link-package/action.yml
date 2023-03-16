@@ -1,3 +1,7 @@
+# Note: this is not meant to be used as a standalone action, as this only links a package
+# to an existing JupyterLab build.
+# You must install JupyterLab and its dependencies separately see .github/actions/build-lab/action.yml
+
 name: Build Lumino from source and link to JupyterLab
 description: |
   Build Lumino from source then link to JupyterLab.
@@ -40,7 +44,7 @@ runs:
 
     - name: Link JupyterLab and package 🔗
       run: |
-        # todo later on: replace the lumino reference here
+        # todo later on: replace the lumino reference here and output linked packages
         conda run --prefix $CONDA_PREFIX jlpm link "lumino-top-level"
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}

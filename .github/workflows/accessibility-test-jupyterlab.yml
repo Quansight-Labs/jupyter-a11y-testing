@@ -69,8 +69,9 @@ on:
         default: ""
       external_pkg_ref:
         description: |
-          Only to be used if you need to link a specific Lumino's ref (branch, SHA),
-          otherwise leave blank
+          External package repository's ref (branch, tag or SHA) to checkout,
+          only to be used if you want to link and test a package against JupyterLab.
+          Otherwise leave blank.
         type: string
         required: false
         default: ""
@@ -104,10 +105,10 @@ jobs:
     steps:
       # We have to check out the repo in order to locally reference the action,
       # i.e., .github/actions/...
-      - name: Check out repository 🛎
+      - name: Check out JLab testing repository 🛎
         uses: actions/checkout@v3
 
-      - name: Log action details in the summary
+      - name: Log action details in the summary 📝
         run: |
           step_summary=$(cat <<EOF
           # JupyterLab accessibility tests ♿️

@@ -94,9 +94,10 @@ Follow these steps to download and read the reports locally:
    ```
 
 1. Install JupyterLab version 3 or 4. There are several ways to do this.
-   You can [install a pre-built version of JupyterLab](https://jupyterlab.readthedocs.io/en/latest/getting_started/installation.html).
-   Or you can [build JupyterLab from source](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#installing-jupyterlab).
-   When you've finished, you should be able to run `jupyter lab --version` from the command line.
+
+   1. You can [install a pre-built version of JupyterLab](https://jupyterlab.readthedocs.io/en/latest/getting_started/installation.html).
+   1. Or you can [build JupyterLab from source](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#installing-jupyterlab).
+      When you've finished, you should be able to run `jupyter lab --version` from the command line.
 
 1. Install the Node.js dependencies (`package.json`):
 
