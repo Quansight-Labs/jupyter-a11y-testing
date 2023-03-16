@@ -44,7 +44,7 @@ runs:
       with:
         node-version: 18
         cache: "npm"
-        cache-dependenc-path: ./testing/jupyterlab/package-lock.json
+        cache-dependency-path: testing/jupyterlab/package-lock.json
 
     - name: Install node dependencies 🧶
       run: |
