@@ -44,18 +44,13 @@ runs:
       with:
         node-version: 18
 
-    - name: Install Playwright
-      run: |
-        pwd
-        npx playwright install --with-deps
-      shell: bash -l {0}
-      working-directory: ./testing/jupyterlab
-
     - name: Install node dependencies 🧶
       run: |
-        echo "::group::Installing node dependencies
-        npm install
+        echo "::group::Installing node dependencies"
+        pwd
+        npm ci
         npm list -g --depth=0
+        npx playwright install --with-deps
         echo "::endgroup::"
         # saving the "system npm" path to call later (ensure we do not use conda npm)
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
