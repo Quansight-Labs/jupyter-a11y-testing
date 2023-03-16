@@ -39,6 +39,7 @@ runs:
       run: |
         yarn
         yarn build:src
+        yarn link
       shell: bash -l {0}
       working-directory: external-pkg
 
