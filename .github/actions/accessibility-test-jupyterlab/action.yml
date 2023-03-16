@@ -16,7 +16,7 @@ inputs:
     description: The Jupyterlab repository's branch, tag, or SHA to checkout.
   external_pkg_repo:
     description: |
-      External package repository to link, for example jupyter/lumino
+      External package repository to link, for example jupyterlab/lumino
       only to be used if you want to link and test a package against JupyterLab.
       Otherwise leave blank.
     required: false
@@ -43,6 +43,8 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
+        cache: "npm"
+        cache-dependenc-path: ./testing/jupyterlab/package-lock.json
 
     - name: Install node dependencies 🧶
       run: |

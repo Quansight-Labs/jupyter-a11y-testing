@@ -28,7 +28,7 @@ on:
         required: false
       external_pkg_repo:
         description: |
-          External package repository to link, for example jupyter/lumino
+          External package repository to link, for example jupyterlab/lumino
           only to be used if you want to link and test a package against JupyterLab.
           Otherwise leave blank.
         type: string
@@ -61,7 +61,7 @@ on:
         required: false
       external_pkg_repo:
         description: |
-          External package repository to link, for example jupyter/lumino
+          External package repository to link, for example jupyterlab/lumino
           only to be used if you want to link and test a package against JupyterLab.
           Otherwise leave blank.
         type: string
