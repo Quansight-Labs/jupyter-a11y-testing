@@ -57,48 +57,48 @@ runs:
       shell: bash -l {0}
       working-directory: ./testing/jupyterlab
 
-    # - name: Cache conda 🧠
-    #   uses: actions/cache@v3
-    #   env:
-    #     # Increase this value to reset cache if environment.yml has not changed
-    #     CACHE_NUMBER: 0
-    #   with:
-    #     path: ~/conda_pkgs_dir
-    #     key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-    #       hashFiles('./testing/jupyterlab/environment.yml') }}
+    - name: Cache conda 🧠
+      uses: actions/cache@v3
+      env:
+        # Increase this value to reset cache if environment.yml has not changed
+        CACHE_NUMBER: 0
+      with:
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
+          hashFiles('./testing/jupyterlab/environment.yml') }}
 
-    # - name: Install miniconda 🐍
-    #   uses: conda-incubator/setup-miniconda@v2
-    #   with:
-    #     miniforge-variant: Mambaforge
-    #     miniforge-version: latest
-    #     use-mamba: true
-    #     environment-file: ./testing/jupyterlab/environment.yml
-    #     activate-environment: a11y-tests
-    #     auto-activate-base: false
-    #     use-only-tar-bz2: true
+    - name: Install miniconda 🐍
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-variant: Mambaforge
+        miniforge-version: latest
+        use-mamba: true
+        environment-file: ./testing/jupyterlab/environment.yml
+        activate-environment: a11y-tests
+        auto-activate-base: false
+        use-only-tar-bz2: true
 
-    # - name: Checks on environment 🔍
-    #   run: |
-    #     echo "::group::Check conda info 🔍"
-    #     conda info
-    #     conda env list
-    #     echo $CONDA_PREFIX
-    #     echo "::endgroup::"
-    #   shell: bash -l {0}
+    - name: Checks on environment 🔍
+      run: |
+        echo "::group::Check conda info 🔍"
+        conda info
+        conda env list
+        echo $CONDA_PREFIX
+        echo "::endgroup::"
+      shell: bash -l {0}
 
-    # - name: Build JupyterLab from source 🏗
-    #   uses: ./.github/actions/build-lab
-    #   with:
-    #     repository: ${{ inputs.repository }}
-    #     ref: ${{ inputs.ref }}
+    - name: Build JupyterLab from source 🏗
+      uses: ./.github/actions/build-lab
+      with:
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.ref }}
 
-    # - name: Build and link external packages 🔗
-    #   uses: ./.github/actions/link-package
-    #   if: ${{ inputs.external_pkg_repo }}
-    #   with:
-    #     external_pkg_repo: ${{ inputs.external_pkg_repo }}
-    #     external_pkg_ref: ${{ inputs.external_pkg_ref }}
+    - name: Build and link external packages 🔗
+      uses: ./.github/actions/link-package
+      if: ${{ inputs.external_pkg_repo }}
+      with:
+        external_pkg_repo: ${{ inputs.external_pkg_repo }}
+        external_pkg_ref: ${{ inputs.external_pkg_ref }}
 
     - name: Run tests  ✅
       # we want the workflow to continue - i.e. we expect a11y errors so we want to diagnose and
