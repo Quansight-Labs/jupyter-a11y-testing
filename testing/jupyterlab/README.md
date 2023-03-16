@@ -37,13 +37,14 @@ You can run tests locally on your machine, or remotely in the cloud.
 
 3. In the dropdown form, enter:
 
-   1. The JupyterLab repo or fork that you want to test (`default value`: `jupyterlab/jupyterlab`)
+   1. The JupyterLab repository or fork that you want to test (`default value`: `jupyterlab/jupyterlab`)
    2. A valid reference to check the repository against should be one of:
       - `branch` for example `main` (`default value`: `master` which is the [JupyterLab's repository default branch](https://github.com/jupyterlab/jupyterlab))
       - `SHA` for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
       - `tag` for example `v1.0.0`
    3. (Optional) - The subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests) (`default value`: `""` which runs all the tests).
-   4. (Optional) - A valid reference for Lumino to test against a JupyterLab build (see more details in the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). Should be one of `branch`, `tag`, `SHA`.
+   4. (Optional) - A valid Lumino repository or fork to link to JupyterLab (see [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). For example `jupyterlab/lumino` (`default value`: `""` to not link an external package).
+   5. (Optional) - A valid reference for Lumino to test against a JupyterLab build (see more details in the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). Should be one of `branch`, `tag`, `SHA` (`default value`: `""`).
 
 4. Once you have entered all the information, click on the **Run workflow** button.
 
