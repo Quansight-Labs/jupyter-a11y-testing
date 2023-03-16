@@ -34,6 +34,7 @@ runs:
         path: external-pkg
 
     # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
+    # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17
     - name: Build package from source 🏗
       run: |
         yarn
