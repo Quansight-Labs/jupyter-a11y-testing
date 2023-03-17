@@ -37,9 +37,11 @@ runs:
     # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17
     - name: Build package from source 🏗
       run: |
-        yarn
-        yarn build:src
-        yarn add
+        echo "::group::Build package from source 🛠"
+        conda run --prefix $CONDA_PREFIX yarn
+        conda run --prefix $CONDA_PREFIX yarn build:src
+        conda run --prefix $CONDA_PREFIX yarn add
+        echo "::endgrup::"
       shell: bash -l {0}
       working-directory: external-pkg
 

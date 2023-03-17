@@ -20,8 +20,10 @@ runs:
 
     - name: Build JupyterLab 🏗
       run: |
+        echo "::group:: Building JupyterLab 🏗"
         conda run --prefix $CONDA_PREFIX ./scripts/ci_install.sh
         conda run --prefix $CONDA_PREFIX jlpm run build
+        echo "::endgroup::"
         which jupyter
         jupyter lab --version
       shell: bash -l {0}
