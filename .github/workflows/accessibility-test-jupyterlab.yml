@@ -105,7 +105,7 @@ jobs:
     steps:
       # We have to check out the repo in order to locally reference the action,
       # i.e., .github/actions/...
-      - name: Check out JLab testing repository 🛎
+      - name: Check out repository 🛎
         uses: actions/checkout@v3
 
       - name: Log action details in the summary 📝
@@ -119,11 +119,13 @@ jobs:
           - JupyterLab repository: [${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }}](https://github.com/${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }})
           - JupyterLab repository \`ref\`: \`${{ github.event.inputs.ref || 'master' }}\`
 
+          ---
+          \n
           EOF
           )
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
           if [[ -n "${{ github.event.inputs.external_pkg_ref }}" ]]; then
-            echo "**Linked external package**" >> $GITHUB_STEP_SUMMARY
+            echo "**Linked external package 🔗 **" >> $GITHUB_STEP_SUMMARY
             echo "- package repository: [${{ github.event.inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})" >> $GITHUB_STEP_SUMMARY
             echo "- \`ref\`: \`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
           fi

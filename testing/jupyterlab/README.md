@@ -14,7 +14,7 @@ To run the tests in this directory you need the following prerequisites:
 
 1. Python >= 3.9
 1. [mamba](https://github.com/mamba-org/mamba) (or [conda](https://docs.conda.io/projects/conda/en/latest/commands/install.html))
-1. Your system must also meet the [Playwright system requirements](https://playwright.dev/docs/library#system-requirements)
+1. Your system must also meet the [Playwright system requirements](https://playwright.dev/docs/troubleshooting#system-requirements)
 
 ## Running the accessibility tests ✅
 

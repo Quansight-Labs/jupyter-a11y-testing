@@ -55,3 +55,4 @@ repos:
       # Trims trailing whitespace.
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+      - id: check-added-large-files
