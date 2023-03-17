@@ -50,15 +50,15 @@ This repository is organized as follows:
 │   └── .github/actions                                 # composable actions that perform specific tasks (not to be used on their own but as part of a GitHub actions workflow)
 ├── testing                                             # root folder for the testing tools
 │   └── testing/jupyterlab                              # testing tools and scripts for JupyterLab
-│       ├── testing/jupyterlab/manual-testing-scripts   # "recipes" to perform manual accessibility checks on JupterLab (to be used in conjunction with the automated tests)
+│       ├── testing/jupyterlab/manual-testing-scripts   # "recipes" that explain in plain language how automated tests can be also be carried out manually
 │       ├── testing/jupyterlab/tests                    # set of Playwright automated tests
 │       ├── testing/jupyterlab/environment.yml          # conda environment file to install the dependencies for the automated tests
 │       ├── testing/jupyterlab/README.md                # documentation for the JupyterLab tests - start here to learn how to run the tests locally or in GitHub actions
 │       ├── testing/jupyterlab/package.json             # npm package file to install the dependencies for the automated tests
 │       └── testing/jupyterlab/playwright.config.ts     # Playwright configuration file
-│   └── testing/notebooks                               # set of reference Jupter notebooks to be used in the automated tests
-│   └── testing/scripts                               # set of manual testing scripts for JupyterLab (include relevant WCAG success criteria and step-by-step guides to audit)
-├── .pre-comMit-config.yaml                             # configuration file for the pre-commit hooks
+│   └── testing/notebooks                               # set of reference Jupyter notebooks to be used in the automated tests
+│   └── testing/scripts                                 # set of manual testing scripts for JupyterLab (include relevant WCAG success criteria and step-by-step guides to audit)
+├── .pre-commit-config.yaml                             # configuration file for the pre-commit hooks
 ├── README.md                                           # this file
 └── LICENSE                                             # license file
 ```
