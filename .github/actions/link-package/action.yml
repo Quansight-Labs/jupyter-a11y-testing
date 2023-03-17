@@ -40,7 +40,7 @@ runs:
         echo "::group::Build package from source 🛠"
         conda run --prefix $CONDA_PREFIX yarn
         conda run --prefix $CONDA_PREFIX yarn build:src
-        conda run --prefix $CONDA_PREFIX yarn add
+        conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
         echo "::endgrup::"
       shell: bash -l {0}
       working-directory: external-pkg
