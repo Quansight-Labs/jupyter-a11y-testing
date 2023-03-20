@@ -2,8 +2,30 @@
 # Distributed under the terms of the Modified BSD License.
 [build-system]
 # needed for build-time
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyter-a11y-tests"
+description = "Set of automated accessibility tests for JupyterLab"
+readme = "README.md"
+license = "BSD-3-Clause"
+authors = [{ name = "Tania Allard", email = "tania@bitsandchips.me" }]
+keywords = ["jupyter", "jupyterlab", "accessibility", "a11y"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Framework :: Jupyter :: JupyterLab",
+]
+requires-python = ">=3.8"
+version = "0.0.1"
 
 [tool.isort]
 profile = "black"
@@ -13,3 +35,5 @@ line_length = 79
 
 [tool.pytest.ini_options]
 addopts = "--nbval --sanitize-with docs/sanitize.cfg -pno:warnings --cov=schemin"
+
+[tool.hatch]

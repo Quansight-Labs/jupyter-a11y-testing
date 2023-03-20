@@ -1,5 +1,8 @@
-![Jupyter accessibility - Colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg#gh-light-mode-only)
-![Jupyter accessibility - Light colour logo](https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessLight.svg#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessLight.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg">
+  <img alt="Jupyter accessibility logo in grey and orange colours for light mode, all white logo in dark mode" src="https://raw.githubusercontent.com/jupyter/accessibility/main/docs/_static/logos/JupAccessColor.svg">
+</picture>
 
 # Jupyter accessibility testing tools
 
@@ -11,19 +14,18 @@ Information | Links
 <!-- prettier-ignore-end -->
 
 - [Jupyter accessibility testing tools](#jupyter-accessibility-testing-tools)
-  - [Plans for the future](#plans-for-the-future)
+  - [Plans for the future 🚀](#plans-for-the-future-)
+  - [Repository orientation 🗺️](#repository-orientation-️)
   - [Pre-commit hooks 🧹](#pre-commit-hooks-)
   - [License 📖](#license-)
 
 Welcome to the Jupyter Accessibility testing tool's repository. 👋🏽
 This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
 
-To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
+> **Important**
+> To learn more about the broader accessibility initiatives within Jupyter, check the [jupyter/accessibility repository][jupyter-accesibility].
 
-> **Note**
-> 🗃 The JupyterLab tests and the corresponding instructions to run these can be found in [testing/jupyterlab](testing/jupyterlab).
-
-## Plans for the future
+## Plans for the future 🚀
 
 Automated accessibility tests cannot address accessibility issues on their own, but used correctly they can be a useful tool.
 
@@ -36,6 +38,30 @@ We are starting with the web app UI, then we will add tests for the docs.
 
 After JupyterLab, though it is not within the scope of the grant driving the roadmap,
 we hope to extend this testing to other parts of the Jupyter ecosystem beyond JupyterLab.
+
+## Repository orientation 🗺️
+
+This repository is organized as follows:
+
+```txt
+.
+├── .github
+│   ├── .github/workflows                               # set of GitHub actions to run the accessibility tests based on certain type of triggers
+│   └── .github/actions                                 # composable actions that perform specific tasks (not to be used on their own but as part of a GitHub actions workflow)
+├── testing                                             # root folder for the testing tools
+│   └── testing/jupyterlab                              # testing tools and scripts for JupyterLab
+│       ├── testing/jupyterlab/manual-testing-scripts   # "recipes" that explain in plain language how automated tests can be also be carried out manually
+│       ├── testing/jupyterlab/tests                    # set of Playwright automated tests
+│       ├── testing/jupyterlab/environment.yml          # conda environment file to install the dependencies for the automated tests
+│       ├── testing/jupyterlab/README.md                # documentation for the JupyterLab tests - start here to learn how to run the tests locally or in GitHub actions
+│       ├── testing/jupyterlab/package.json             # npm package file to install the dependencies for the automated tests
+│       └── testing/jupyterlab/playwright.config.ts     # Playwright configuration file
+│   └── testing/notebooks                               # set of reference Jupyter notebooks to be used in the automated tests
+│   └── testing/scripts                                 # set of manual testing scripts for JupyterLab (include relevant WCAG success criteria and step-by-step guides to audit)
+├── .pre-commit-config.yaml                             # configuration file for the pre-commit hooks
+├── README.md                                           # this file
+└── LICENSE                                             # license file
+```
 
 ## Pre-commit hooks 🧹
 

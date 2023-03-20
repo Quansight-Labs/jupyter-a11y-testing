@@ -1,0 +1,54 @@
+# Note: this is not meant to be used as a standalone action, as this only links a package
+# to an existing JupyterLab build.
+# You must install JupyterLab and its dependencies separately see .github/actions/build-lab/action.yml
+
+name: Build Lumino from source and link to JupyterLab
+description: |
+  Build Lumino from source then link to JupyterLab.
+  Useful to test changes in Lumino against a given build of JupyterLab.
+
+inputs:
+  external_pkg_repo:
+    description: |
+      External package repository to link, for example jupyterlab/lumino
+      only to be used if you want to link and test a package against JupyterLab.
+      Otherwise leave blank.
+    required: false
+    default: ""
+  external_pkg_ref:
+    description: |
+      External package repository's ref (branch, tag or SHA) to checkout,
+      only to be used if you want to link and test a package against JupyterLab.
+      Otherwise leave blank.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout package repo 🛎
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.external_pkg_repo }}
+        ref: ${{ inputs.external_pkg_ref }}
+        path: external-pkg
+
+    # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
+    # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17
+    - name: Build package from source 🏗
+      run: |
+        echo "::group::Build package from source 🛠"
+        conda run --prefix $CONDA_PREFIX yarn
+        conda run --prefix $CONDA_PREFIX yarn build:src
+        conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
+        echo "::endgroup::"
+      shell: bash -l {0}
+      working-directory: external-pkg
+
+    - name: Link JupyterLab and package 🔗
+      run: |
+        # todo later on: replace the lumino reference here and output linked packages
+        conda run --prefix $CONDA_PREFIX jlpm link "lumino-top-level"
+        conda run --prefix $CONDA_PREFIX jlpm run build
+      shell: bash -l {0}
+      working-directory: jupyterlab

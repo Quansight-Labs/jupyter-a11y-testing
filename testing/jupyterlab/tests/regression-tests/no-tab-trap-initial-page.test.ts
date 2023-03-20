@@ -16,13 +16,13 @@ test.describe("when pressing tab key repeatedly", () => {
   test("should cycle through elements back to the start", async ({ page }) => {
     test.info().annotations.push({
       type: "Manual testing script",
-      description: "no-tab-trap-initial-page.md"
+      description: "no-tab-trap-initial-page.md",
     });
     await page.keyboard.press("Tab");
     // The first element we tab to will be used as reference point of
     // comparison.
     const firstElementTabbedTo = await page.evaluateHandle(
-      "document.activeElement"
+      "document.activeElement",
     );
     let encounteredFirstElementAgain = false;
     let encounteredOtherElement = false;
@@ -35,7 +35,7 @@ test.describe("when pressing tab key repeatedly", () => {
       // element that we tabbed to earlier?
       const currentIsFirst = await page.evaluate(
         sameActiveElement,
-        firstElementTabbedTo
+        firstElementTabbedTo,
       );
       if (currentIsFirst) {
         encounteredFirstElementAgain = true;
@@ -52,11 +52,11 @@ test.describe("when pressing tab key repeatedly", () => {
     }
     expect(
       encounteredFirstElementAgain,
-      "should have cycled back to first element"
+      "should have cycled back to first element",
     ).toBe(true);
     expect(
       encounteredOtherElement,
-      "should have tabbed through at least one other element"
+      "should have tabbed through at least one other element",
     ).toBe(true);
   });
 });

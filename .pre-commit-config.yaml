@@ -8,16 +8,21 @@
 # - Register git hooks: pre-commit install --install-hooks
 # - Run on all files:   pre-commit run --all-files
 #
+ci:
+  autoupdate_schedule: monthly
+  autofix_commit_msg: |
+    [pre-commit.ci] Apply automatic pre-commit fixes
+
 repos:
   # Autoformat: markdown, yaml to ensure that it doesn't need to be updated in other repos
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.4
+    rev: v3.0.0-alpha.6
     hooks:
       - id: prettier
 
   # Autoformat: Python code - sort imports
   - repo: https://github.com/pycqa/isort
-    rev: 5.11.4
+    rev: 5.12.0
     hooks:
       - id: isort
         name: isort
@@ -25,7 +30,7 @@ repos:
 
   # Autoformat: Python code
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.1.0
     hooks:
       - id: black
 
@@ -42,7 +47,12 @@ repos:
     hooks:
       # Autoformat: Makes sure files end in a newline and only a newline
       - id: end-of-file-fixer
-
+      # Check yaml syntax
+      - id: check-yaml
+      # NO commit to main
+      - id: no-commit-to-branch
+        args: [--branch, main]
       # Trims trailing whitespace.
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
+      - id: check-added-large-files
