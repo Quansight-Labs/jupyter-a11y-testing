@@ -4,7 +4,7 @@
 
 When a user loads JupyterLab, if they use the tab key to navigate the page, each
 tab-focussable element on the page should have a visible indicator when it
-receives focus. 
+receives focus.
 
 ## Applicability
 
@@ -22,7 +22,7 @@ These PRs were needed to make this test pass:
 ## Related GitHub Issues
 
 [JupyterLab #9399](https://github.com/jupyterlab/jupyterlab/pull/9399) - in the
-PR description, look under "Focus", Issue Area #2. 
+PR description, look under "Focus", Issue Area #2.
 
 ## Related Accessibility Guidelines
 
@@ -34,7 +34,7 @@ Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html)
 The test only checks for the existence of a focus indicator on each tab-focussed
 element. It does not check whether or not the focus indicator is a **good**
 focus indicator. For example, the test does not check the color contrast of the
-focus indicator. 
+focus indicator.
 
 The test checks for a focus indicator by taking screenshots of each
 tab-focussable element both before and after the element is focussed, then
@@ -54,13 +54,13 @@ all sighted users to know which element on the page has browser focus.
    should have the following parts visible: top menu bar, left side panel with
    file browser open, the launcher in the main area, right side panel closed,
    and status bar. Here's a screenshot: ![screenshot of JupyterLab initial
-   page](assets/no-tab-trap-initial-page/jupyterlab-initial-page.png)
+page](assets/no-tab-trap-initial-page/jupyterlab-initial-page.png)
 2. Press the <kbd>TAB</kbd> key repeatedly.
 3. Each time you press the <kbd>TAB</kbd> key, you should be able to clearly see
    which element (whether it is a link, a button, or some other element), has
-   focus. 
+   focus.
 4. Continue pressing the <kbd>TAB</kbd> key and checking for focus indicator
-   until you cycle back around. 
+   until you cycle back around.
 5. If at any point, you lost track of which element had focus, then the test
    fails. Another way to say this is that if at any point you pressed the
    <kbd>TAB</kbd> key and you could not find the element which had focus, then

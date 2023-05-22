@@ -49,7 +49,12 @@ async function* getFocusNodes(page: Page) {
     const nextNode = await nextFocusNode(page);
 
     // Break out of the loop if we have cycled back to the start.
-    if (await page.evaluate(([nextNode, start]) => nextNode === start, [nextNode, start])) {
+    if (
+      await page.evaluate(
+        ([nextNode, start]) => nextNode === start,
+        [nextNode, start],
+      )
+    ) {
       break;
     } else {
       // Otherwise do another turn of the loop.
