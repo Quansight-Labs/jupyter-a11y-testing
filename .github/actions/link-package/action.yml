@@ -40,15 +40,21 @@ runs:
         echo "::group::Build package from source 🛠"
         conda run --prefix $CONDA_PREFIX yarn
         conda run --prefix $CONDA_PREFIX yarn build:src
-        conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
+        conda run --prefix $CONDA_PREFIX jlpm link
         echo "::endgroup::"
       shell: bash -l {0}
       working-directory: external-pkg
 
+    - name: Extract name from package.json
+      uses: sergeysova/jq-action@v2
+      id: pkg-name
+      with:
+        cmd: "jq .name package.json -r"
+
     - name: Link JupyterLab and package 🔗
       run: |
         # todo later on: replace the lumino reference here and output linked packages
-        conda run --prefix $CONDA_PREFIX jlpm link "lumino-top-level"
+        conda run --prefix $CONDA_PREFIX jlpm link ${{ steps.pkg-name.outputs.value }}
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       working-directory: jupyterlab
