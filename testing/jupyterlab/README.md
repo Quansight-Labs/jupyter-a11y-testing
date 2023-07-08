@@ -39,7 +39,7 @@ You can run tests locally on your machine, or remotely in the cloud.
 
    1. The JupyterLab repository or fork that you want to test (`default value`: `jupyterlab/jupyterlab`)
    2. A valid reference to check the repository against should be one of:
-      - `branch` for example `main` (`default value`: `master` which is the [JupyterLab's repository default branch](https://github.com/jupyterlab/jupyterlab))
+      - `branch` for example `main` (`default value`: `main` which is the [JupyterLab's repository default branch](https://github.com/jupyterlab/jupyterlab))
       - `SHA` for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
       - `tag` for example `v1.0.0`
    3. (Optional) - The subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests) (`default value`: `""` which runs all the tests).
