@@ -120,7 +120,6 @@ jobs:
           - JupyterLab repository \`ref\`: \`${{ github.event.inputs.ref || 'master' }}\`
 
           ---
-          \n
           EOF
           )
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
