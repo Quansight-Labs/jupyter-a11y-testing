@@ -46,20 +46,15 @@ runs:
         conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
         echo "::endgroup::"
         echo "pkg-path=$(pwd)" >> $GITHUB_OUTPUT
+        sudo apt install -y jq
+        echo "pkg-name=$(jq '.name' package.json)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
       working-directory: external-pkg
-
-    - name: Extract name from package.json 🔍
-      uses: sergeysova/jq-action@v2
-      # need to make sure we are in the correct path
-      id: pkg-name
-      with:
-        cmd: "jq .name ${{ steps.build-pkg.outputs.pkg-path }}/package.json -r"
 
     - name: Link JupyterLab and external package 🔗
       run: |
         # passing the path to the external package
-        conda run --prefix $CONDA_PREFIX jlpm link external-pkg
+        conda run --prefix $CONDA_PREFIX jlpm link ${{ steps.build-pkg.pkg-name }}
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       # This needs to be linked from the JupyterLab location to take effect
@@ -71,7 +66,7 @@ runs:
         ## Linked external package 🔗
         - Package repository: [${{ inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})
         - Package \`ref\`: \`${{ inputs.external_pkg_ref }}\`
-        - Linked package name: \`${{ steps.pkg-name.outputs.value}}\`
+        - Linked package name: \`${{ steps.build-pkg.pkg-name }}\`
 
         EOF
         )
