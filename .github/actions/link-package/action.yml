@@ -52,6 +52,8 @@ runs:
       id: pkg-name
       with:
         cmd: "jq .name package.json -r"
+      # need to make sure we are in the correct path
+      working-directory: external-pkg
 
     - name: Link JupyterLab and external package 🔗
       run: |
@@ -59,6 +61,7 @@ runs:
         conda run --prefix $CONDA_PREFIX jlpm link external-pkg
         conda run --prefix $CONDA_PREFIX jlpm run build
         echo "- Linked package name: \`${{ steps.pkg-name.outputs.value}}\`" >> $GITHUB_STEP_SUMMARY
+        echo "::notice file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
       shell: bash -l {0}
       # This needs to be linked from the JupyterLab location to take effect
       working-directory: jupyterlab
