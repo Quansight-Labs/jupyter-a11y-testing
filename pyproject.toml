@@ -37,3 +37,13 @@ line_length = 79
 addopts = "--nbval --sanitize-with docs/sanitize.cfg -pno:warnings --cov=schemin"
 
 [tool.hatch]
+
+[tool.ruff]
+# Never enforce `E501` (line length violations).
+builtins = ["c"]
+ignore = ["C", "D400", "E", "F401", "F841", "W", "E501"]
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+select = ["C4", "C9", "D", "E", "F", "W"]
+
+[tool.ruff.pydocstyle]
+convention = "google" # Accepts: "google", "numpy", or "pep257".
