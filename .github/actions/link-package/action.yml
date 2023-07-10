@@ -26,7 +26,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout package repo 🛎
+    - name: Checkout external package repo 🛎
       uses: actions/checkout@v3
       with:
         repository: ${{ inputs.external_pkg_repo }}
@@ -34,27 +34,30 @@ runs:
         path: external-pkg
 
     # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
-    # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17
-    - name: Build package from source 🏗
+    # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id18
+    - name: Build external package from source 🏗
       run: |
         echo "::group::Build package from source 🛠"
         conda run --prefix $CONDA_PREFIX yarn
         conda run --prefix $CONDA_PREFIX yarn build:src
-        conda run --prefix $CONDA_PREFIX jlpm link
+        # since we are  running on CI, we are not on a "standard" base directory
+        # we use yarn rather than jlpm
+        conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
         echo "::endgroup::"
       shell: bash -l {0}
       working-directory: external-pkg
 
-    - name: Extract name from package.json
+    - name: Extract name from package.json 🔍
       uses: sergeysova/jq-action@v2
       id: pkg-name
       with:
         cmd: "jq .name package.json -r"
 
-    - name: Link JupyterLab and package 🔗
+    - name: Link JupyterLab and external package 🔗
       run: |
-        # todo later on: replace the lumino reference here and output linked packages
         conda run --prefix $CONDA_PREFIX jlpm link ${{ steps.pkg-name.outputs.value }}
         conda run --prefix $CONDA_PREFIX jlpm run build
+        echo "- Linked package name: \`${{ steps.pkg-name.outputs.value}}\`" >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
+      # This needs to be linked from the JupyterLab location to take effect
       working-directory: jupyterlab
