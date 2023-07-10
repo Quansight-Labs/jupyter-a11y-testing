@@ -55,6 +55,7 @@ runs:
         npx playwright install --with-deps
         echo "::endgroup::"
         # saving the "system npm" path to call later (ensure we do not use conda npm)
+        # this is only needed for the tests, NOT to build JupyterLab
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: ./testing/jupyterlab
@@ -89,7 +90,7 @@ runs:
         echo "::endgroup::"
       shell: bash -l {0}
 
-    - name: Build JupyterLab from source 🏗
+    - name: Get and build JupyterLab from source 🏗
       uses: ./.github/actions/build-lab
       with:
         repository: ${{ inputs.repository }}
