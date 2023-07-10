@@ -1,6 +1,8 @@
 # Copyright (c) Jupyter Accessibility Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+"""Configuration for a Jupyter Server to be used for the tests."""
+
 from tempfile import mkdtemp
 
 # These settings modeled after https://github.com/jupyterlab/jupyterlab/blob/%40jupyterlab/galata%404.0.2/galata/jupyter_server_test_config.py
