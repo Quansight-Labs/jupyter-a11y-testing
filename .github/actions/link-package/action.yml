@@ -36,6 +36,7 @@ runs:
     # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
     # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id18
     - name: Build external package from source 🏗
+      id: build-pkg
       run: |
         echo "::group::Build package from source 🛠"
         conda run --prefix $CONDA_PREFIX yarn
@@ -44,17 +45,16 @@ runs:
         # we use yarn rather than jlpm
         conda run --prefix $CONDA_PREFIX YARN_IGNORE_PATH=1 yarn link
         echo "::endgroup::"
+        echo "pkg-path=$(pwd)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
       working-directory: external-pkg
 
     - name: Extract name from package.json 🔍
       uses: sergeysova/jq-action@v2
       # need to make sure we are in the correct path
-      working-directory: external-pkg
-      shell: bash -l {0}
       id: pkg-name
       with:
-        cmd: "jq .name package.json -r"
+        cmd: "jq .name ${{ steps.build-pkg.outputs.pkg-path }}/package.json -r"
 
     - name: Link JupyterLab and external package 🔗
       run: |
