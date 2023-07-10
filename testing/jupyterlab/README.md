@@ -34,6 +34,7 @@ You can run tests locally on your machine, or remotely in the cloud.
    workflow](https://github.com/Quansight-Labs/jupyter-a11y-testing/actions/workflows/accessibility-test-jupyterlab.yml) on the GitHub Actions UI.
 
 2. Click on the **Run Workflow** button. This should open a dropdown form.
+   ![GitHub actions UI - "Run accessibility tests on JupyterLab" workflow with a banner with the text: This workflow has a workflow_dispatch event trigger. And a Run workflow dropdown button.](./../../images/GH-actions-run-workflow-button.png)
 
 3. In the dropdown form, enter:
 
@@ -43,8 +44,8 @@ You can run tests locally on your machine, or remotely in the cloud.
       - `SHA` for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
       - `tag` for example `v1.0.0`
    3. (Optional) - The subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests) (`default value`: `""` which runs all the tests).
-   4. (Optional) - A valid Lumino repository or fork to link to JupyterLab (see [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). For example `jupyterlab/lumino` (`default value`: `""` to not link an external package).
-   5. (Optional) - A valid reference for Lumino to test against a JupyterLab build (see more details in the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). Should be one of `branch`, `tag`, `SHA` (`default value`: `""`).
+   4. (Optional) - A valid repository or fork to link to JupyterLab. This can be any tool or extension that you'd like to test with JupyterLab (see [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). For example `jupyterlab/lumino` (`default value`: `""` to not link an external package).
+   5. (Optional) - A valid reference for the external package or extension (defined in Step 4) to test against a JupyterLab build (see more details in the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). Should be one of `branch`, `tag`, `SHA` (`default value`: `""`).
 
 4. Once you have entered all the information, click on the **Run workflow** button.
 
