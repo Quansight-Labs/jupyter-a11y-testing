@@ -55,7 +55,8 @@ runs:
 
     - name: Link JupyterLab and external package 🔗
       run: |
-        conda run --prefix $CONDA_PREFIX jlpm link ${{ steps.pkg-name.outputs.value }}
+        # passing the path to the external package
+        conda run --prefix $CONDA_PREFIX jlpm link external-pkg
         conda run --prefix $CONDA_PREFIX jlpm run build
         echo "- Linked package name: \`${{ steps.pkg-name.outputs.value}}\`" >> $GITHUB_STEP_SUMMARY
       shell: bash -l {0}
