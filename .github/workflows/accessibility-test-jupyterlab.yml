@@ -127,14 +127,6 @@ jobs:
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # adding a blank line for readability
 
-      - name: Check for external packages and add to summary 📦
-        run: |
-          if [[ -n "${{ github.event.inputs.external_pkg_ref }}" ]]; then
-            echo "### Linked external package 🔗" >> $GITHUB_STEP_SUMMARY
-            echo "- Package repository: [${{ github.event.inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})" >> $GITHUB_STEP_SUMMARY
-            echo "- Package \`ref\`: \`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
-          fi
-
       - name: Run testing action ✅
         uses: ./.github/actions/accessibility-test-jupyterlab
         with:

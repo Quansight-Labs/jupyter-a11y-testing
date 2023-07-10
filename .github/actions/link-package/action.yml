@@ -60,8 +60,20 @@ runs:
         # passing the path to the external package
         conda run --prefix $CONDA_PREFIX jlpm link external-pkg
         conda run --prefix $CONDA_PREFIX jlpm run build
-        echo "- Linked package name: \`${{ steps.pkg-name.outputs.value}}\`" >> $GITHUB_STEP_SUMMARY
-        echo "::notice file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
       shell: bash -l {0}
       # This needs to be linked from the JupyterLab location to take effect
       working-directory: jupyterlab
+
+    - name: Add details to action summary 📝
+      run: |
+        step_summary=$(cat <<EOF
+        ## Linked external package 🔗
+        - Package repository: [${{ inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})
+        - Package \`ref\`: \`${{ inputs.external_pkg_ref }}\`
+        - Linked package name: \`${{ steps.pkg-name.outputs.value}}\`
+
+        EOF
+        )
+        echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
+
+      shell: bash -l {0}
