@@ -18,10 +18,10 @@
 # OS/ARCH: linux/amd64
 
 # Use Gitpod base image
-FROM gitpod/workspace-base:2022-09-11-15-11-40
+FROM gitpod/workspace-base:2023-05-09-03-02-39
 
 # https://github.com/conda-forge/miniforge/releases
-ARG MAMBAFORGE_VERSION="4.14.0-0"
+ARG MAMBAFORGE_VERSION="23.1.0-3"
 ARG CONDA_ENV="a11y-tests"
 # making this an argument for flexibility
 ARG JUPYTER_APP=jupyterlab
