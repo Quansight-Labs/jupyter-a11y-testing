@@ -49,11 +49,12 @@ runs:
 
     - name: Extract name from package.json 🔍
       uses: sergeysova/jq-action@v2
+      # need to make sure we are in the correct path
+      working-directory: external-pkg
+      shell: bash -l {0}
       id: pkg-name
       with:
         cmd: "jq .name package.json -r"
-      # need to make sure we are in the correct path
-      working-directory: external-pkg
 
     - name: Link JupyterLab and external package 🔗
       run: |
