@@ -1,6 +1,7 @@
 # Note: this is not meant to be used as a standalone action, as this only links a package
 # to an existing JupyterLab build.
-# You must install JupyterLab and its dependencies separately see .github/actions/build-lab/action.yml
+# You must install JupyterLab and its dependencies separately for example wiht the
+# .github/actions/build-lab/action.yml
 
 name: Build Lumino from source and link to JupyterLab
 description: |
@@ -33,8 +34,7 @@ runs:
         ref: ${{ inputs.external_pkg_ref }}
         path: external-pkg
 
-    # following https://github.com/jupyterlab/lumino/blob/main/CONTRIBUTING.md#setting-up-a-development-environment
-    # and https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id18
+    # https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id18
     - name: Build external package from source 🏗
       id: build-pkg
       run: |
@@ -42,7 +42,6 @@ runs:
         conda run --prefix $CONDA_PREFIX yarn
         conda run --prefix $CONDA_PREFIX yarn build:src
         echo "::endgroup::"
-        echo "pkg-path=$(pwd)" >> $GITHUB_OUTPUT
         echo $(pwd)
         sudo apt install -y jq
         echo "pkg-name=$(jq '.name' package.json)" >> $GITHUB_OUTPUT
@@ -62,7 +61,7 @@ runs:
         ## Linked external package 🔗
         - Package repository: [${{ inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})
         - Package \`ref\`: \`${{ inputs.external_pkg_ref }}\`
-        - Linked package name: \`${{ steps.build-pkg.pkg-name }}\`
+        - Linked package name: \`${{ steps.build-pkg.outputs.pkg-name }}\`
 
         EOF
         )

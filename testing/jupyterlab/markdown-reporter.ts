@@ -49,7 +49,7 @@ export default class MarkdownReporter implements Reporter {
 
   private _serializeReport(): string {
     const lines: string[] = [];
-    lines.push("## Test Results");
+    lines.push("## Test Results 🔍");
     lines.push("");
     const projectSuites = this.rootSuite.suites;
 
@@ -63,6 +63,7 @@ export default class MarkdownReporter implements Reporter {
           lines.push(testResultString);
         }
         lines.push("");
+        lines.push("---");
       }
     }
 

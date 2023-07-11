@@ -38,22 +38,33 @@ You can run tests locally on your machine, or remotely in the cloud.
 
 3. In the dropdown form, enter:
 
-   1. The JupyterLab repository or fork that you want to test (`default value`: `jupyterlab/jupyterlab`)
+   1. The JupyterLab repository or fork that you want to test in the form of `<organisation or username>/<repository>`. For example:
+      1. `jupyterlab/jupyterlab`: (default)
    2. A valid reference to check the repository against should be one of:
-      - `branch` for example `main` (`default value`: `main` which is the [JupyterLab's repository default branch](https://github.com/jupyterlab/jupyterlab))
-      - `SHA` for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
-      - `tag` for example `v1.0.0`
-   3. (Optional) - The subset of tests that you want to run (e.g., enter `regression` to run only the accessibility regression tests) (`default value`: `""` which runs all the tests).
-   4. (Optional) - A valid repository or fork to link to JupyterLab. This can be any tool or extension that you'd like to test with JupyterLab (see [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). For example `jupyterlab/lumino` (`default value`: `""` to not link an external package).
-   5. (Optional) - A valid reference for the external package or extension (defined in Step 4) to test against a JupyterLab build (see more details in the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation). Should be one of `branch`, `tag`, `SHA` (`default value`: `""`).
+      - `branch`: a valid repository branch (default: `main`)[^1]
+      - `SHA`: for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
+      - `tag`: for example `v1.0.0`
+   3. (Optional) - The subset of tests that you want to run, options are:
+      1. `""`: (default) which runs all the tests
+      2. `regression`: to run only the accessibility regression tests
+   4. (Optional) - A valid repository or fork to link to JupyterLab[^2]:
+      1. `""`: (default) to not link an external package.
+      2. a valid `<organisation or username>/<repository>`: for example `jupyterlab/lumino`
+   5. (Optional) - A valid reference for the external package or extension defined in Step 4(`default value`: `""`). Should be one of:
+      1. `branch`
+      2. `tag`
+      3. `SHA`
 
 4. Once you have entered all the information, click on the **Run workflow** button.
+
+[^1]: `main` is the default branch for JupyterLab hence this is the default value for the `ref` parameter.
+[^2]: This is useful if you want to test the accessibility of a package that is not part of the JupyterLab repository. See the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation for more information.
 
 #### Inspecting the test results
 
 Once the accessibility tests have been completed you can use the following to inspect the test results:
 
-- **Markdown summary**: scroll to the bottom of the GitHub actions UI, where you can find this summary. From here you can use the links to read the manual test scripts for the test cases run.
+- **Markdown summary**: scroll to the bottom of the GitHub actions UI, where you can find the workflow run Summary. From here you can use the links to read the manual test scripts for the test cases run.
 - **Zipped `json` and `HTML` reports**: these can be downloaded from the GitHub actions UI. The `json` report can be used to generate a custom report using the [Playwright Reporter](https://playwright.dev/docs/test-reporters#custom-reporter). The `HTML` report can be opened in a browser to view the test results.
 - [**Annotations**](https://playwright.dev/docs/test-reporters#github-actions-annotations): this will appear directly in the GitHub actions UI.
 
@@ -61,7 +72,10 @@ Follow these steps to download and read the reports locally:
 
 1. Scroll to the bottom of the GitHub actions UI and right-click on the test results' artifact.
 2. Unzip the downloaded file. Ideally in a folder where you have `npm` and `playwright` installed. For example, in the `testing/jupyterlab` directory.
-   (**Tip**: see the instructions in [Running the tests locally](#running-the-tests-locally-) to install the corresponding dependencies)
+
+   > **Tip**
+   > See the instructions in [Running the tests locally](#running-the-tests-locally-) to install the corresponding dependencies.
+
 3. Using the command line, change to the directory where you unzipped the test results.
 4. Use the following command to open the `HTML` report in your browser:
 

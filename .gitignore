@@ -133,3 +133,5 @@ reports/
 
 # editor
 .vscode
+
+.ruff_cache

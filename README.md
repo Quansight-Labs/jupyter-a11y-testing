@@ -16,10 +16,11 @@ Information | Links
 - [Jupyter accessibility testing tools](#jupyter-accessibility-testing-tools)
   - [Plans for the future 🚀](#plans-for-the-future-)
   - [Repository orientation 🗺️](#repository-orientation-️)
+    - [Running the tests ✨](#running-the-tests-)
   - [Pre-commit hooks 🧹](#pre-commit-hooks-)
   - [License 📖](#license-)
 
-Welcome to the Jupyter Accessibility testing tools' repository. 👋🏽
+Welcome to the Jupyter Accessibility testing tools repository. 👋🏽
 This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
 
 > **Important**
@@ -43,7 +44,7 @@ we hope to extend this testing to other parts of the Jupyter ecosystem beyond Ju
 
 This repository is organized as follows:
 
-```txt
+```bash
 .
 ├── .github
 │   ├── .github/workflows                               # set of GitHub actions to run the accessibility tests based on certain type of triggers
@@ -63,7 +64,9 @@ This repository is organized as follows:
 └── LICENSE                                             # license file
 ```
 
-👉🏽 To learn more about the automated tests for JupyterLab, check the [JupyterLab tests README](./testing/jupyterlab/README.md).
+### Running the tests ✨
+
+👉🏽 To learn about how to run and inspect the JupyterLab accessibility tests check the [JupyterLab testing README](./testing/jupyterlab/README.md).
 
 ## Pre-commit hooks 🧹
 
