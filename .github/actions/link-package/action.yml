@@ -41,11 +41,9 @@ runs:
         echo "::group::Build package from source 🛠"
         conda run --prefix $CONDA_PREFIX yarn
         conda run --prefix $CONDA_PREFIX yarn build:src
-        # since we are  running on CI, we are not on a "standard" base directory
-        # we use yarn rather than jlpm
-        conda run --prefix $CONDA_PREFIX yarn link
         echo "::endgroup::"
         echo "pkg-path=$(pwd)" >> $GITHUB_OUTPUT
+        echo $(pwd)
         sudo apt install -y jq
         echo "pkg-name=$(jq '.name' package.json)" >> $GITHUB_OUTPUT
       shell: bash -l {0}
@@ -53,7 +51,7 @@ runs:
 
     - name: Link JupyterLab and external package 🔗
       run: |
-        conda run --prefix $CONDA_PREFIX yarn link "${{ github.workspace }}/external-pkg"
+        conda run --prefix $CONDA_PREFIX yarn link "${{ github.workspace }}/external-pkg" -p
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       working-directory: jupyterlab
