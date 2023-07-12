@@ -3,10 +3,10 @@
 # You must install JupyterLab and its dependencies separately for example with the
 # .github/actions/build-lab/action.yml
 
-name: Build Lumino from source and link to JupyterLab
+name: Build an external package from source and link to JupyterLab
 description: |
-  Build Lumino from source then link to JupyterLab.
-  Useful to test changes in Lumino against a given build of JupyterLab.
+  Build external package from source then link to JupyterLab.
+  Useful to test changes in external packages against a given build of JupyterLab.
 
 inputs:
   external_pkg_repo:
