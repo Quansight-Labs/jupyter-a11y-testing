@@ -36,24 +36,15 @@ You can run tests locally on your machine, or remotely in the cloud.
 2. Click on the **Run Workflow** button. This should open a dropdown form.
    ![GitHub actions UI - "Run accessibility tests on JupyterLab" workflow with a banner with the text: This workflow has a workflow_dispatch event trigger. And a Run workflow dropdown button.](./../../images/GH-actions-run-workflow-button.png)
 
-3. In the dropdown form, enter:
+3. In the dropdown form, enter the following inputs:
 
-   1. The JupyterLab repository or fork that you want to test in the form of `<organisation or username>/<repository>`. For example:
-      1. `jupyterlab/jupyterlab`: (default)
-   2. A valid reference to check the repository against should be one of:
-      - `branch`: a valid repository branch (default: `main`)[^1]
-      - `SHA`: for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2`
-      - `tag`: for example `v1.0.0`
-   3. (Optional) - The subset of tests that you want to run, options are:
-      1. `""`: (default) which runs all the tests
-      2. `regression`: to run only the accessibility regression tests
-   4. (Optional) - A valid repository or fork to link to JupyterLab[^2]:
-      1. `""`: (default) to not link an external package.
-      2. a valid `<organisation or username>/<repository>`: for example `jupyterlab/lumino`
-   5. (Optional) - A valid reference for the external package or extension defined in Step 4(`default value`: `""`). Should be one of:
-      1. `branch`
-      2. `tag`
-      3. `SHA`
+   | Variable            | Description                                                                                                                                                                                                        | Default value           | Required |
+   | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- | -------- |
+   | `repository`        | The JupyterLab repository or fork that you want to test in the form of `<organisation or username>/<repository>`.                                                                                                  | `jupyterlab/jupyterlab` | Yes      |
+   | `ref`               | A valid reference to check the repository against should be one of:<br>- `branch`: a valid repository branch <br>- `SHA`: for example `4b4b0387febeff95780a3fdb100f4cd6848d29a2` <br>- `tag`: for example `v1.0.0` | `main`[^1]              | Yes      |
+   | `test_project`      | The name of the tests to run, should be one of: `""` (runs all tests) or `regression` (runs only the accessibility regression tests)                                                                               | `""`                    | No       |
+   | `external_pkg_repo` | A valid repository or fork to link to JupyterLab[^2] in the form of `<organisation or username>/<repository>` for example: `jupyterlab/lumino`                                                                     | `""`                    | No       |
+   | `external_pkg_ref`  | A valid reference for the external package or extension defined in Step 4. Should be one of:<br>- `branch`<br>- `tag`<br>- `SHA`                                                                                   | `""`                    | No       |
 
 4. Once you have entered all the information, click on the **Run workflow** button.
 
