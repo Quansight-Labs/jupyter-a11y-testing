@@ -1,6 +1,6 @@
 # Note: this is not meant to be used as a standalone action, as this only links a package
 # to an existing JupyterLab build.
-# You must install JupyterLab and its dependencies separately for example wiht the
+# You must install JupyterLab and its dependencies separately for example with the
 # .github/actions/build-lab/action.yml
 
 name: Build Lumino from source and link to JupyterLab
