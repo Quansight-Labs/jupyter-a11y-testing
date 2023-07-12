@@ -16,10 +16,11 @@ Information | Links
 - [Jupyter accessibility testing tools](#jupyter-accessibility-testing-tools)
   - [Plans for the future 🚀](#plans-for-the-future-)
   - [Repository orientation 🗺️](#repository-orientation-️)
+    - [Running the tests ✨](#running-the-tests-)
   - [Pre-commit hooks 🧹](#pre-commit-hooks-)
   - [License 📖](#license-)
 
-Welcome to the Jupyter Accessibility testing tool's repository. 👋🏽
+Welcome to the Jupyter Accessibility testing tools repository. 👋🏽
 This repository is a place for accessibility testing within [Jupyter](https://jupyter.org).
 
 > **Important**
@@ -29,7 +30,7 @@ This repository is a place for accessibility testing within [Jupyter](https://ju
 
 Automated accessibility tests cannot address accessibility issues on their own, but used correctly they can be a useful tool.
 
-Work in this repository is modeled after the [JupyterLab Benchmarks](https://github.com/jupyterlab/benchmarks/) repo.
+Work in this repository is modelled after the [JupyterLab Benchmarks](https://github.com/jupyterlab/benchmarks/) repo.
 
 As described in the [Jupyter Accessibility Roadmap](https://github.com/jupyter/accessibility/blob/main/docs/funding/czi-grant-roadmap.md),
 the plan is to start by adding tests for JupyterLab.
@@ -43,7 +44,7 @@ we hope to extend this testing to other parts of the Jupyter ecosystem beyond Ju
 
 This repository is organized as follows:
 
-```txt
+```bash
 .
 ├── .github
 │   ├── .github/workflows                               # set of GitHub actions to run the accessibility tests based on certain type of triggers
@@ -63,9 +64,13 @@ This repository is organized as follows:
 └── LICENSE                                             # license file
 ```
 
+### Running the tests ✨
+
+👉🏽 To learn about how to run and inspect the JupyterLab accessibility tests check the [JupyterLab testing README](./testing/jupyterlab/README.md).
+
 ## Pre-commit hooks 🧹
 
-This repository uses the `prettier` [pre-commit hook](https://pre-commit.com/) to standardize our YAML and markdown structure.
+This repository uses several [pre-commit hooks](https://pre-commit.com/) to standardize our codebase. Follow these steps to install the hooks:
 
 1. Before you can run the hooks, you need to install the pre-commit package manager:
 
@@ -84,7 +89,7 @@ This repository uses the `prettier` [pre-commit hook](https://pre-commit.com/) t
    pre-commit install
    ```
 
-3. Optional- run the hooks against the files in this repository
+3. Optional - run the hooks against the files in this repository
 
    ```bash
    # run the pre-commit hooks

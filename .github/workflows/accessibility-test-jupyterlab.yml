@@ -19,7 +19,7 @@ on:
         description: The Jupyterlab repository's branch, tag, or SHA to checkout.
         type: string
         required: true
-        default: "master"
+        default: "main"
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
@@ -53,7 +53,7 @@ on:
       ref:
         description: The branch, tag, or SHA to checkout.
         required: false
-        default: "master"
+        default: "main"
       test_project:
         description: |
           Leave blank to run the full test suite, or enter a Playwright project
@@ -82,6 +82,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FORCE_COLOR: "1" # Make tools pretty.
+
 jobs:
   print-info:
     runs-on: ubuntu-latest
@@ -105,30 +108,24 @@ jobs:
     steps:
       # We have to check out the repo in order to locally reference the action,
       # i.e., .github/actions/...
-      - name: Check out repository 🛎
+      - name: Check out testing repository 🛎
         uses: actions/checkout@v3
 
       - name: Log action details in the summary 📝
         run: |
           step_summary=$(cat <<EOF
           # JupyterLab accessibility tests ♿️
-          ## Test details
-          - workflow trigger: \`${{ github.event_name }}\`
+          ## Tests execution details 🗂
+          - Workflow trigger: \`${{ github.event_name }}\`
           - \`ref\`: \`${{ github.ref }}\`
 
           - JupyterLab repository: [${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }}](https://github.com/${{ github.event.inputs.repository || 'jupyterlab/jupyterlab' }})
-          - JupyterLab repository \`ref\`: \`${{ github.event.inputs.ref || 'master' }}\`
+          - JupyterLab \`ref\`: \`${{ github.event.inputs.ref || 'main' }}\`
 
-          ---
-          \n
           EOF
           )
           echo "${step_summary}">>  $GITHUB_STEP_SUMMARY
-          if [[ -n "${{ github.event.inputs.external_pkg_ref }}" ]]; then
-            echo "**Linked external package 🔗 **" >> $GITHUB_STEP_SUMMARY
-            echo "- package repository: [${{ github.event.inputs.external_pkg_repo }}](https://github.com/${{ github.event.inputs.external_pkg_repo }})" >> $GITHUB_STEP_SUMMARY
-            echo "- \`ref\`: \`${{ github.event.inputs.external_pkg_ref }}\` " >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "" >> $GITHUB_STEP_SUMMARY # adding a blank line for readability
 
       - name: Run testing action ✅
         uses: ./.github/actions/accessibility-test-jupyterlab

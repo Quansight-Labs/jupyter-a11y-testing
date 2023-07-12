@@ -1,7 +1,7 @@
 name: Run accessibility tests on JupyterLab
 description: |
   Builds JupyterLab from source, then runs accessibility tests against it using
-  Playwright. Outputs the results to a markdown file which is then copied to the
+  Playwright. Outputs the results to a Markdown file which is then copied to the
   GitHub workflow run summary.
 # see https://github.com/actions/checkout more details on the inputs accepted
 inputs:
@@ -55,6 +55,7 @@ runs:
         npx playwright install --with-deps
         echo "::endgroup::"
         # saving the "system npm" path to call later (ensure we do not use conda npm)
+        # this is only needed for the tests, NOT to build JupyterLab
         echo "npm_path=$(which npm)" >> $GITHUB_ENV
       shell: bash -l {0}
       working-directory: ./testing/jupyterlab
@@ -89,7 +90,7 @@ runs:
         echo "::endgroup::"
       shell: bash -l {0}
 
-    - name: Build JupyterLab from source 🏗
+    - name: Get and build JupyterLab from source 🏗
       uses: ./.github/actions/build-lab
       with:
         repository: ${{ inputs.repository }}
