@@ -13,19 +13,24 @@ license = "BSD-3-Clause"
 authors = [{ name = "Tania Allard", email = "tania@bitsandchips.me" }]
 keywords = ["jupyter", "jupyterlab", "accessibility", "a11y"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Testing",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: BSD License",
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
     "Intended Audience :: Science/Research",
     "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 3",
+    "Framework :: Jupyter :: JupyterLab :: 4"
 ]
 requires-python = ">=3.8"
-version = "0.0.1"
+version = "1.0.0"
 
 [tool.isort]
 profile = "black"
@@ -39,11 +44,11 @@ addopts = "--nbval --sanitize-with docs/sanitize.cfg -pno:warnings --cov=schemin
 [tool.hatch]
 
 [tool.ruff]
-# Never enforce `E501` (line length violations).
 builtins = ["c"]
+# Never enforce `E501` (line length violations).
 ignore = ["C", "D400", "E", "F401", "F841", "W", "E501"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 select = ["C4", "C9", "D", "E", "F", "W"]
 
 [tool.ruff.pydocstyle]
-convention = "google" # Accepts: "google", "numpy", or "pep257".
+convention = "google"
