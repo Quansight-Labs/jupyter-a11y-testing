@@ -37,7 +37,7 @@ classifiers = [
 
 [project.urls]
 Repository = "https://github.com/Quansight-Labs/jupyter-a11y-testing"
-Bug Tracker = "https://github.com/Quansight-Labs/jupyter-a11y-testing/issues"
+Issues = "https://github.com/Quansight-Labs/jupyter-a11y-testing/issues"
 
 [tool.isort]
 profile = "black"
@@ -52,10 +52,18 @@ addopts = "--nbval --sanitize-with docs/sanitize.cfg -pno:warnings --cov=schemin
 
 [tool.ruff]
 builtins = ["c"]
-# Never enforce `E501` (line length violations).
-ignore = ["C", "D400", "E", "F401", "F841", "W", "E501"]
+# E501 Line too long (158 > 100 characters)
+# D400: First line should end with a period
+# F401: Imported but unused
+# F841: Local variable is assigned to but never used
+ignore = ["D400", "F401", "F841", "E501"]
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
-select = ["C4", "C9", "D", "E", "F", "W"]
+# A: builtins
+# F: Pyflakes
+# E,W: pycodestyle
+# C4: flake8-comprehensions
+# D: pydocstyle
+select = ["A", "B", "C", "C4", "C9", "D", "E", "F", "W", "ICN"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
