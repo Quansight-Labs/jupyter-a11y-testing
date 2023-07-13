@@ -8,10 +8,15 @@ build-backend = "hatchling.build"
 [project]
 name = "jupyter-a11y-tests"
 description = "Set of automated accessibility tests for JupyterLab"
+version = "1.0.0"
 readme = "README.md"
 license = "BSD-3-Clause"
-authors = [{ name = "Tania Allard", email = "tania@bitsandchips.me" }]
-keywords = ["jupyter", "jupyterlab", "accessibility", "a11y"]
+requires-python = ">=3.8"
+authors = [
+    { name = "Tania Allard", email = "tania@bitsandchips.me" },
+    { name = "Gabriel Fouasnon", email = "gabriel@fouasnon.com" }
+]
+keywords = ["jupyter", "jupyterlab", "accessibility", "a11y", "testing"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Topic :: Software Development :: Build Tools",
@@ -29,8 +34,10 @@ classifiers = [
     "Framework :: Jupyter :: JupyterLab :: 3",
     "Framework :: Jupyter :: JupyterLab :: 4"
 ]
-requires-python = ">=3.8"
-version = "1.0.0"
+
+[project.urls]
+Repository = "https://github.com/Quansight-Labs/jupyter-a11y-testing"
+Bug Tracker = "https://github.com/Quansight-Labs/jupyter-a11y-testing/issues"
 
 [tool.isort]
 profile = "black"

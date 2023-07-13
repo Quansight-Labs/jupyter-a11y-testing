@@ -2,7 +2,7 @@
   "name": "@jupyterlab/a11ytests",
   "version": "0.0.1",
   "private": true,
-  "description": "Run automated accessibility checks against JupyterLab",
+  "description": "Set of automated accessibility tests for JupyterLab",
   "license": "BSD-3-Clause",
   "author": "Project Jupyter",
   "scripts": {
