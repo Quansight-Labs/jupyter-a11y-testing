@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - trallard/*
     paths:
       - "testing/jupyterlab/environment.yml"
       - "testing/jupyterlab/package-lock.json"
