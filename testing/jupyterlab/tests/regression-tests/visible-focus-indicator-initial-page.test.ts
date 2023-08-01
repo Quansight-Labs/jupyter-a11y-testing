@@ -114,13 +114,15 @@ test("should have visible focus indicator", async ({ page }, testInfo) => {
     // expect.soft so that the test will iterate through all of the
     // tab-focussable nodes on the page instead of bailing on the first node
     // that fails the test.
-    expect.soft(
-      // Buffer.equals uses bit-for-bit equality, equivalent to comparing both
-      // screenshots pixel for pixel. If the screenshots are exactly the same,
-      // we know for sure that there was no visible focus indicator, so the test
-      // fails.
-      focus.equals(noFocus),
-      `focus visible comparison failed on\n\t${node.toString()}`
-    ).toBe(false);
+    expect
+      .soft(
+        // Buffer.equals uses bit-for-bit equality, equivalent to comparing both
+        // screenshots pixel for pixel. If the screenshots are exactly the same,
+        // we know for sure that there was no visible focus indicator, so the test
+        // fails.
+        focus.equals(noFocus),
+        `focus visible comparison failed on\n\t${node.toString()}`,
+      )
+      .toBe(false);
   }
 });
