@@ -63,66 +63,73 @@ async function* getFocusNodes(page: Page) {
   }
 }
 
-test("should have visible focus indicator", async ({ page }, testInfo) => {
-  // For each tab-focussable node, take a screenshot of the node while
-  // focussed then not focussed and then compare the screenshots.
-  for await (const node of getFocusNodes(page)) {
-    // Skip if node is body node. (This is a discrepancy between the real and
-    // test environments. Under normal usage, the body element of the
-    // JupyterLab UI is not tab-focussable.)
-    if (await node.evaluate((node) => node === document.body)) {
-      continue;
-    }
-
-    // Calculate where on the page to take the screenshot in order to capture
-    // the node. Note: we cannot use node.screenshot() because it does not
-    // reliably capture CSS-applied outlines across browsers.
-    const box = await node.boundingBox();
-    if (box === null) {
-      throw new Error("Could not get node bounding box");
-    }
-    const { x, y, width, height } = box;
-    const pad = 3; // this value is just from trial-and-error
-    const clip = {
-      x: x - pad,
-      y: y - pad,
-      width: pad + width + pad,
-      height: pad + height + pad,
-    };
-
-    // Screenshot the node; this time it's focussed.
-    const focus = await page.screenshot({ clip });
-
-    // Blur the node to remove focus.
-    await node.evaluate((node) => (node as HTMLElement).blur());
-
-    // Screenshot the node again, this time it's not focussed.
-    const noFocus = await page.screenshot({ clip });
-
-    // Attach the screenshots to the test report (can help with debugging if
-    // the test fails, among other things)
-    await testInfo.attach("focussed", {
-      body: focus,
-      contentType: "image/png",
-    });
-    await testInfo.attach("unfocussed", {
-      body: noFocus,
-      contentType: "image/png",
+test.describe("every tab-focusable element on initial app page", () => {
+  test("should have visible focus indicator", async ({ page }, testInfo) => {
+    test.info().annotations.push({
+      type: "Manual testing script",
+      description: "visible-focus-indicator-initial-page.md",
     });
 
-    // Compare the screenshots. If they are equal, the test fails. Use
-    // expect.soft so that the test will iterate through all of the
-    // tab-focussable nodes on the page instead of bailing on the first node
-    // that fails the test.
-    expect
-      .soft(
-        // Buffer.equals uses bit-for-bit equality, equivalent to comparing both
-        // screenshots pixel for pixel. If the screenshots are exactly the same,
-        // we know for sure that there was no visible focus indicator, so the test
-        // fails.
-        focus.equals(noFocus),
-        `focus visible comparison failed on\n\t${node.toString()}`,
-      )
-      .toBe(false);
-  }
+    // For each tab-focussable node, take a screenshot of the node while
+    // focussed then not focussed and then compare the screenshots.
+    for await (const node of getFocusNodes(page)) {
+      // Skip if node is body node. (This is a discrepancy between the real and
+      // test environments. Under normal usage, the body element of the
+      // JupyterLab UI is not tab-focussable.)
+      if (await node.evaluate((node) => node === document.body)) {
+        continue;
+      }
+
+      // Calculate where on the page to take the screenshot in order to capture
+      // the node. Note: we cannot use node.screenshot() because it does not
+      // reliably capture CSS-applied outlines across browsers.
+      const box = await node.boundingBox();
+      if (box === null) {
+        throw new Error("Could not get node bounding box");
+      }
+      const { x, y, width, height } = box;
+      const pad = 3; // this value is just from trial-and-error
+      const clip = {
+        x: x - pad,
+        y: y - pad,
+        width: pad + width + pad,
+        height: pad + height + pad,
+      };
+
+      // Screenshot the node; this time it's focussed.
+      const focus = await page.screenshot({ clip });
+
+      // Blur the node to remove focus.
+      await node.evaluate((node) => (node as HTMLElement).blur());
+
+      // Screenshot the node again, this time it's not focussed.
+      const noFocus = await page.screenshot({ clip });
+
+      // Attach the screenshots to the test report (can help with debugging if
+      // the test fails, among other things)
+      await testInfo.attach("focussed", {
+        body: focus,
+        contentType: "image/png",
+      });
+      await testInfo.attach("unfocussed", {
+        body: noFocus,
+        contentType: "image/png",
+      });
+
+      // Compare the screenshots. If they are equal, the test fails. Use
+      // expect.soft so that the test will iterate through all of the
+      // tab-focussable nodes on the page instead of bailing on the first node
+      // that fails the test.
+      expect
+        .soft(
+          // Buffer.equals uses bit-for-bit equality, equivalent to comparing both
+          // screenshots pixel for pixel. If the screenshots are exactly the same,
+          // we know for sure that there was no visible focus indicator, so the test
+          // fails.
+          focus.equals(noFocus),
+          `focus visible comparison failed on\n\t${node.toString()}`,
+        )
+        .toBe(false);
+    }
+  });
 });
