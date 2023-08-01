@@ -20,8 +20,8 @@ async function nextFocusNode(page: Page) {
 }
 
 /**
- * Generator function to iterate through the tab-focussable nodes on the page
- * in tab-focus order.
+ * Generator function to iterate through the tab-focussable nodes on the page in
+ * tab-focus order.
  *
  * Note: when the function yields a node, that node currently has the browser
  * focus.
@@ -122,10 +122,10 @@ test.describe("every tab-focusable element on initial app page", () => {
       // that fails the test.
       expect
         .soft(
-          // Buffer.equals uses bit-for-bit equality, equivalent to comparing both
-          // screenshots pixel for pixel. If the screenshots are exactly the same,
-          // we know for sure that there was no visible focus indicator, so the test
-          // fails.
+          // Buffer.equals uses bit-for-bit equality, equivalent to comparing
+          // both screenshots pixel for pixel. If the screenshots are exactly
+          // the same, we know for sure that there was no visible focus
+          // indicator, so the test fails.
           focus.equals(noFocus),
           `focus visible comparison failed on\n\t${node.toString()}`,
         )
