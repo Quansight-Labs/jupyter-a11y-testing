@@ -64,5 +64,5 @@ page](assets/no-tab-trap-initial-page/jupyterlab-initial-page.png)
 5. If at any point, you lost track of which element had focus, then the test
    fails. Another way to say this is that if at any point you pressed the
    <kbd>TAB</kbd> key and you could not find the element which had focus, then
-   it means that the focus indicator was not visuble (or maybe not visible
+   it means that the focus indicator was not visible (or maybe not visible
    enough).
