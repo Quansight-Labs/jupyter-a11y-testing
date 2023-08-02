@@ -50,7 +50,7 @@ runs:
 
     - name: Link JupyterLab and external package 🔗
       run: |
-        conda run --prefix $CONDA_PREFIX yarn link "${{ github.workspace }}/external-pkg" -p
+        conda run --prefix $CONDA_PREFIX jlpm link "${{ github.workspace }}/external-pkg" --private --all
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       working-directory: jupyterlab
