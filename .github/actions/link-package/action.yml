@@ -49,8 +49,13 @@ runs:
       working-directory: external-pkg
 
     - name: Link JupyterLab and external package 🔗
+      # Note (--all): you must add the `--all` suffix to the yarn (jlpm) link
+      # command to link in all sub-packages of a monorepo. When this action was
+      # run without the --all option, a test failed that should have passed
+      # because some changes in a Lumino sub-package were not incorporated into
+      # the JupyterLab build.
       run: |
-        conda run --prefix $CONDA_PREFIX yarn link "${{ github.workspace }}/external-pkg" -p
+        conda run --prefix $CONDA_PREFIX jlpm link "${{ github.workspace }}/external-pkg" --private --all
         conda run --prefix $CONDA_PREFIX jlpm run build
       shell: bash -l {0}
       working-directory: jupyterlab
