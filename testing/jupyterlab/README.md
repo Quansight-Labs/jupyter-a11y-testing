@@ -49,6 +49,7 @@ You can run tests locally on your machine, or remotely in the cloud.
 4. Once you have entered all the information, click on the **Run workflow** button.
 
 [^1]: `main` is the default branch for JupyterLab hence this is the default value for the `ref` parameter.
+
 [^2]: This is useful if you want to test the accessibility of a package that is not part of the JupyterLab repository. See the [Testing Changes to External Pages](https://jupyterlab.readthedocs.io/en/latest/developer/contributing.html#id17) section of JupyterLab's documentation for more information.
 
 #### Inspecting the test results
